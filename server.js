@@ -12,7 +12,7 @@ const MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb+srv://seokhalidhuxley:seokhalidhuxley23@cluster0.i8k2gcg.mongodb.net/?retryWrites=true&w=majority'
 ,(error,client) => {
     if(error) return console.log(error);
-    
+
     app.listen(8080, () => {
         console.log('listening on 8080')
     }); //8080 port
@@ -33,3 +33,4 @@ app.post('/newpost', (req, response) => {
     // console.log(req.body.title)
     // console.log(req.body.content)
 });
+
