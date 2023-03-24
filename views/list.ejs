@@ -30,8 +30,12 @@
           </ul>
         </div>
       </nav>
-      <h3>메인페이지 입니다. 로그인하세요</h3>
-    
+
+      <% for (var i=0; i < TODOs.length; i++){ %>
+        <h4>할 일 제목 : <%= TODOs[i].제목 %> </h4>
+        <p>세부내용 : <%= TODOs[i].내용 %> </p>
+      <% } %>
+      
 
     <!-- Optional JavaScript; choose one of the two! -->
 
