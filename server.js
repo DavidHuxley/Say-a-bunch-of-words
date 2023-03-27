@@ -14,10 +14,10 @@ MongoClient.connect('mongodb+srv://seokhalidhuxley:seokhalidhuxley23@cluster0.i8
         if (error) return console.log(error);
         DB = client.db('TODOAPP');
 
-            app.listen(8080, () => {
-                console.log('listening on 8080')
-            });
+        app.listen(8080, () => {
+            console.log('listening on 8080')
         });
+    });
 // mongoDB Atlas > Cluster0 > TODOAPP DB 연결
 
 app.get('/', (req, response) => {
@@ -31,9 +31,9 @@ app.get('/write', (req, response) => {
 app.get('/list', (req, response) => {
 
     DB.collection('POST').find().toArray((error, result) => {
-         console.log(result);
-         response.render('list.ejs', { TODOs : result});
-        }); // POST collection 내의 모든 데이터꺼내고 list.ejs에 랜더링해서 보여줌
+        console.log(result);
+        response.render('list.ejs', { TODOs: result });
+    }); // POST collection 내의 모든 데이터꺼내고 list.ejs에 랜더링해서 보여줌
 });
 
 
@@ -42,11 +42,17 @@ app.post('/newpost', (req, response) => {
     // console.log(req.body) // body-parser를 통해서 form 태그, post요청으로 서버에 들어온 정보를 확인
     // console.log(req.body.title)
     // console.log(req.body.content)
-    DB.collection('POST').insertOne({ 제목: req.body.title, 내용: req.body.content},
-         (error, result) => {
-        if (error) return console.log(error);
-        console.log('저장완료');
-    })
-    // TODOAPP DB > POST collection 연결 > body-parser을 통해 가져온 오브젝트 저장
-    
+    DB.collection('COUNT').findOne({ name:'postNum'}, (error, result) => {
+        console.log(result.totalPost);
+        var postNum = result.totalPost;
+
+        DB.collection('POST').insertOne({ _id: postNum + 1, 제목: req.body.title, 내용: req.body.content },
+            (error, result) => {
+                if (error) return console.log(error);
+                console.log('저장완료');
+                DB.collection('COUNT').updateOne({name:'postNum'}, { $inc: {totalPost: 1}},(error, result) => {
+                    if(error){return console.log(error)};
+                });
+            });
+    });
 });
