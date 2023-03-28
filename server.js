@@ -8,6 +8,8 @@ const MongoClient = require('mongodb').MongoClient;
 var DB;
 app.set('view engine', 'ejs');
 
+app.use('/public', express.static('public'));
+
 
 MongoClient.connect('mongodb+srv://seokhalidhuxley:seokhalidhuxley23@cluster0.i8k2gcg.mongodb.net/?retryWrites=true&w=majority'
     , (error, client) => {
@@ -21,11 +23,10 @@ MongoClient.connect('mongodb+srv://seokhalidhuxley:seokhalidhuxley23@cluster0.i8
 // mongoDB Atlas > Cluster0 > TODOAPP DB 연결
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.render('index.ejs', {});
 });
-// __dirname 은 현재경로로 부터라는 뜻
 app.get('/write', (req, res) => {
-    res.sendFile(__dirname + '/write.html');
+    res.render('write.ejs', {});
 });
 
 app.get('/list', (req, res) => {
