@@ -66,3 +66,14 @@ app.delete('/delete', (req, res) => {
     });
 
 })
+
+app.get('/detail/:id', (req, res) => {
+    DB.collection('POST').findOne({_id : parseInt(req.params.id)}, (error, result) =>{
+        // console.log(result);
+        if(result === null) {
+            res.status(404).send('404 Not Found');
+        } else {
+            res.render('detail.ejs', { data : result });
+        };
+    })
+})
