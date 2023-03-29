@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  
+
   <%- include('nav.html') %>
 
   <div class="container_sizing">
@@ -27,7 +27,7 @@
             <h4>할 일 : <%= TODOs[i].title %></h4>
           </a>
           <p>세부내용 : <%= TODOs[i].content %></p>
-          <button type="button" class="btn btn-outline-secondary delete" data-id="<%= TODOs[i]._id %>">삭제</button>
+          <button type="button" class="btn btn-outline-danger delete" data-id="<%= TODOs[i]._id %>">삭제</button>
         </li>
         <% } %>
     </ul>
