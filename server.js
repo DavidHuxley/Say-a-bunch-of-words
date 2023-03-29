@@ -6,6 +6,9 @@ const app = express();
 app.use(express.urlencoded({ extended: true })); // 따라서 원래의 경우엔 사용코드만 적으면 됨
 const MongoClient = require('mongodb').MongoClient;
 var DB;
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 app.set('view engine', 'ejs');
 
 app.use('/public', express.static('public'));
@@ -39,18 +42,18 @@ app.get('/list', (req, res) => {
 
 
 app.post('/newpost', (req, res) => {
-    res.send('transfer complete');
     // console.log(req.body) // body-parser를 통해서 form 태그, post요청으로 서버에 들어온 정보를 확인
     // console.log(req.body.title)
     // console.log(req.body.content)
     DB.collection('COUNT').findOne({ name:'postNum'}, (error, result) => {
         // console.log(result.totalPost);
         var postNum = result.totalPost;
-
+        
         DB.collection('POST').insertOne({ _id: postNum + 1, title: req.body.title, content: req.body.content },
             (error, result) => {
                 if (error) return console.log(error);
                 console.log('save complete');
+                res.redirect('/list');
                 DB.collection('COUNT').updateOne({name:'postNum'}, { $inc: {totalPost: 1}},(error, result) => {
                     if(error){return console.log(error)};
                 });
@@ -66,15 +69,35 @@ app.delete('/delete', (req, res) => {
         res.status(200).send();
     });
 
-})
+});
 
 app.get('/detail/:id', (req, res) => {
     DB.collection('POST').findOne({_id : parseInt(req.params.id)}, (error, result) =>{
         // console.log(result);
-        if(result === null) {
+        if(result == null) {
             res.status(404).send('404 Not Found');
         } else {
             res.render('detail.ejs', { data : result });
         };
+    });
+});
+
+app.get('/edit/:id', (req, res) => {
+    DB.collection('POST').findOne({_id : parseInt(req.params.id)}, (error, result) => {
+        // console.log(result);
+        if(result == null) {
+            res.status(404).send('404 Not Found');
+        } else {
+            res.render('edit.ejs', { data : result});
+        }
+    });
+});
+
+app.put('/edit', (req, res)=> {
+    DB.collection('POST').updateOne({_id : parseInt(req.body.id)},
+     {$set : { title: req.body.title , content: req.body.content }},
+     (error, result) => {
+        // console.log('complete');
+        res.redirect('/list');
     })
 })
