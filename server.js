@@ -9,6 +9,14 @@ var DB;
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+
+app.use(session({secret : 'secretCode', resave : true, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.set('view engine', 'ejs');
 
 app.use('/public', express.static('public'));
@@ -28,6 +36,68 @@ MongoClient.connect('mongodb+srv://seokhalidhuxley:seokhalidhuxley23@cluster0.i8
 app.get('/', (req, res) => {
     res.render('index.ejs', {});
 });
+
+// Sign In
+app.get('/signin', (req, res) => {
+    res.render('signIn.ejs', {});
+});
+app.post('/signin', passport.authenticate('local', {
+    failureRedirect: '/fail'
+}), (req, res) => {
+    res.redirect('/')
+});
+
+passport.use(new LocalStrategy({
+    usernameField: 'id',
+    passwordField: 'pw',
+    session: true,
+    passReqToCallback: false,
+}, (inputID, inputPW, done) => {
+    //console.log(inputID, inputPW);
+    DB.collection('USER').findOne({ id: inputID }, function (error, result) {
+        if (error) return done(error)
+
+        if (!result) return done(null, false, { message: 'ID does not exist' })
+        if (inputPW == result.pw) {
+            return done(null, result)
+        } else {
+            return done(null, false, { message: 'Invalid ID or password' })
+        }
+    })
+}));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id)
+});
+
+passport.deserializeUser((ID, done) => {
+    DB.collection('USER').findOne({ id : ID }, (error, result) => {
+        done(null, result)
+    })
+});
+
+
+app.get('/fail', (req, res) => {
+    res.send('Sign In Fail')
+});
+
+app.get('/mypage', sessionCheck , (req, res) => {
+    // console.log(req.user)
+    res.render('mypage.ejs', { user : req.user })
+})
+
+function sessionCheck(req, res, next){
+    if (req.user){
+        next()
+    } else {
+        res.send('Only members have access rights')
+    }
+}
+
+
+
+// 새 글 쓰기 및 목록
+
 app.get('/write', (req, res) => {
     res.render('write.ejs', {});
 });
@@ -61,6 +131,8 @@ app.post('/newpost', (req, res) => {
     });
 });
 
+// 글 삭제
+
 app.delete('/delete', (req, res) => {
     // console.log(req.body)
     req.body._id = parseInt(req.body._id);
@@ -81,6 +153,8 @@ app.get('/detail/:id', (req, res) => {
         };
     });
 });
+
+// 글 수정
 
 app.get('/edit/:id', (req, res) => {
     DB.collection('POST').findOne({_id : parseInt(req.params.id)}, (error, result) => {
