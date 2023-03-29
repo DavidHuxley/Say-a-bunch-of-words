@@ -25,7 +25,7 @@
       <h5 class="card-title"><%= data.title %></h5>
       <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
       <p class="card-text"><%= data.content %></p>
-      <a href="#" class="card-link">수정하기</a>
+      <button type="submit" class="btn btn-outline-secondary" onclick = "location.href ='/edit/<%= data._id %>'">수정하기</button>
     </div>
   </div>
 </div>
