@@ -133,6 +133,28 @@ app.post('/newpost', (req, res) => {
     });
 });
 
+// 검색
+app.get('/search', (req, res) => {
+    // console.log(req.query.value);
+    var searchReq = [
+        {
+          $search: {
+            index: 'titleSearch',
+            text: {
+              query: req.query.value,
+              path: ['title', 'content']
+            }
+          }
+        },
+        { $sort : { _id : 1 }}
+    ] 
+    DB.collection('POST').aggregate(searchReq).toArray((error, result) => {
+        console.log(result)
+        res.render('search.ejs', { TODOs: result , search: req.query.value})
+    })
+})
+
+
 // 글 삭제
 
 app.delete('/delete', (req, res) => {
