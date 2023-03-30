@@ -5,13 +5,14 @@ const app = express();
 // app.use(bodyParser.urlencoded({extended : true}));  // <body-parser가 2021년부터 express에 기본적으로 포함되어있음
 app.use(express.urlencoded({ extended: true })); // 따라서 원래의 경우엔 사용코드만 적으면 됨
 const MongoClient = require('mongodb').MongoClient;
-var DB;
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
+
+require('dotenv').config();
 
 app.use(session({secret : 'secretCode', resave : true, saveUninitialized: false }));
 app.use(passport.initialize());
@@ -22,12 +23,13 @@ app.set('view engine', 'ejs');
 app.use('/public', express.static('public'));
 
 
-MongoClient.connect('mongodb+srv://seokhalidhuxley:seokhalidhuxley23@cluster0.i8k2gcg.mongodb.net/?retryWrites=true&w=majority'
-    , (error, client) => {
+
+var DB;
+MongoClient.connect(process.env.DB_URL, (error, client) => {
         if (error) return console.log(error);
         DB = client.db('TODOAPP');
 
-        app.listen(8080, () => {
+        app.listen(process.env.PORT, () => {
             console.log('listening on 8080')
         });
     });
