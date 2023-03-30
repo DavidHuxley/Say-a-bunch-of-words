@@ -12,6 +12,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 
+const flash = require('connect-flash');
+app.use(flash());
+
 require('dotenv').config();
 
 app.use(session({secret : 'secretCode', resave : true, saveUninitialized: false }));
