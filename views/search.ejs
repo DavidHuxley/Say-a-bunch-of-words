@@ -32,11 +32,11 @@
     <ul class="list-group">
       <% for (var i=0; i < TODOs.length; i++){ %>
         <li class="list-group-item">
-          <a target="_self" rel="noreferrer" href="/detail/<%= TODOs[i]._id %>" style="text-decoration:none; display: inline-block; color:initial;">
-            <h4>할 일 : <%= TODOs[i].title %></h4>
-          </a>
-          <p>세부내용 : <%= TODOs[i].content %></p>
-          <button type="button" class="btn btn-outline-danger delete" data-id="<%= TODOs[i]._id %>">삭제</button>
+            <h4 style="display: block;">
+              <a target="_self" rel="noreferrer" href="/detail/<%= TODOs[i]._id %>" style="text-decoration:none; display: inline-block; color:initial;"><%= TODOs[i].title %></a>
+              </h4>
+          <p style="display: inline-block;"><%= TODOs[i].content %></p>
+          <button style="float: right;" type="button" class="btn btn-outline-danger delete" data-id="<%= TODOs[i]._id %>" >삭제</button>
         </li>
         <% } %>
     </ul>
