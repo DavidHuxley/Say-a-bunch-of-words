@@ -81,6 +81,13 @@ passport.deserializeUser((ID, done) => {
     })
 });
 
+app.post('/signup', (req, res) => {
+    
+    DB.collection('USER').insertOne( { id: req.body.id, pw: req.body.pw}, (error, result) => {
+        res.redirect('/')
+    })
+})
+
 
 app.get('/fail', (req, res) => {
     res.send('Sign In Fail')
@@ -123,9 +130,9 @@ app.post('/newpost', (req, res) => {
     DB.collection('COUNT').findOne({ name:'postNum'}, (error, result) => {
         // console.log(result.totalPost);
         var postNum = result.totalPost;
+        var writer ={ _id: postNum + 1, title: req.body.title, content: req.body.content, writer : req.user._id };
         
-        DB.collection('POST').insertOne({ _id: postNum + 1, title: req.body.title, content: req.body.content },
-            (error, result) => {
+        DB.collection('POST').insertOne( writer , (error, result) => {
                 if (error) return console.log(error);
                 console.log('save complete');
                 res.redirect('/list');
@@ -161,10 +168,14 @@ app.get('/search', (req, res) => {
 // 글 삭제
 
 app.delete('/delete', (req, res) => {
-    // console.log(req.body)
+    console.log(req.body)
     req.body._id = parseInt(req.body._id);
-    DB.collection('POST').deleteOne(req.body,(error,result) =>{
+
+    var deleteData = { _id : req.body._id, writer : req.user._id}
+
+    DB.collection('POST').deleteOne( deleteData ,(error,result) =>{
         console.log('delete complete');
+        if (error) {console.log(error)}
         res.status(200).send();
     });
 
