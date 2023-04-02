@@ -31,6 +31,7 @@ var DB;
 MongoClient.connect(process.env.DB_URL, (error, client) => {
         if (error) return console.log(error);
         DB = client.db('TODOAPP');
+        app.DB = DB;
 
         app.listen(process.env.PORT, () => {
             console.log('listening on 8080')
@@ -114,13 +115,15 @@ app.get('/write', (req, res) => {
     res.render('write.ejs', {});
 });
 
-app.get('/list', (req, res) => {
+app.use('/', require('./routes/list.js') );
 
-    DB.collection('POST').find().toArray((error, result) => {
-        // console.log(result);
-        res.render('list.ejs', { TODOs: result });
-    }); // POST collection 내의 모든 데이터꺼내고 list.ejs에 랜더링해서 보여줌
-});
+// app.get('/list', (req, res) => {
+
+//     DB.collection('POST').find().toArray((error, result) => {
+//         // console.log(result);
+//         res.render('list.ejs', { TODOs: result });
+//     }); // POST collection 내의 모든 데이터꺼내고 list.ejs에 랜더링해서 보여줌
+// });
 
 
 app.post('/newpost', (req, res) => {
