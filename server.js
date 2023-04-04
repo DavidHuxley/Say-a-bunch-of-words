@@ -12,6 +12,49 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 
+// UUID 설정
+const { v4 } = require('uuid');
+const uuid = () => {
+    const tokens = v4().split('-')
+    return tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
+}
+
+// multer 라이브러리 세팅
+let multer = require('multer');
+
+const path = require('path');
+// node.js 내장 라이브러리 path
+
+
+var storage = multer.diskStorage({
+    destination : (req, file, cb) => {
+        cb(null, './public/image')
+    }, // 업로드한 파일의 경로 설정
+    filename : (req, file, cb) => {
+        cb(null, `${uuid()}_${file.originalname}`)
+    }, // 업로드한 파일 이름을 랜덤하게 설정
+}); 
+
+var upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        var ext = path.extname(file.originalname);
+    
+        if (ext == '.jpg' || ext == '.png' || ext == '.jpeg' || ext == '.gif' || ext == '.webp') {
+            req.fileValidationError = null;
+            cb(null, true);
+        } else {
+            cb(new Error('PNG, JPG만 업로드하세요'));
+        }
+    }, // path를 이용해서 업로드 파일의 확장자가 PNG, JPG 인것만 받음
+    limits:{
+        fileSize: 10 * 1024 * 1024
+    } // 용량 최대 10mb
+}); // storage 변수에서 설정한걸 upload 변수에서 쓰겠다고 선언
+
+
+
+
 const flash = require('connect-flash');
 app.use(flash());
 
@@ -131,9 +174,9 @@ app.post('/newpost', (req, res) => {
     // console.log(req.body.title)
     // console.log(req.body.content)
     DB.collection('COUNT').findOne({ name:'postNum'}, (error, result) => {
-        // console.log(result.totalPost);
+        console.log(result.totalPost);
         var postNum = result.totalPost;
-        var writer ={ _id: postNum + 1, title: req.body.title, content: req.body.content, writer : req.user._id };
+        var writer ={ _id: postNum + 1, title: req.body.title, content: req.body.content, writer : req.user.id };
         
         DB.collection('POST').insertOne( writer , (error, result) => {
                 if (error) return console.log(error);
@@ -145,6 +188,18 @@ app.post('/newpost', (req, res) => {
             });
     });
 });
+
+// 업로드
+app.get('/upload', (req, res) => {
+    res.render('upload.ejs')
+});
+
+app.post('/upload', upload.single('profile') ,(req, res) => {
+    res.send("<script>alert('upload complete');location.href='/';</script>");
+}) // 업로드 완료시 완료 알람과 함께 페이지 리다이렉트
+
+app.get('')
+
 
 // 검색
 app.get('/search', (req, res) => {
@@ -174,7 +229,7 @@ app.delete('/delete', (req, res) => {
     console.log(req.body)
     req.body._id = parseInt(req.body._id);
 
-    var deleteData = { _id : req.body._id, writer : req.user._id}
+    var deleteData = { _id : req.body._id}
 
     DB.collection('POST').deleteOne( deleteData ,(error,result) =>{
         console.log('delete complete');
