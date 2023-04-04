@@ -50,7 +50,7 @@
       var clickBtn = $(this);
       // console.log(clickBtn);
       $.ajax({
-        method : 'DELETE', url : '/delete', data : {_id : todoNum}, })
+        method : 'DELETE', url : '/delete', data : { _id : todoNum} })
         .done((data, textStatus, xhr) => {
           // console.log(data, textStatus, xhr);
           clickBtn.parent('li').fadeOut(300);
