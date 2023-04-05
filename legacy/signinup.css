@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+input:focus {outline:none;}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #ffffff;
+}
+
+#container {
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-areas: 
+    'header'
+    'main'
+    'footer';
+}
+
+#header {
+    width: 100vw;
+    height: 20vh;
+    grid-area: header;
+    /* border: 1px solid red; */
+}
+
+#main {
+    width: 70vw;
+    height: 60vh;
+    grid-area: main;
+    border: 1px solid rgb(211, 211, 211);
+    justify-self: center;
+    display: grid;
+    grid-template-areas: 
+    'signInDiv signUpDiv';
+    box-shadow: 0vw 0vh .3vw .1vw #2BAE66;
+}
+
+#signInDiv{
+    width: 40vw;
+    height: 60vh;
+    grid-area: signInDiv;
+    /* border: 1px solid red; */
+    display: grid;
+    grid-template-areas:
+    'signInHeader'
+    'signInMain'
+}
+
+#signUpDiv{
+    width: 30vw;
+    height: 60vh;
+    grid-area: signUpDiv;
+    /* border: 1px solid red; */
+    display: grid;
+    grid-template-areas:
+    'signUpMain'
+}
+#signInHeader{
+    width: 40vw;
+    height: 5vh;
+    grid-area: signInHeader;
+    /* border: 1px solid red; */
+}
+#signInTitle{
+    width: 10vw;
+    height: 5vh;
+    grid-area: signInTitle;
+    /* border: 1px solid red; */
+}
+#signInTitle > img {
+    width: 80%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+#signInMain{
+    width: 40vw;
+    height: 55vh;
+    grid-area: signInMain;
+    /* border: 1px solid red; */
+    display: gird;
+    grid-template-areas:
+    'signInContent'
+}
+
+#signInContent{
+    width: 40vw;
+    height: 40vh;
+    grid-area: signInContent;
+    /* border: 1px solid red; */
+    display: grid;
+    grid-template-areas:
+    'signInBtn';
+}
+#signInContentText{
+    margin-top: 2vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 3.5vh;
+    font-weight: 800;
+    color:#2BAE66;
+}
+
+#signInContentInfo{
+    margin-top: 8vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 1.5vh;
+    font-weight: 500;
+    color:#74867d;
+}
+
+#signInForm {
+    margin-top: 2vh;
+    /* border: 1px solid red; */
+    display: grid;
+    place-items: center;
+    
+}
+
+#id{
+    width: 25vw;
+    height: 4vh;
+    border-color: #2BAE66;
+    border: #2BAE66 .1vw solid;
+    border-radius: .4vw;
+    outline: none;
+    padding-left: 10px;
+    margin: 2vh ;
+}
+#pw{
+    width: 25vw;
+    height: 4vh;
+    border-color: #2BAE66;
+    border: #2BAE66 .1vw solid;
+    border-radius: .4vw;
+    outline: 0;
+    padding-left: 10px;
+    margin: 0 0 2vh 0vh;
+}
+
+input::placeholder {
+    color: #2BAE66;
+}
+
+
+#signInBtnDiv{
+    width: 40vw;
+    height: 15vh;
+    grid-area: signInBtn;
+    /* border: 1px solid red; */
+    display: grid;
+    justify-items: center;
+}
+#signInBtn{
+    width: 12.5vw;
+    height: 4vh;
+    border-color: #2BAE66;
+    border: #2BAE66 .1vw solid;
+    border-radius: 2vw;
+    outline: none;
+    background-color:#2BAE66;
+    color: white;
+    display: grid;
+    font-size: 1vw;
+    font-weight: 500;
+    line-height: 3.5vh;
+}
+
+#signUpMain{
+    width: 30vw;
+    height: 60vh;
+    grid-area: signUpMain;
+    /* border: 1px solid red; */
+    place-content: center;
+    display: grid;
+    background-color: #2BAE66;
+    box-shadow: 0vw 0vh .3vw .1vw #2BAE66;
+}
+#signUpContent{
+    width: 30vw;
+    height: 40vh;
+    /* border: 1px solid red; */
+    display: grid;
+    place-items: center;
+}
+
+#signUpText{
+    margin-top: 2vh;
+    display: flex;
+    font-size: 3.5vh;
+    font-weight: 800;
+    color:white;
+}
+#signUpText2{
+    display: flex;
+    font-size: 2vh;
+    font-weight: 500;
+    color:white;
+}
+#signUpBtn{
+    width: 12.5vw;
+    height: 4vh;
+    border-color: white;
+    border: white .1vw solid;
+    border-radius: 2vw;
+    outline: none;
+    background-color: #2BAE66;
+    color: white;
+    display: grid;
+    font-size: 1vw;
+    font-weight: 500;
+    line-height: 3.5vh;
+}
+
+#footer {
+    width: 100vw;
+    height: 20vh;
+    grid-area: footer;
+    /* border: 1px solid red; */
+}
