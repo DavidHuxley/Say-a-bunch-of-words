@@ -22,7 +22,7 @@
       <div class="row full-height justify-content-center">
         <div class="col-12 text-center align-self-center py-5">
           <div class="section pb-5 pt-5 pt-sm-2 text-center">
-            <h6 class="mb-0 pb-3"><span>Sign In </span><span>Sign Up</span></h6>
+            <h6 class="mb-0 pb-3"><span>Login</span><span>Sign Up</span></h6>
             <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
             <label for="reg-log"></label>
             <div class="card-3d-wrap mx-auto">
@@ -31,7 +31,7 @@
                   <div class="center-wrap">
                     <form action="/signin" method="POST" id="signInSubmit">
                       <div class="section text-center">
-                        <h4 class="mb-4 pb-3">Sign In</h4>
+                        <h4 class="mb-4 pb-3">Login</h4>
                         <div class="form-group">
                           <input type="text" name="id" class="form-style" placeholder="Your ID" autocomplete="off" onkeypress="return submitForm('signInSubmit', event)">
                           <i class="input-icon uil uil-user"></i>
@@ -40,7 +40,7 @@
                           <input type="password" name="pw" class="form-style" placeholder="Your Password" autocomplete="off" onkeypress="return submitForm('signInSubmit', event)">
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a class="btn mt-4" onclick="document.getElementById('signInSubmit').submit();">submit</a>
+                        <button class="btn mt-4">submit</button>
                         <p class="mb-0 mt-4 text-center"><a class="link">Sign in with Google!</a></p>
                         <p class="mb-0 mt-4 text-center"><a class="link">Forgot your password?</a></p>
                       </div>
@@ -49,25 +49,25 @@
                 </div>
                 <div class="card-back">
                   <div class="center-wrap">
-                    <form action="/signup" method="POST" id="signUpSubmit" onsubmit="return validateForm();">
+                    <form action="/signup" method="POST" id="signUpForm" onsubmit="return validateForm();">
                       <div class="section text-center">
                         <h4 class="mb-4 pb-3">Sign Up</h4>
                         <div class="form-group">
-                          <input type="email" name="email" class="form-style" placeholder="Your Email" id="signUpEmail"
-                            autocomplete="off" onkeypress="return submitForm('signUpSubmit', event)">
+                          <input type="text" name="email" class="form-style" placeholder="Your Email" id="signUpEmail"
+                            autocomplete="off">
                           <i class="input-icon uil uil-at"></i>
                         </div>
                         <div class="form-group mt-2">
                           <input type="text" name="id" class="form-style" placeholder="Your ID" id="signUpId"
-                            autocomplete="off" onkeypress="return submitForm('signUpSubmit', event)">
+                            autocomplete="off">
                           <i class="input-icon uil uil-user"></i>
                         </div>
                         <div class="form-group mt-2">
                           <input type="password" name="pw" class="form-style" placeholder="Your Password"
-                            id="signUpPw" autocomplete="off" onkeypress="return submitForm('signUpSubmit', event)">
+                            id="signUpPw" autocomplete="off">
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a class="btn mt-4" onclick="validateForm();">submit</a>
+                        <button id="signUpBtn" class="btn mt-4">Submit</button>
                       </div>
                     </form>
                   </div>
@@ -84,43 +84,43 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
-  <script>
-function validateForm() {
-  const emailField = document.getElementById('signUpEmail');
-  const nameField = document.getElementById('signUpId');
-  const passField = document.getElementById('signUpPw');
 
-  const emailRegExp = /^\S+@\S+\.\S+$/;
-  const nameRegExp = /^[a-zA-Z0-9]{6,10}$/;
-  const passRegExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
-
-  if (!emailRegExp.test(emailField.value)) {
-    alert('올바른 이메일 형식이 아닙니다.');
-    return false;
-  }
-
-  if (!nameRegExp.test(nameField.value)) {
-    alert('아이디는 영문 대소문자와 숫자로 6자 이상 10자 이하여야 합니다.');
-    return false;
-  }
-
-  if (!passRegExp.test(passField.value)) {
-    alert('비밀번호는 영문, 숫자, 특수문자가 모두 포함되어야 하며, 8-12자여야 합니다. 대소문자는 구분하지 않고, 공백은 허용되지 않습니다.');
-    return false;
-  }
-
-  document.getElementById("signUpSubmit").submit();
-  return true;
-}
-
-function submitForm(formId, event) {
-  if (event.keyCode === 13) {
-    event.preventDefault(); // 엔터키 기본 동작 중지
-    document.getElementById(formId).submit(); // 해당 form 제출
-  }
-}
-
-  </script>
+    <script>
+      const emailField = document.getElementById('signUpEmail');
+      const nameField = document.getElementById('signUpId');
+      const passField = document.getElementById('signUpPw');
+      const signUpForm = document.getElementById('signUpForm');
+      const signUpBtn = document.getElementById('signUpBtn');
+      
+      function validateForm() {
+        const emailRegExp = /^\S+@\S+\.\S+$/;
+        const nameRegExp = /^[a-zA-Z0-9]{6,10}$/;
+        const passRegExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
+      
+        if (!emailRegExp.test(emailField.value)) {
+          alert('올바른 이메일 형식이 아닙니다.');
+          return false; // 이메일 유효성 검사
+        }
+      
+        if (!nameRegExp.test(nameField.value)) {
+          alert('아이디는 영문 대소문자와 숫자로 6자 이상 10자 이하여야 합니다.');
+          return false; // 아이디 유효성 검사
+        }
+      
+        if (!passRegExp.test(passField.value)) {
+          alert('비밀번호는 영문, 숫자, 특수문자가 모두 포함되어야 하며, 8-12자여야 합니다. 대소문자는 구분하지 않고, 공백은 허용되지 않습니다.');
+          return false; // 비밀번호 유효성 검사
+        }
+      
+        if (nameField.value === "" || emailField.value === "" || passField.value === "") {
+          alert("빈 항목 없이 입력해주세요.");
+          return false; // 제출 방지
+        }
+        else {
+          return true; // 제출}
+      }
+    }
+    </script>
 
 
 </body>
