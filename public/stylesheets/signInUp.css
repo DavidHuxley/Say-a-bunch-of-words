@@ -299,3 +299,14 @@
       color: #ffeba7;
       box-shadow: 0 8px 24px 0 rgba(16, 39, 112, .2);
     }
+
+    #signUpErrMsg {
+      display: hidden;
+      position: absolute;
+      top: 13%;
+      left: 300px;
+      color: rgba(255, 0, 0, .8);
+      display: block;
+      margin: 0;
+      padding: 0;
+    }

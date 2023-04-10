@@ -1,0 +1,173 @@
+
+#listDiv {
+  margin: 1vh 1vw;
+  width: calc((100vw - 200px) - 2vw);
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, calc((100vw - 200px - 2vw) / 3));
+  justify-items: center;
+}
+
+#cardlist {
+  display: flex;
+  width: calc((100vw - 200px - 2vw) / 3);
+  height: 20vh;
+  position: relative;
+  -webkit-perspective: 800;
+  padding: 1vh 1vw;
+  cursor: pointer;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform .7s;
+  border: none;
+}
+
+.card div {
+  /* display: block; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  -webkit-border-radius: 10px;
+  border: none;
+}
+
+.card .front {
+  background-color: #2a2b38;
+  /* background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 20%; */
+  -webkit-border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 3.5fr 6.5fr;
+  grid-template-areas:
+  'frontImg frontText';
+}
+
+#frontImg {
+  width: 95%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: none;
+  grid-area: frontImg;
+}
+
+.card .front #frontImg .frontImg {
+  width: 100%;
+  height: 100%;
+  padding: 1%;
+  object-fit: cover;
+  -webkit-border-radius: 10px;
+}
+
+#frontText {
+  grid-area: frontText;
+  width: 100%;
+  height: 100%;
+  padding: 1vh 1vw;
+  display: grid;
+  grid-gap: 2vh 0;
+  grid-template-areas:
+  'writingTime'
+  'frontContent'
+  'writer';
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5fr 7fr 1.5fr;
+}
+
+#writingTime {
+  grid-area: writingTime;
+  font-size: 1em;
+  font-weight: 400;
+  color: rgba(236, 236, 236, 0.6);
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  overflow: hidden;
+}
+#frontContent {
+  grid-area: frontContent;
+  padding: 0;
+  margin: 0 ;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  /* overflow:hidden; */
+  /* border: 1px solid red; */
+  /* 높이값 140px */
+}
+#frontContent h4 {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: #ececec;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+#writer {
+  grid-area: writer;
+  font-size: 1.2em;
+  font-weight: 400;
+  color: #ececec;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  overflow: hidden;
+}
+
+
+.card .back {
+  background-color: #2a2b38;
+  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: 300%;
+  -webkit-transform: rotateY(180deg);
+  -webkit-border-radius: 10px;
+  border: none;
+}
+
+.card.flipped {
+  -webkit-transform: rotateY(180deg);
+
+}
+
+/* card style 변경 */
+.card {
+  text-align: center;
+}
+
+.card div {
+  box-shadow: 0 0 1px 10px #2a2b38;
+}
+
+p {
+  padding: 15px 25px;
+  text-align: left;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: -30px;
+  -webkit-transition: 1s;
+  -webkit-transition-delay: 0.4s;
+}
+
+.card.flipped p {
+  opacity: 1;
+}

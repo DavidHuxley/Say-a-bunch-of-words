@@ -9,13 +9,12 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+  <link rel="stylesheet" href="/public/stylesheets/signInUp.css">
   <title>WEB TODO</title>
-  <style>
-    @import '/public/signInUp.css';
-  </style>
 </head>
+
 <body>
   <div class="section">
     <div class="container">
@@ -33,11 +32,13 @@
                       <div class="section text-center">
                         <h4 class="mb-4 pb-3">Login</h4>
                         <div class="form-group">
-                          <input type="text" name="id" class="form-style" placeholder="Your ID" autocomplete="off" onkeypress="return submitForm('signInSubmit', event)">
+                          <input type="text" name="id" class="form-style" placeholder="Your ID" autocomplete="off"
+                            onkeypress="return submitForm('signInSubmit', event)">
                           <i class="input-icon uil uil-user"></i>
                         </div>
                         <div class="form-group mt-2">
-                          <input type="password" name="pw" class="form-style" placeholder="Your Password" autocomplete="off" onkeypress="return submitForm('signInSubmit', event)">
+                          <input type="password" name="pw" class="form-style" placeholder="Your Password"
+                            autocomplete="off" onkeypress="return submitForm('signInSubmit', event)">
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
                         <button class="btn mt-4">submit</button>
@@ -52,6 +53,7 @@
                     <form action="/signup" method="POST" id="signUpForm" onsubmit="return validateForm();">
                       <div class="section text-center">
                         <h4 class="mb-4 pb-3">Sign Up</h4>
+                        <span id="signUpErrMsg">errorsdgfsdfsdfsdffdror</span>
                         <div class="form-group">
                           <input type="text" name="email" class="form-style" placeholder="Your Email" id="signUpEmail"
                             autocomplete="off">
@@ -63,8 +65,8 @@
                           <i class="input-icon uil uil-user"></i>
                         </div>
                         <div class="form-group mt-2">
-                          <input type="password" name="pw" class="form-style" placeholder="Your Password"
-                            id="signUpPw" autocomplete="off">
+                          <input type="password" name="pw" class="form-style" placeholder="Your Password" id="signUpPw"
+                            autocomplete="off">
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
                         <button id="signUpBtn" class="btn mt-4">Submit</button>
@@ -81,47 +83,10 @@
   </div>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"
+    integrity="sha384-DyEaAWjgaW+mnO9Xe0hGtZv/N8Z/QOAvyIIIttJf/ZGgyCv8F2WUOmwojGYu1osf"
     crossorigin="anonymous"></script>
-
-    <script>
-      const emailField = document.getElementById('signUpEmail');
-      const nameField = document.getElementById('signUpId');
-      const passField = document.getElementById('signUpPw');
-      const signUpForm = document.getElementById('signUpForm');
-      const signUpBtn = document.getElementById('signUpBtn');
-      
-      function validateForm() {
-        const emailRegExp = /^\S+@\S+\.\S+$/;
-        const nameRegExp = /^[a-zA-Z0-9]{6,10}$/;
-        const passRegExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
-      
-        if (!emailRegExp.test(emailField.value)) {
-          alert('올바른 이메일 형식이 아닙니다.');
-          return false; // 이메일 유효성 검사
-        }
-      
-        if (!nameRegExp.test(nameField.value)) {
-          alert('아이디는 영문 대소문자와 숫자로 6자 이상 10자 이하여야 합니다.');
-          return false; // 아이디 유효성 검사
-        }
-      
-        if (!passRegExp.test(passField.value)) {
-          alert('비밀번호는 영문, 숫자, 특수문자가 모두 포함되어야 하며, 8-12자여야 합니다. 대소문자는 구분하지 않고, 공백은 허용되지 않습니다.');
-          return false; // 비밀번호 유효성 검사
-        }
-      
-        if (nameField.value === "" || emailField.value === "" || passField.value === "") {
-          alert("빈 항목 없이 입력해주세요.");
-          return false; // 제출 방지
-        }
-        else {
-          return true; // 제출}
-      }
-    }
-    </script>
-
+  <script src="/public/javascripts/signUp.js"></script>
 
 </body>
 
