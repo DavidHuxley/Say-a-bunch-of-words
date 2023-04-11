@@ -9,6 +9,8 @@ const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 require('dotenv').config();
 
+app.use(express.json()); // JSON 데이터 파싱을 위한 미들웨어
+
 var DB;
 MongoClient.connect(process.env.DB_URL, (error, client) => {
         if (error) return console.log(error);
@@ -92,7 +94,6 @@ passport.use(new LocalStrategy({
     session: true,
     passReqToCallback: false,
 }, (inputID, inputPW, done) => {
-    //console.log(inputID, inputPW);
     DB.collection('USER').findOne({ id: inputID }, (error, result) => {
         if (error) return done(error)
 
@@ -118,7 +119,7 @@ passport.deserializeUser((ID, done) => {
 app.use('/', require('./routes/main.js') );
 
 // Sign In
-app.get('/signinup', (req, res) => {
+app.get('/entrance', (req, res) => {
     res.render('signInUp.ejs', {});
 });
 
@@ -129,11 +130,15 @@ app.post('/signin', passport.authenticate('local', {
 });
 
 
-app.post('/signup', (req, res) => {
-    DB.collection('USER').insertOne( {email: req.body.email, id: req.body.id, pw: req.body.pw}, (error, result) => {
-        res.redirect('/')
-    })
-})
+app.post('/signup', async (req, res) => {
+    try{
+    await DB.collection('USER').insertOne( {email: req.body.email, id: req.body.id, pw: req.body.pw});
+    const script = "<script>alert('Sign Up Complete!'); location.href='/';</script>";
+    res.status(200).send(script);
+    } catch(error) {
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 // session 없을때 접근시 이동
 app.get('/fail', (req, res) => {
@@ -148,11 +153,11 @@ app.get('/mypage', sessionCheck , (req, res) => {
 
 // 새 글 쓰기 및 목록
 
-app.get('/write', (req, res) => {
+app.get('/write', sessionCheck  , (req, res) => {
     res.render('write.ejs', {});
 });
 
-app.post('/newpost', (req, res) => {
+app.post('/newpost', sessionCheck  ,(req, res) => {
     // console.log(req.body) // body-parser를 통해서 form 태그, post요청으로 서버에 들어온 정보를 확인
     // console.log(req.body.title)
     // console.log(req.body.content)
@@ -173,7 +178,7 @@ app.post('/newpost', (req, res) => {
 });
 
 // 업로드
-app.get('/upload', (req, res) => {
+app.get('/upload', sessionCheck  , (req, res) => {
     res.render('upload.ejs')
 });
 
@@ -222,6 +227,8 @@ app.delete('/delete', (req, res) => {
 
 });
 
+
+// 글 상세보기
 app.get('/detail/:id', (req, res) => {
     DB.collection('POST').findOne({_id : parseInt(req.params.id)}, (error, result) =>{
         // console.log(result);
