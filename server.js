@@ -2,14 +2,15 @@ const express = require('express');
 //express 라이브러리 첨부
 const app = express();
 // const bodyParser = require('body-parser');  
-// app.use(bodyParser.urlencoded({extended : true}));  // <body-parser가 2021년부터 express에 기본적으로 포함되어있음
+// app.use(bodyParser.urlencoded({extended : true}));  // <body-parser가 2021년부터 express에 기본적으로 포함됨
 app.use(express.urlencoded({ extended: true })); // 따라서 원래의 경우엔 사용코드만 적으면 됨
+app.use(express.json()); // JSON 데이터 파싱을 위한 미들웨어
+
 const MongoClient = require('mongodb').MongoClient;
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 require('dotenv').config();
 
-app.use(express.json()); // JSON 데이터 파싱을 위한 미들웨어
 
 var DB;
 MongoClient.connect(process.env.DB_URL, (error, client) => {
@@ -131,14 +132,31 @@ app.post('/signin', passport.authenticate('local', {
 
 
 app.post('/signup', async (req, res) => {
-    try{
-    await DB.collection('USER').insertOne( {email: req.body.email, id: req.body.id, pw: req.body.pw});
-    const script = "<script>alert('Sign Up Complete!'); location.href='/';</script>";
-    res.status(200).send(script);
-    } catch(error) {
-        res.status(500).send('Internal Server Error');
+    try {
+      const existingUserEmail = await DB.collection('USER').findOne({email: req.body.email});
+      if (existingUserEmail) {
+        res.status(409).json({ error:'Duplicate Email' });
+        return;
+      }
+  
+      const existingUserId = await DB.collection('USER').findOne({id: req.body.id});
+      if (existingUserId) {
+        res.status(409).json({ error:'Duplicate ID' });
+        return;
+      }
+  
+      await DB.collection('USER').insertOne({
+        email: req.body.email,
+        id: req.body.id,
+        pw: req.body.pw,
+        savePosts: []
+      });
+      res.status(200).send();
+    } catch (error) {
+      res.status(500).send('Internal Server Error');
     }
-});
+  });
+
 
 // session 없을때 접근시 이동
 app.get('/fail', (req, res) => {
@@ -254,7 +272,8 @@ app.get('/edit/:id', (req, res) => {
 });
 
 app.put('/edit', (req, res)=> {
-    DB.collection('POST').updateOne({_id : parseInt(req.body.id)},
+    DB.collection('POST').updateOne(
+        {_id : parseInt(req.body.id)},
      {$set : { title: req.body.title , content: req.body.content }},
      (error, result) => {
         // console.log('complete');
