@@ -2,29 +2,32 @@
 // 삭제처리
 $('.delete').click(function (e) {
   var todoNum = e.target.dataset.id;
-  var clickBtn = $(this);
-  // console.log(clickBtn);
+  var deleteBtn = $(this);
+
   $.ajax({
-    method: 'DELETE', url: '/delete', data: { _id: todoNum }
+    method: 'DELETE',
+    url: '/delete',
+    data: { _id: todoNum }
   })
     .done((data, textStatus, xhr) => {
-      // console.log(data, textStatus, xhr);
-      clickBtn.parent('li').fadeOut(300);
+      deleteBtn.parent('li').fadeOut(300);
     })
     .fail((xhr, textStatus, errorThrown) => {
-      // console.log(xhr, textStatus, errorThrown);
       switch (xhr.status) {
-        case 400: alert('Client Error');
+        case 400:
+          alert('Client Error');
           break;
-        case 404: alert('404 Not Found');
+        case 404:
+          alert('404 Not Found');
           break;
-        case 500: alert('Server Error');
+        case 500:
+          alert('Server Error');
           break;
-        default: alert('Something went wrong');
+        default:
+          alert('Something went wrong');
       }
     });
 });
-
 
 // 검색창 엔터키 입력 시 검색
 $('#searchBar').keyup((search) => {
@@ -42,10 +45,10 @@ $(document).ready(function () {
 });
 
 // 다른 요소 클릭 시 flipped 클래스 제거
-$(document).on('click', function(e) {
-if (!$(e.target).closest('.card').length) {
-  $('.card').removeClass('flipped');
-}
+$(document).on('click', function (e) {
+  if (!$(e.target).closest('.card').length) {
+    $('.card').removeClass('flipped');
+  }
 });
 
 // 카드 hover 시 그림자 효과
