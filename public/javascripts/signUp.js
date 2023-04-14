@@ -70,7 +70,7 @@ signUpBtn.addEventListener("click", function () {
     errorMsg += '비밀번호를 입력하세요.<br>';
   } else if (!passRegExp.test(passField.val())) {
     passField.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '비밀번호는 영문, 숫자, 특수문자가 모두 포함되어야 하며, 8-12자여야 합니다. 대소문자는 구분하지 않고, 공백은 허용되지 않습니다.<br>';
+    errorMsg += '비밀번호는 영문, 숫자, 특수문자가 모두 포함되어야 하며, 8-12자여야 합니다. 대소문자를 구분하며 공백은 허용되지 않습니다.<br>';
   }
 
   if (errorMsg) {
@@ -101,6 +101,8 @@ signUpBtn.addEventListener("click", function () {
     });
   } else {
     // 회원가입 폼 유효성 검사 통과 시
+    const emailField = document.getElementById("signUpEmail");
+    const idField = document.getElementById("signUpId");
     const email = document.getElementById("signUpEmail").value;
     const id = document.getElementById("signUpId").value;
     const pw = document.getElementById("signUpPw").value;
@@ -120,10 +122,6 @@ signUpBtn.addEventListener("click", function () {
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 2000,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            },
             didClose: () => {
               checkbox.checked = false;
             }
@@ -144,6 +142,12 @@ signUpBtn.addEventListener("click", function () {
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
+                emailField.style.boxShadow = "0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)";
+              },
+              didClose: () => {
+                setTimeout(() => {
+                  emailField.style.boxShadow = "";
+                }, 1500);
               }
             });
           } else if (errorMessage === "Duplicate ID") {
@@ -157,6 +161,12 @@ signUpBtn.addEventListener("click", function () {
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
+                idField.style.boxShadow = "0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)";
+              },
+              didClose: () => {
+                setTimeout(() => {
+                  idField.style.boxShadow = "";
+                }, 1500);
               }
             });
           }
@@ -165,6 +175,7 @@ signUpBtn.addEventListener("click", function () {
             position: 'center',
             icon: 'warning',
             title: `알수없는 오류가 발생했습니다!`,
+            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 2000,

@@ -92,7 +92,7 @@ signInBtn.addEventListener("click", function () {
           position: 'center',
           icon: 'error',
           title: `로그인 실패!`,
-          html: `<strong>아이디 또는 비밀번호를 확인해주세요.</strong>`,
+          html: `<strong>아이디 또는 비밀번호가 틀렸습니다.</strong><br><strong>비밀번호는 대소문자를 구분합니다.</strong>`,
           showConfirmButton: false,
           timerProgressBar: true,
           timer: 2000,
