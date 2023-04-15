@@ -22,6 +22,9 @@ MongoClient.connect(process.env.DB_URL, (error, client) => {
 });
 // mongoDB Atlas > Cluster0 > sbow DB 연결
 
+// put, delete method 사용을 위한 라이브러리
+const methodOverride = require('method-override'); 
+app.use(methodOverride('_method')); 
 
 // 로그인 관련 라이브러리
 const passport = require('passport');
@@ -76,54 +79,28 @@ passport.deserializeUser((ID, done) => {
     })
 });
 
-// put, delete method 사용을 위한 라이브러리
-const methodOverride = require('method-override'); 
-app.use(methodOverride('_method')); 
+// 세션 체크
+function sessionCheck(req, res, next){
+    if (req.user){
+        console.log(req.user);
+        next();
+    } else {
+        res.render('signInUp.ejs');
+    }
+}
 
+const signInUpRouter = require('./routes/signInUp.js');
+const mainRouter = require('./routes/main.js');
+const uploadRouter = require('./routes/upload.js');
+const writeRouter = require('./routes/write.js');
 
-app.use('/', require('./routes/signInUp.js') );
-app.use('/', require('./routes/main.js') );
-app.use('/', require('./routes/upload.js') );
-
-
-app.get('/mypage', (req, res) => {
-    // console.log(req.user)
-    res.render('mypage.ejs', { user : req.user })
-})
+app.use('/', signInUpRouter);
+app.use('/', sessionCheck, mainRouter);
+app.use('/', sessionCheck, uploadRouter);
+app.use('/', sessionCheck, writeRouter);
 
 // 새 글 쓰기 및 목록
 
-app.get('/write', (req, res) => {
-    res.render('write.ejs', {});
-});
-
-app.post('/newpost', (req, res) => {
-    // console.log(req.body) // body-parser를 통해서 form 태그, post요청으로 서버에 들어온 정보를 확인
-    // console.log(req.body.title)
-    // console.log(req.body.content)
-    DB.collection('COUNT').findOne({ name:'postNum'}, (error, result) => {
-        console.log(result.totalPost);
-        var postNum = result.totalPost;
-        var writer ={ _id: postNum + 1, title: req.body.title, content: req.body.content, writer : req.user.id };
-        
-        DB.collection('POST').insertOne( writer , (error, result) => {
-                if (error) return console.log(error);
-                console.log('save complete');
-                res.redirect('/');
-                DB.collection('COUNT').updateOne({name:'postNum'}, { $inc: {totalPost: 1}},(error, result) => {
-                    if(error){return console.log(error)};
-                });
-            });
-    });
-});
-
-// 업로드
-app.get('/upload', (req, res) => {
-    res.render('upload.ejs')
-});
-
-const uploadRouter = require('./routes/upload.js');
-app.use('/', uploadRouter);
 
 // 검색
 app.get('/search', (req, res) => {
@@ -197,4 +174,9 @@ app.put('/edit', (req, res)=> {
         // console.log('complete');
         res.redirect('/');
     })
+})
+
+app.get('/mypage', (req, res) => {
+    // console.log(req.user)
+    res.render('mypage.ejs', { user : req.user })
 })
