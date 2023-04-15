@@ -7,51 +7,50 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
+  <script src="https://kit.fontawesome.com/8496074dee.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/public//stylesheets/main.css">
   <link rel="stylesheet" href="/public//stylesheets/list.css">
-  
   <title>SIMPLE CHECK</title>
 </head>
 
 <body>
   <%- include('nav.html') %>
 
-  <div class="col-auto">
+    <!-- <div class="col-auto">
     <input class="form-control" id="searchBar" placeholder="Search">
-  </div>
-  
-  <div id="container">
-    <div id="topSection">
-      <div id="topSide"></div>
-    </div>
-    <div id="mainSection">
-      <div id="leftSide"></div>
-      <div id="main">
+  </div> -->
+
+    <div id="container">
+      <div id="topSection">
+        <div id="topSide"></div>
+      </div>
+      <div id="mainSection">
+        <div id="leftSide"></div>
+        <div id="main">
           <div id="listDiv">
             <div id="cardlist">
               <div class="card">
                 <div class="front">
                   <div id="frontImg">
                     <img class="frontImg"
-                    src="https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTVfODYg/MDAxNjEwNzA3OTI5OTI4.ox4Vx8aW7HgllLtYNyrC2Uo9w3g76FMh7yhcGXEXftgg.nlp930B9S1ZurCoJulgcgOHgmBvgenCQtxAXCzPZFOUg.JPEG.41minit/1610707726106.jpg?type=w800">
-                  </img>
-                </div>
-                <div id="frontText">
-                  <div id="writingTime">
-                    <span>
-                      asdasd
-                    </span>
+                      src="https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTVfODYg/MDAxNjEwNzA3OTI5OTI4.ox4Vx8aW7HgllLtYNyrC2Uo9w3g76FMh7yhcGXEXftgg.nlp930B9S1ZurCoJulgcgOHgmBvgenCQtxAXCzPZFOUg.JPEG.41minit/1610707726106.jpg?type=w800">
+                    </img>
                   </div>
-                  <div id="frontContent">
-                    <h4>
-                      Lorem ipsum dolor sit, amet consectetur 
-                      Lorem ipsum dolor sit, amet consectetur
-                      Lorem ipsum dolor sit, amet consectetur
-                      Lorem ipsum dolor sit, amet consectetur
-                    </h4>
-                  </div>
-                  <div id="writer">
+                  <div id="frontText">
+                    <div id="writingTime">
+                      <span>
+                        asdasd
+                      </span>
+                    </div>
+                    <div id="frontContent">
+                      <h4>
+                        Lorem ipsum dolor sit, amet consectetur
+                        Lorem ipsum dolor sit, amet consectetur
+                        Lorem ipsum dolor sit, amet consectetur
+                        Lorem ipsum dolor sit, amet consectetur
+                      </h4>
+                    </div>
+                    <div id="writer">
                       <span>
                         asdasd
                       </span>
@@ -59,18 +58,32 @@
                   </div>
                 </div>
                 <div class="back">
-                  <div></div>
+                  <div id="backContent">
+                    <span>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid obcaecati in nobis nostrum
+                      deserunt repellendus perspiciatis molestiae porro fugit commodi tempore ut corporis autem ratione
+                      iusto et, rerum, eos sint.
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid obcaecati in nobis nostrum
+                      deserunt repellendus perspiciatis molestiae porro fugit commodi tempore ut corporis autem ratione
+                      iusto et, rerum, eos sint.
+                    </span>
+                  </div>
+                  <div id="backBtnBundle">
+                    <i class="fa-regular fa-comment-dots" style="color: #ececec;" id="backBtnComment"></i>
+                    <i class="fa-regular fa-heart" style="color: #ececec;" id="backBtnHeart"></i>
+                    <i class="fa-regular fa-bookmark" style="color: #ececec;" id="backBtnBookmark"></i>
+                  </div>
                 </div>
               </div>
             </div>
-          </div> 
+          </div>
+        </div>
+        <div id="rightSide"></div>
       </div>
-      <div id="rightSide"></div>
     </div>
-  </div>
-  
-  
-  <!-- <div class="container_sizing">
+
+
+    <!-- <div class="container_sizing">
     <ul class="list-group">
       <% for (var i=0; i < TODOs.length; i++) { %>
         <li class="list-group-item">
@@ -89,10 +102,10 @@
         <% } %>
       </ul>
     </div> -->
-    
-    
+
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="/public/javascripts/mainList.js"></script>
-  </body>
+</body>
 
-  </html>
+</html>

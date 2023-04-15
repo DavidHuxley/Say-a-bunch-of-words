@@ -37,12 +37,19 @@ $('#searchBar').keyup((search) => {
   };
 });
 
+    
 // 카드 클릭 시 flipped 클래스 추가
 $(document).ready(function () {
   $('.card').click(function () {
     $(this).toggleClass('flipped');
   });
+
+  // 내부 요소 클릭 시 이벤트 전파 막기
+  $('.card h4, .card span, .card i').click(function (event) {
+    event.stopPropagation();
+  });
 });
+
 
 // 다른 요소 클릭 시 flipped 클래스 제거
 $(document).on('click', function (e) {
@@ -57,3 +64,19 @@ $('.card').hover(function () {
 }, function () {
   $(this).css('box-shadow', 'none');
 });
+
+// 카드 아이콘 hover시 fade 효과
+$('#backBtnHeart, #backBtnBookmark').hover(function () {
+  $(this).addClass('fa-fade');
+}, function () {
+  $(this).removeClass('fa-fade');
+});
+
+// 카드 아이콘 클릭 토글
+$('#backBtnHeart').click(function () {
+  $(this).toggleClass('fa-regular fa-solid');
+});
+$('#backBtnBookmark').click(function () {
+  $(this).toggleClass('fa-regular fa-solid');
+});
+

@@ -15,7 +15,6 @@
   position: relative;
   -webkit-perspective: 800;
   padding: 1vh 1vw;
-  cursor: pointer;
 }
 
 .card {
@@ -59,7 +58,7 @@
   grid-area: frontImg;
 }
 
-.card .front #frontImg .frontImg {
+.frontImg {
   width: 100%;
   height: 100%;
   padding: 1%;
@@ -95,6 +94,9 @@
   justify-content: right;
   overflow: hidden;
 }
+#writingTime span {
+  cursor: text;
+}
 #frontContent {
   grid-area: frontContent;
   padding: 0;
@@ -102,10 +104,9 @@
   display: flex;
   align-items: top;
   justify-content: center;
-  /* overflow:hidden; */
-  /* border: 1px solid red; */
-  /* 높이값 140px */
+  overflow: hidden;
 }
+
 #frontContent h4 {
   font-size: 1.3rem;
   line-height: 1.5;
@@ -115,8 +116,9 @@
   overflow:hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  cursor: text;
 }
 #writer {
   grid-area: writer;
@@ -130,6 +132,9 @@
   justify-content: right;
   overflow: hidden;
 }
+#writer span {
+  cursor: text;
+}
 
 
 .card .back {
@@ -141,7 +146,52 @@
   -webkit-transform: rotateY(180deg);
   -webkit-border-radius: 10px;
   border: none;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 8.5fr 1.5fr;
+  grid-template-areas:
+  'backContent'
+  'backBtnBundle';
+  cursor: default;
 }
+#backContent {
+  grid-area: backContent;
+  width: 100%;
+  height: 95%;
+  padding: 1vh 1vw 0 1vw;
+  display: grid;
+}
+#backContent span {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #ececec;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  cursor: text
+}
+#backBtnBundle{
+  grid-area: backBtnBundle;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 0 1rem .5rem 0;
+  justify-content:flex-end;
+  align-items:flex-end;
+  /* border: 1px solid red; */
+}
+#backBtnBundle i {
+  margin: 0 0 0 .8rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+
 
 .card.flipped {
   -webkit-transform: rotateY(180deg);

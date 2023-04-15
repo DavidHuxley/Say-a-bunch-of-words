@@ -78,8 +78,3 @@ body {
     width: calc(100vw - 200px);
     height: auto;
 }
-
-.container_sizing {
-    margin: 2vh 0;
-    padding: 0 2vw;
-}

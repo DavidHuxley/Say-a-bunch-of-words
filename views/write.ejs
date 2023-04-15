@@ -9,7 +9,15 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="https://kit.fontawesome.com/8496074dee.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/public/stylesheets/main.css">
+  <link rel="stylesheet" href="/public/stylesheets/write.css">
+
+  <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+  <script src="https://unpkg.com/luxon"></script>
 
   <title>TODO Write</title>
 </head>
@@ -18,30 +26,78 @@
 
   <%- include('nav.html') %>
 
-    <div class="container_sizing">
-      <h4> TODO WRITE </h4>
-      <form class="sizing" action="/newpost" method="POST">
-        <div class="form-group">
-          <label for="exampleFormControlInput1">할 일 </label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" maxlength="45" placeholder="할 일"
-            name="title">
+    <!-- <form action="/upload" method="POST" enctype="multipart/form-data">
+<input type="file" name="cardImg" accept=".jpg,.png,jpeg,.gif,.webp">
+<button type="submit"> 저장 </button></form> -->
+
+    <div id="container">
+      <div id="topSection">
+        <div id="topSide"></div>
+      </div>
+      <div id="mainSection">
+        <div id="leftSide"></div>
+        <div id="main">
+          <div id="wrap">
+            <div class="card">
+              <div class="front">
+                <div id="frontImg">
+                  <label id="cardImgUpload" for="cardImg">
+                    <span>Image Upload</span>
+                    <span>If you not upload img, sample img is registered</span>
+                  </label>
+                  <input type="file" name="cardImg" accept=".jpg,.png,jpeg,.gif,.webp" id="cardImg">
+                </div>
+                <div id="frontText">
+                  <div id="writingTime">
+                    <span id="writeTime">
+                    </span>
+                  </div>
+                  <div id="frontContent">
+                    <textarea id="frontTitle" placeholder="Just say a bunch of words."></textarea>
+                  </div>
+                  <div id="writerDiv">
+                    <span id="writer">
+                      <%= user.id %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card flipped">
+              <div class="back">
+                <div id="backContent">
+                  <textarea id="backContentText" placeholder="Just say a bunch of words."></textarea>
+                </div>
+                <div id="backBtnBundle">
+                  <i class="fa-regular fa-comment-dots" style="color: rgba(236, 236, 236, .3);" id="backBtnComment"></i>
+                  <i class="fa-regular fa-heart" style="color: rgba(236, 236, 236, .3);" id="backBtnHeart"></i>
+                  <i class="fa-regular fa-bookmark" style="color: rgba(236, 236, 236, .3);" id="backBtnBookmark"></i>
+                </div>
+              </div>
+            </div>
+            <div id="writeBtnBundle">
+              <div class="writeBtn" id="resetBtn">Reset</div>
+              <div class="writeBtn" id="cancelBtn">Cancel</div>
+              <div class="writeBtn" id="postBtn">Post</div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1">세부내용</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="세부내용"
-            name="content"></textarea>
-        </div>
-        <button type="submit" class="btn btn-outline-secondary">저장하기</button>
-      </form>
+        <div id="rightSide"></div>
+      </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="/public/javascripts/write.js"></script>
+    <script>
+      const writeTime = document.getElementById('writeTime');
+      
+      function updateTime() {
+        const currentTime = luxon.DateTime.local().toFormat('yyyy-MM-dd HH:mm:ss');
+        writeTime.innerText = currentTime;
+      }
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-      crossorigin="anonymous"></script>
+      setInterval(updateTime, 1000);
+    </script>
 </body>
 
 </html>
