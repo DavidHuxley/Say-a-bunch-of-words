@@ -82,22 +82,24 @@ passport.deserializeUser((ID, done) => {
 // 세션 체크
 function sessionCheck(req, res, next){
     if (req.user){
-        console.log(req.user);
         next();
     } else {
         res.render('signInUp.ejs');
     }
 }
 
+
 const signInUpRouter = require('./routes/signInUp.js');
 const mainRouter = require('./routes/main.js');
 const uploadRouter = require('./routes/upload.js');
 const writeRouter = require('./routes/write.js');
+const logoutRouter = require('./routes/logout.js');
 
 app.use('/', signInUpRouter);
 app.use('/', sessionCheck, mainRouter);
 app.use('/', sessionCheck, uploadRouter);
 app.use('/', sessionCheck, writeRouter);
+app.use('/', sessionCheck, logoutRouter);
 
 // 새 글 쓰기 및 목록
 

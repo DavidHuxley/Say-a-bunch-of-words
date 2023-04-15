@@ -1,15 +1,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"></script>
 
 <link rel="stylesheet" href="/public//stylesheets/nav.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
 
 <input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon"/>
 <label for="menu-icon"></label>
 <nav class="nav"> 		
   <ul class="pt-5">
-    <li><a href="/">Main</a></li>
-    <li><a href="/">Write</a></li>
-    <li><a href="/">Mypage</a></li>
-    <li><a href="/">Logout</a></li>
+    <li><span>Main</span></li>
+    <li><span>Write</span></li>
+    <li><span>Desk</span></li>
+    <li><span id="logout">Logout</span></li>
   </ul>
 </nav>
+
+<script src="/public/javascripts/logout.js" ></script>
