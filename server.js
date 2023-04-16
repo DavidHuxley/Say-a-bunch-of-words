@@ -7,6 +7,7 @@ require('dotenv').config();  // .env 파일을 읽어서 process.env 객체에 �
 
 app.set('view engine', 'ejs'); // ejs 사용을 위한 설정
 app.use('/public', express.static('public')); // public 폴더를 static으로 사용
+app.use('/assets', express.static('assets')); // assets 폴더를 static으로 사용
 
 const MongoClient = require('mongodb').MongoClient;
 
