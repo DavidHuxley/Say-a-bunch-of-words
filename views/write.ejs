@@ -16,10 +16,9 @@
   <link rel="stylesheet" href="/public/stylesheets/write.css">
 
   <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
   <script src="https://unpkg.com/luxon"></script>
-
-  <title>TODO Write</title>
+  <link rel="shortcut icon" href="/assets/icon/favi.ico">
+  <title>Say a bunch of words</title>
 </head>
 
 <body>
@@ -42,8 +41,8 @@
               <div class="front">
                 <div id="frontImg">
                   <label id="cardImgUpload" for="cardImg">
-                    <span>Image Upload</span>
-                    <span>If you not upload img, sample img is registered</span>
+                    <span class="imgSpan">Image Upload</span>
+                    <span class="imgSpan">If you not upload img, sample img is registered</span>
                   </label>
                   <input type="file" name="cardImg" accept=".jpg,.png,jpeg,.gif,.webp" id="cardImg">
                 </div>
@@ -59,6 +58,7 @@
                     <span id="writer">
                       <%= user.id %>
                     </span>
+                    <img src=<%= user.profileImg %>>
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@
     <script src="/public/javascripts/write.js"></script>
     <script>
       const writeTime = document.getElementById('writeTime');
-      
+
       function updateTime() {
         const currentTime = luxon.DateTime.local().toFormat('yyyy-MM-dd HH:mm:ss');
         writeTime.innerText = currentTime;

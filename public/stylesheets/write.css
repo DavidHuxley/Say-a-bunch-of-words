@@ -6,12 +6,14 @@
     align-content: center;
     justify-items: center;
 }
-#writeBtnBundle{
+
+#writeBtnBundle {
     display: flex;
     width: calc((100vw - 200px - 2vw) / 1.5);
     height: 3vh;
 }
-.writeBtn{
+
+.writeBtn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,27 +24,34 @@
     transition: .5s;
     font-weight: 600;
 }
-#resetBtn{ 
+
+#resetBtn {
     margin-right: auto;
     color: rgba(255, 0, 0, .5);
 }
-#resetBtn:hover{
+
+#resetBtn:hover {
     color: red;
 }
-#cancelBtn{
-    margin-right: 0; 
+
+#cancelBtn {
+    margin-right: 0;
     color: rgba(236, 236, 236, .5);
 }
-#cancelBtn:hover{
+
+#cancelBtn:hover {
     color: #ececec;
 }
-#postBtn{
+
+#postBtn {
     margin-left: 1vw;
     color: rgba(236, 236, 236, .5);
 }
-#postBtn:hover{
+
+#postBtn:hover {
     color: #ececec;
 }
+
 .card {
     width: calc((100vw - 200px - 2vw) / 1.5);
     height: 30vh;
@@ -64,10 +73,6 @@
 
 .card .front {
     background-color: #2a2b38;
-    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
-    background-position: bottom center;
-    background-repeat: no-repeat;
-    background-size: 300%;
     -webkit-border-radius: 10px;
     width: 100%;
     height: 100%;
@@ -83,14 +88,17 @@
     box-shadow: none;
     grid-area: frontImg;
 }
+
 #frontImg label {
     display: flex;
     flex-direction: column;
 }
+
 #frontImg label :nth-child(1) {
     align-self: center;
     font-size: 18px;
 }
+
 #frontImg label :nth-child(2) {
     color: rgba(236, 236, 236, .5);
     line-height: 1em;
@@ -108,7 +116,7 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    background-color: rgb(236, 236, 236, .3);
+    background-color: rgb(236, 236, 236, .1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -164,10 +172,6 @@
 
 #frontTitle {
     background-color: #2a2b38;
-    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
-    background-position: bottom center;
-    background-repeat: no-repeat;
-    background-size: 300%;
     width: 98%;
     height: 97%;
     font-size: 1.3rem;
@@ -185,6 +189,7 @@
     align-self: center;
     padding: .5vh .5vw;
 }
+
 #frontTitle:focus {
     outline: none;
     box-shadow: 0 0 5px #ececec;
@@ -200,27 +205,30 @@
     display: flex;
     align-items: center;
     justify-content: right;
-    overflow: hidden;
+    overflow: visible;
 }
 
-#writer {
-    cursor: default;
+#writerDiv img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  margin-left: 1rem;
+  object-fit: cover;
 }
 
+#writerDiv span {
+  cursor: text;
+}
 
 .card .back {
     background-color: #2a2b38;
-    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
-    background-position: bottom center;
-    background-repeat: no-repeat;
-    background-size: 300%;
     -webkit-transform: rotateY(180deg);
     -webkit-border-radius: 10px;
     border: none;
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-rows: 8.5fr 1.5fr;
+    grid-template-rows: 9fr 1fr;
     grid-template-areas:
         'backContent'
         'backBtnBundle';
@@ -237,10 +245,6 @@
 
 #backContentText {
     background-color: #2a2b38;
-    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
-    background-position: bottom center;
-    background-repeat: no-repeat;
-    background-size: 300%;
     font-size: 1rem;
     line-height: 1.5;
     color: #ececec;

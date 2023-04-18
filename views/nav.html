@@ -4,16 +4,21 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
-
-<input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon"/>
+<div class="bgVideo">
+  <video class="bgVideoContent" autoplay muted loop>
+    <source src="/assets/background/wallapper.mp4" type="video/mp4">
+    Your Browser is not supported!
+  </video>
+</div>
+<input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon" />
 <label for="menu-icon"></label>
-<nav class="nav"> 		
+<nav class="nav">
   <ul class="pt-5">
-    <li><span>Main</span></li>
-    <li><span>Write</span></li>
-    <li><span>Desk</span></li>
+    <li><span id="main">Main</span></li>
+    <li><span id="write">Write</span></li>
+    <li><span id="desk">Desk</span></li>
     <li><span id="logout">Logout</span></li>
   </ul>
 </nav>
 
-<script src="/public/javascripts/logout.js" ></script>
+<script src="/public/javascripts/nav.js"></script>

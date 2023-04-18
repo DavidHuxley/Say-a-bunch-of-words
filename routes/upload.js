@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const multer = require('multer'); 
-const path = require('path'); 
-const { v4: uuidv4 } = require('uuid'); 
+const multer = require('multer');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 const uploadDir = path.join(__dirname, '../public/image');
 
 // 파일 업로드
@@ -29,14 +29,14 @@ const upload = multer({
 
 // 파일 업로드
 router.post('/upload', async (req, res) => {
-    upload.single('cardImg')(req, res, (err) => {
-        try {
-            const imageUrl = `/public/image/${req.filename}`;
-            res.status(200).json({ imageUrl });
-        } catch (error) {
-            res.status(400).send();
-        }
-    })
+  upload.single('cardImg')(req, res, (err) => {
+    try {
+      const imageUrl = `/public/image/${req.filename}`;
+      res.status(200).json({ imageUrl });
+    } catch (error) {
+      res.status(400).send();
+    }
+  })
 });
 
 module.exports = router;

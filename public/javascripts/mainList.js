@@ -29,6 +29,7 @@ $('.delete').click(function (e) {
     });
 });
 
+
 // 검색창 엔터키 입력 시 검색
 $('#searchBar').keyup((search) => {
   if (search.keyCode === 13) {
@@ -37,7 +38,7 @@ $('#searchBar').keyup((search) => {
   };
 });
 
-    
+
 // 카드 클릭 시 flipped 클래스 추가
 $(document).ready(function () {
   $('.card').click(function () {
@@ -60,7 +61,7 @@ $(document).on('click', function (e) {
 
 // 카드 hover 시 그림자 효과
 $('.card').hover(function () {
-  $(this).css('box-shadow', '0 0 25px #ffeba7');
+  $(this).css('box-shadow', '0 0 1vw 1vw rgba(236, 236, 238, 0.6)');
 }, function () {
   $(this).css('box-shadow', 'none');
 });
