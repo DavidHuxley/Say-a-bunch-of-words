@@ -10,7 +10,13 @@
   <script src="https://kit.fontawesome.com/8496074dee.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/public//stylesheets/main.css">
   <link rel="stylesheet" href="/public//stylesheets/list.css">
-  <title>SIMPLE CHECK</title>
+  <link rel="shortcut icon" href="/assets/icon/favi.ico">
+  <script src="https://unpkg.com/luxon"></script>
+
+  <script>
+    window.luxon = luxon;
+  </script>
+  <title>Say a bunch of words</title>
 </head>
 
 <body>
@@ -28,82 +34,81 @@
         <div id="leftSide"></div>
         <div id="main">
           <div id="listDiv">
-            <div id="cardlist">
-              <div class="card">
-                <div class="front">
-                  <div id="frontImg">
-                    <img class="frontImg"
-                      src="https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTVfODYg/MDAxNjEwNzA3OTI5OTI4.ox4Vx8aW7HgllLtYNyrC2Uo9w3g76FMh7yhcGXEXftgg.nlp930B9S1ZurCoJulgcgOHgmBvgenCQtxAXCzPZFOUg.JPEG.41minit/1610707726106.jpg?type=w800">
-                    </img>
+            <!-- 삭제된 게시글 보여주지 않음 -->
+            <% const filteredPOST = POST.filter(post => post.isDeleted === false); %>
+            <!-- 최신글부터 보여주기 위해 작성시간순으로 내림차순 소트함 -->
+            <% const sortedPOST = filteredPOST.sort((a, b) => b.time.localeCompare(a.time)); %> 
+            <% for (var i=0; i < sortedPOST.length; i++) { %>
+              <div id="cardlist">
+                <div class="card">
+                  <div class="front">
+                    <div id="frontImg">
+                      <img class="frontImg" src=<%=sortedPOST[i].img %>> </img>
+                    </div>
+                    <div id="frontText">
+                      <div id="writingTime">
+                        <% const currentTime = luxon.DateTime.local().toISO(); %>
+                        <% const postTime = luxon.DateTime.fromISO(sortedPOST[i].time); %>
+                        <% const duration = luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
+                          <% let timeAgo = ''; %>
+                          <% if (duration.as('seconds') < 60) { 
+                            timeAgo = '방금 전';
+                          } else if (duration.as('minutes') < 60) {
+                            timeAgo = `${Math.floor(duration.as('minutes'))}분 전`;
+                          } else if (duration.as('hours') < 24) {
+                            timeAgo = `${Math.floor(duration.as('hours'))}시간 전`;
+                          } else if (duration.as('days') < 7) {
+                            timeAgo = `${Math.floor(duration.as('days'))}일 전`;
+                          } else if (duration.as('weeks') < 4) {
+                            timeAgo = `${Math.floor(duration.as('weeks'))}주 전`;
+                          } else if (duration.as('months') < 12) {
+                            timeAgo = `${Math.floor(duration.as('months'))}달 전`;
+                          } else {
+                            timeAgo = '오래 전';
+                          } %>
+                          <span>
+                            <%= timeAgo %>
+                          </div>
+                          <div id="frontContent">
+                            <h4>
+                              <%= sortedPOST[i].title %>
+                            </h4>
+                          </div>
+                          <div id="writer">
+                            <span>
+                              <%= sortedPOST[i].writer %>
+                            </span>
+                            <% const user=USER.find(u=> u.nickname === sortedPOST[i].writer); %>
+                        <% if (user) { %>
+                          <img src=<%=user.profileImg %>>
+                          <% } %>
+                      </div>
+                    </div>
                   </div>
-                  <div id="frontText">
-                    <div id="writingTime">
+                  <div class="back">
+                    <div id="backContent">
                       <span>
-                        asdasd
+                        <%= sortedPOST[i].content %>
                       </span>
                     </div>
-                    <div id="frontContent">
-                      <h4>
-                        Lorem ipsum dolor sit, amet consectetur
-                        Lorem ipsum dolor sit, amet consectetur
-                        Lorem ipsum dolor sit, amet consectetur
-                        Lorem ipsum dolor sit, amet consectetur
-                      </h4>
+                    <div id="backBtnBundle">
+                      <i class="fa-regular fa-comment-dots" style="color: #ececec;" id="backBtnComment"></i>
+                      <i class="fa-regular fa-heart" style="color: #ececec;" id="backBtnHeart"></i>
+                      <i class="fa-regular fa-bookmark" style="color: #ececec;" id="backBtnBookmark"></i>
                     </div>
-                    <div id="writer">
-                      <span>
-                        asdasd
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="back">
-                  <div id="backContent">
-                    <span>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid obcaecati in nobis nostrum
-                      deserunt repellendus perspiciatis molestiae porro fugit commodi tempore ut corporis autem ratione
-                      iusto et, rerum, eos sint.
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid obcaecati in nobis nostrum
-                      deserunt repellendus perspiciatis molestiae porro fugit commodi tempore ut corporis autem ratione
-                      iusto et, rerum, eos sint.
-                    </span>
-                  </div>
-                  <div id="backBtnBundle">
-                    <i class="fa-regular fa-comment-dots" style="color: #ececec;" id="backBtnComment"></i>
-                    <i class="fa-regular fa-heart" style="color: #ececec;" id="backBtnHeart"></i>
-                    <i class="fa-regular fa-bookmark" style="color: #ececec;" id="backBtnBookmark"></i>
                   </div>
                 </div>
               </div>
-            </div>
+              <% } %>
           </div>
         </div>
         <div id="rightSide"></div>
       </div>
     </div>
-
-
-    <!-- <div class="container_sizing">
-    <ul class="list-group">
-      <% for (var i=0; i < TODOs.length; i++) { %>
-        <li class="list-group-item">
-          <h4 style="display: block;">
-            <a target="_self" rel="noreferrer" href="/detail/<%= TODOs[i]._id %>"
-              style="text-decoration:none; display: inline-block; color:initial;">
-              <%= TODOs[i].title %>
-            </a>
-          </h4>
-          <p style="display: inline-block;">
-            <%= TODOs[i].content %>
-          </p>
-          <button style="float: right;" type="button" class="btn btn-outline-danger delete"
-          data-id="<%= TODOs[i]._id %>">삭제</button>
-        </li>
-        <% } %>
-      </ul>
-    </div> -->
-
-
+    <script>
+      console.log(posts); // 받아온 게시글 데이터
+      console.log(users); // 받아온 사용자 데이터
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="/public/javascripts/mainList.js"></script>
 </body>

@@ -19,30 +19,37 @@ router.post('/newpost', async (req, res) => {
     try {
         await req.app.DB.collection('COUNT').findOne({ name: 'postNum' }, (error, result) => {
             console.log(result.totalPost);
-            const currentTime = DateTime.local().toFormat('yyyy-LL-dd HH:mm:ss');
+            const currentTime = DateTime.local().toISO();
             var postNum = result.totalPost;
             var writer = {
                 _id: postNum + 1, // 글 번호
                 title: req.body.frontTitle, // 제목
                 content: req.body.backContentText, // 내용 
-                writer: req.user.id, // 작성자
+                writer: req.user.nickname, // 작성자
                 img: req.body.cardImgUrl, // 이미지경로
                 time: currentTime, // 작성 시간
                 like: 0, // 좋아요 수
                 comment: 0, // 댓글 수
-                commentList: [] // 댓글 ID 리스트 
+                commentList: [], // 댓글 ID 리스트 
+                isDeleted: false, // 삭제 여부
             };
 
             req.app.DB.collection('POST').insertOne(writer, (error, result) => {
                 if (error) return console.log(error);
-                console.log('save complete');
+                console.log('post complete');
                 req.app.DB.collection('COUNT').updateOne(
                     { name: 'postNum' },
                     { $inc: { totalPost: 1 } },
                     (error, result) => {
                         if (error) { return console.log(error) };
                     });
-            });
+                req.app.DB.collection('USER').updateOne(
+                    { id: req.user.id },
+                    { $push: { postList: postNum + 1 } },
+                    (error, result) => {
+                        if (error) { return console.log(error) };
+                    });
+                });
         });
         res.status(200).send();
     } catch (error) {
