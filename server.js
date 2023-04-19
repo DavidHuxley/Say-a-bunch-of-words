@@ -12,7 +12,7 @@ app.use('/assets', express.static('assets')); // assets 폴더를 static으로 �
 const MongoClient = require('mongodb').MongoClient;
 
 let DB;
-MongoClient.connect(process.env.DB_URL, (error, client) => {
+MongoClient.connect(process.env.DB_URL, {useUnifiedTopology: true}, (error, client) => {
     if (error) return console.log(error);
     DB = client.db('sbow');
     app.DB = DB;
