@@ -22,7 +22,7 @@ router.post('/newpost', async (req, res) => {
             const currentTime = DateTime.local().toISO();
             var postNum = result.totalPost;
             var writer = {
-                _id: postNum + 1, // 글 번호
+                _id: (postNum + 1).toString(), // 글 번호
                 title: req.body.frontTitle, // 제목
                 content: req.body.backContentText, // 내용 
                 writer: req.user.nickname, // 작성자

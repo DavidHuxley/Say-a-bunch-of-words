@@ -1,35 +1,4 @@
 
-// 삭제처리
-$('.delete').click(function (e) {
-  var todoNum = e.target.dataset.id;
-  var deleteBtn = $(this);
-
-  $.ajax({
-    method: 'DELETE',
-    url: '/delete',
-    data: { _id: todoNum }
-  })
-    .done((data, textStatus, xhr) => {
-      deleteBtn.parent('li').fadeOut(300);
-    })
-    .fail((xhr, textStatus, errorThrown) => {
-      switch (xhr.status) {
-        case 400:
-          alert('Client Error');
-          break;
-        case 404:
-          alert('404 Not Found');
-          break;
-        case 500:
-          alert('Server Error');
-          break;
-        default:
-          alert('Something went wrong');
-      }
-    });
-});
-
-
 // 검색창 엔터키 입력 시 검색
 $('#searchBar').keyup((search) => {
   if (search.keyCode === 13) {
@@ -66,18 +35,203 @@ $('.card').hover(function () {
   $(this).css('box-shadow', 'none');
 });
 
-// 카드 아이콘 hover시 fade 효과
-$('#backBtnHeart, #backBtnBookmark').hover(function () {
-  $(this).addClass('fa-fade');
+// 카드가 fa-regular 클래스를 가지고 있을땐 아이콘 hover시 fade 효과
+$('.backBtnHeart, .backBtnBookmark').hover(function () {
+  if ($(this).hasClass('fa-regular')) {
+    $(this).addClass('fa-fade');
+  }
 }, function () {
   $(this).removeClass('fa-fade');
 });
 
-// 카드 아이콘 클릭 토글
-$('#backBtnHeart').click(function () {
-  $(this).toggleClass('fa-regular fa-solid');
-});
-$('#backBtnBookmark').click(function () {
-  $(this).toggleClass('fa-regular fa-solid');
-});
 
+
+
+// 카드 아이콘 클릭 시 좋아요, 북마크 추가/삭제 자바스크립트 기본 문법으로 axios 사용해서 addEventListener로 구현해보기
+const backBtnHeartList = document.querySelectorAll('.backBtnHeart');
+const backBtnBookmarkList = document.querySelectorAll('.backBtnBookmark');
+
+backBtnHeartList.forEach((backBtnHeart) => {
+  backBtnHeart.addEventListener('click', function () {
+    const postId = this.dataset.id; // 해당 버튼의 데이터 속성에서 게시물 ID를 가져옴
+    if (backBtnHeart.classList.contains('fa-regular')) {
+      axios.post('/likeUp', {
+        id: postId
+      })
+      .then(function (response) {
+          backBtnHeart.classList.remove('fa-regular');
+          backBtnHeart.classList.add('fa-solid');
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요 완료!'
+          })
+        })
+        .catch(function (error) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: `ERROR!`,
+            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+          })
+        });
+    } else if (backBtnHeart.classList.contains('fa-solid')) {
+      axios.post('/likeDown', {
+        id: postId
+      })
+        .then(function (response) {
+          backBtnHeart.classList.remove('fa-solid');
+          backBtnHeart.classList.add('fa-regular');
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '좋아요 취소!'
+          })
+        })
+        .catch(function (error) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: `ERROR!`,
+            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+          })
+        });
+    }
+  });
+});
+backBtnBookmarkList.forEach((backBtnBookmark) => {
+  backBtnBookmark.addEventListener('click', function () {
+    const postId = this.dataset.id; // 해당 버튼의 데이터 속성에서 게시물 ID를 가져옴
+    if (backBtnBookmark.classList.contains('fa-regular')) {
+      axios.post('/bookmarkUp', {
+        id: postId
+      })
+        .then(function (response) {
+          backBtnBookmark.classList.remove('fa-regular');
+          backBtnBookmark.classList.add('fa-solid');
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '북마크 완료!'
+          })
+        })
+        .catch(function (error) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: `ERROR!`,
+            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+          })
+        });
+    } else if (backBtnBookmark.classList.contains('fa-solid')) {
+      axios.post('/bookmarkDown', {
+        id: postId
+      })
+        .then(function (response) {
+          backBtnBookmark.classList.remove('fa-solid');
+          backBtnBookmark.classList.add('fa-regular');
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: '북마크 취소!'
+          })
+        })
+        .catch(function (error) {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: `ERROR!`,
+            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+          })
+        });
+    }
+  });
+});

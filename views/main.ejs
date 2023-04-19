@@ -39,14 +39,14 @@
             <!-- 최신글부터 보여주기 위해 작성시간순으로 내림차순 소트함 -->
             <% const sortedPOST = filteredPOST.sort((a, b) => b.time.localeCompare(a.time)); %> 
             <% for (var i=0; i < sortedPOST.length; i++) { %>
-              <div id="cardlist">
+              <div class="cardlist">
                 <div class="card">
                   <div class="front">
-                    <div id="frontImg">
+                    <div class="frontImg">
                       <img class="frontImg" src=<%=sortedPOST[i].img %>> </img>
                     </div>
-                    <div id="frontText">
-                      <div id="writingTime">
+                    <div class="frontText">
+                      <div class="writingTime">
                         <% const currentTime = luxon.DateTime.local().toISO(); %>
                         <% const postTime = luxon.DateTime.fromISO(sortedPOST[i].time); %>
                         <% const duration = luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
@@ -69,12 +69,12 @@
                           <span>
                             <%= timeAgo %>
                           </div>
-                          <div id="frontContent">
+                          <div class="frontContent">
                             <h4>
                               <%= sortedPOST[i].title %>
                             </h4>
                           </div>
-                          <div id="writer">
+                          <div class="writer">
                             <span>
                               <%= sortedPOST[i].writer %>
                             </span>
@@ -86,15 +86,29 @@
                     </div>
                   </div>
                   <div class="back">
-                    <div id="backContent">
+                    <div class="backContent">
                       <span>
                         <%= sortedPOST[i].content %>
                       </span>
                     </div>
-                    <div id="backBtnBundle">
-                      <i class="fa-regular fa-comment-dots" style="color: #ececec;" id="backBtnComment"></i>
-                      <i class="fa-regular fa-heart" style="color: #ececec;" id="backBtnHeart"></i>
-                      <i class="fa-regular fa-bookmark" style="color: #ececec;" id="backBtnBookmark"></i>
+                    <div class="backBtnBundle">
+                      <i class="fa-regular fa-comment-dots backBtnComment" data-id="<%= sortedPOST[i]._id %>" style="color: #ececec;"></i>
+                      <% const likePosts = cUSER.likePosts.includes(sortedPOST[i]._id); %>
+                      <% if (likePosts) { %>
+                        <!-- 이미 좋아요 눌렀던 게시물일 경우 -->
+                        <i class="fa-solid fa-heart backBtnHeart" data-id="<%= sortedPOST[i]._id %>" style="color: rgba(255, 0, 0, .5);"></i>
+                        <!-- 좋아요 안 누른 게시물 -->
+                        <% } else if (!likePosts) { %>
+                        <i class="fa-regular fa-heart backBtnHeart" data-id="<%= sortedPOST[i]._id %>" style="color: #ececec;"></i>
+                        <% } %>
+                      <% const bookmarkPosts = cUSER.bookmarkPosts.includes(sortedPOST[i]._id); %>
+                      <% if (bookmarkPosts) { %>
+                        <!-- 이미 세이브 했던 게시물일 경우 -->
+                        <i class="fa-solid fa-bookmark backBtnBookmark" data-id="<%= sortedPOST[i]._id %>" style="color: #ececec;"></i>
+                        <!-- 세이브 안 한 게시물 -->
+                        <% } else if (!bookmarkPosts) { %>
+                        <i class="fa-regular fa-bookmark backBtnBookmark" data-id="<%= sortedPOST[i]._id %>" style="color: #ececec;"></i>
+                        <% } %>  
                     </div>
                   </div>
                 </div>
@@ -105,10 +119,6 @@
         <div id="rightSide"></div>
       </div>
     </div>
-    <script>
-      console.log(posts); // 받아온 게시글 데이터
-      console.log(users); // 받아온 사용자 데이터
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="/public/javascripts/mainList.js"></script>
 </body>

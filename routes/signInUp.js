@@ -7,11 +7,12 @@ const luxon = require('luxon');
 router.get('/', async (req, res) => {
   try {// 로그인 했을 때는 메인 페이지로, 로그인 안 했을 때는 로그인 페이지로 보내줌
     if (req.user) {
-      const [postResult, userResult] = await Promise.all([
+      const [postResult, userResult, currentUserResult] = await Promise.all([
         req.app.DB.collection('POST').find().toArray(),
-        req.app.DB.collection('USER').find().toArray()
+        req.app.DB.collection('USER').find().toArray(),
+        req.app.DB.collection('USER').findOne({ id: req.user.id })
       ]);
-      res.render('main.ejs', { POST: postResult, USER: userResult, luxon: luxon});
+      res.render('main.ejs', { POST: postResult, USER: userResult, cUSER: currentUserResult, luxon: luxon });
     } else {
       res.render('signInUp.ejs');
     }
@@ -61,7 +62,7 @@ router.post('/signup', async (req, res) => {
       isVerified: false,
       postList: [],
       likePosts: [],
-      savePosts: []
+      bookmarkPosts: []
     });
     res.status(200).send();
   } catch (error) {
