@@ -95,36 +95,14 @@ const mainRouter = require('./routes/main.js');
 const uploadRouter = require('./routes/upload.js');
 const writeRouter = require('./routes/write.js');
 const logoutRouter = require('./routes/logout.js');
+const searchRouter = require('./routes/search.js');
 
 app.use('/', signInUpRouter);
 app.use('/', sessionCheck, mainRouter);
 app.use('/', sessionCheck, uploadRouter);
 app.use('/', sessionCheck, writeRouter);
 app.use('/', sessionCheck, logoutRouter);
-
-// 새 글 쓰기 및 목록
-
-
-// 검색
-app.get('/search', (req, res) => {
-    // console.log(req.query.value);
-    var searchReq = [
-        {
-          $search: {
-            index: 'titleSearch',
-            text: {
-              query: req.query.value,
-              path: ['title', 'content']
-            }
-          }
-        },
-        { $sort : { _id : 1 }}
-    ] 
-    DB.collection('POST').aggregate(searchReq).toArray((error, result) => {
-        console.log(result)
-        res.render('search.ejs', { TODOs: result , search: req.query.value})
-    })
-})
+app.use('/', sessionCheck, searchRouter);
 
 
 // 글 삭제
