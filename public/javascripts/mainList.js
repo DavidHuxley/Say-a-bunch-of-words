@@ -1,13 +1,4 @@
 
-// 검색창 엔터키 입력 시 검색
-$('#searchBar').keyup((search) => {
-  if (search.keyCode === 13) {
-    var inputValue = $('#searchBar').val()
-    window.location.replace(`/search?value=${inputValue}`);
-  };
-});
-
-
 // 카드 클릭 시 flipped 클래스 추가
 $(document).ready(function () {
   $('.card').click(function () {
@@ -61,6 +52,7 @@ backBtnHeartList.forEach((backBtnHeart) => {
       .then(function (response) {
           backBtnHeart.classList.remove('fa-regular');
           backBtnHeart.classList.add('fa-solid');
+          backBtnHeart.style.color = '#FE5F55';
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -104,6 +96,7 @@ backBtnHeartList.forEach((backBtnHeart) => {
         .then(function (response) {
           backBtnHeart.classList.remove('fa-solid');
           backBtnHeart.classList.add('fa-regular');
+          backBtnHeart.style.color = '#ECECEC';
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
