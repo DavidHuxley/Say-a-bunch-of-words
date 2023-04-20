@@ -206,7 +206,7 @@
 
 .nav ul li span:hover {
   text-decoration: none;
-  color: #1f2029;
+  color: #FE5F55;
 }
 
 .nav ul li span:after {
@@ -286,5 +286,5 @@
   width: 100%;
   height: 100%;
   object-fit:scale-down;
-  filter: drop-shadow(0 0 5vh #ececec);
+  filter: drop-shadow(0 0 6vh #ececec);
 }

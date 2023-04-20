@@ -124,3 +124,17 @@ toBeDeveloped.each(function () {
     })
   });
 });
+
+const toggleSignInUp = $('.checkbox');
+const toggleSiSpan = $('#toggleSiSpan');
+const toggleSuSpan = $('#toggleSuSpan');
+
+toggleSignInUp.on('click', function () {
+  if ($(this).prop('checked')) {
+    toggleSiSpan.css('color', '#ECECEC');
+    toggleSuSpan.css('color', '#FE5F55');
+  } else {
+    toggleSiSpan.css('color', '#FE5F55');
+    toggleSuSpan.css('color', '#ECECEC');
+  }
+});

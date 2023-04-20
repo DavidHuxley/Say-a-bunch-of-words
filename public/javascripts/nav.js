@@ -1,7 +1,7 @@
-const main = document.getElementById('main');
-const write = document.getElementById('write');
-const desk = document.getElementById('desk');
-const logout = document.getElementById('logout');
+const main = document.getElementById('mainNav');
+const write = document.getElementById('writeNav');
+const desk = document.getElementById('deskNav');
+const logout = document.getElementById('logoutNav');
 
 main.addEventListener('click', () => {
     axios.get('/main')
