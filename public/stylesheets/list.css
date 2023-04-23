@@ -92,8 +92,18 @@
   overflow: hidden;
 }
 
+.writeTimeHover{
+    display: none;
+}
+.writingTime:hover .writeTimeHover{
+    display: flex;
+}
+.writingTime:hover .writeTime{
+    display: none;
+}
+
 .writingTime span {
-  cursor: text;
+  cursor: default;
 }
 
 .frontContent {
@@ -142,7 +152,7 @@
 }
 
 .writer span {
-  cursor: text;
+  cursor: pointer;
 }
 
 

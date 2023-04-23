@@ -146,7 +146,7 @@
     grid-area: writingTime;
     font-size: 1em;
     font-weight: 400;
-    color: rgba(236, 236, 236, .3);
+    color: rgba(236, 236, 236, .5);
     text-align: left;
     padding: 0;
     margin: 0;
@@ -179,7 +179,8 @@
     color: #ececec;
     word-break: break-word;
     overflow-wrap: break-word;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -188,6 +189,17 @@
     resize: none;
     align-self: center;
     padding: .5vh .5vw;
+}
+#frontTitle::-webkit-scrollbar{
+    width: 5px;
+}
+#frontTitle::-webkit-scrollbar-thumb{
+    background-color: #ececec;
+    border-radius: 10px;
+}
+#frontTitle::-webkit-scrollbar-track{
+    background-color: #2a2b38;
+    border-radius: 10px;
 }
 
 #frontTitle:focus {
@@ -250,7 +262,7 @@
     color: #ececec;
     word-break: break-word;
     overflow-wrap: break-word;
-    overflow: hidden;
+    overflow-y: scroll;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -258,6 +270,18 @@
     cursor: text;
     resize: none;
     padding: .5vh .5vw;
+}
+
+#backContentText::-webkit-scrollbar {
+    width: 5px;
+}
+#backContentText::-webkit-scrollbar-thumb {
+    background-color: #ececec;
+    border-radius: 10px;
+}
+#backContentText::-webkit-scrollbar-track {
+    background-color: #2a2b38;
+    border-radius: 10px;
 }
 
 #backContentText:focus {
