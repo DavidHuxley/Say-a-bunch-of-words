@@ -24,10 +24,6 @@
 <body>
   <%- include('nav.html') %>
 
-    <!-- <div class="col-auto">
-    <input class="form-control" id="searchBar" placeholder="Search">
-  </div> -->
-
     <div id="container">
       <div id="topSection">
         <div id="topSide">
@@ -44,9 +40,7 @@
         <div id="leftSide"></div>
         <div id="main">
           <div id="listDiv">
-            <!-- 삭제된 게시글 보여주지 않음 -->
             <% const filteredPOST=POST.filter(post=> post.isDeleted === false); %>
-              <!-- 최신글부터 보여주기 위해 작성시간순으로 내림차순 소트함 -->
               <% const sortedPOST=filteredPOST.sort((a, b)=> b.time.localeCompare(a.time)); %>
                 <% for (var i=0; i < sortedPOST.length; i++) { %>
                   <div class="cardlist">
@@ -57,27 +51,26 @@
                         </div>
                         <div class="frontText">
                           <div class="writingTime">
-                        <% const currentTime = luxon.DateTime.local().toISO(); %>
-                        <% const postTime = luxon.DateTime.fromISO(sortedPOST[i].time); %>
-                        <% const duration = luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
-                          <% let timeAgo = ''; %>
-                          <% if (duration.as('seconds') < 60) { 
-                            timeAgo = '방금 전';
-                          } else if (duration.as('minutes') < 60) {
-                            timeAgo = `${Math.floor(duration.as('minutes'))}분 전`;
-                          } else if (duration.as('hours') < 24) {
-                            timeAgo = `${Math.floor(duration.as('hours'))}시간 전`;
-                          } else if (duration.as('days') < 7) {
-                            timeAgo = `${Math.floor(duration.as('days'))}일 전`;
-                          } else if (duration.as('weeks') < 4) {
-                            timeAgo = `${Math.floor(duration.as('weeks'))}주 전`;
-                          } else if (duration.as('months') < 12) {
-                            timeAgo = `${Math.floor(duration.as('months'))}달 전`;
-                          } else {
-                            timeAgo = '오래 전';
-                          } %>
-                          <span>
-                            <%= timeAgo %>
+                            <% const currentTime=luxon.DateTime.local().toISO(); %>
+                              <% const postTime=luxon.DateTime.fromISO(sortedPOST[i].time); %>
+                                <% const
+                                  duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime));
+                                  %>
+                                  <% let timeAgo='' ; %>
+                                    <% if (duration.as('seconds') < 60) { timeAgo='방금 전' ; } else if
+                                      (duration.as('minutes') < 60) { timeAgo=`${Math.floor(duration.as('minutes'))}분
+                                      전`; } else if (duration.as('hours') < 24) {
+                                      timeAgo=`${Math.floor(duration.as('hours'))}시간 전`; } else if (duration.as('days')
+                                      < 7) { timeAgo=`${Math.floor(duration.as('days'))}일 전`; } else if
+                                      (duration.as('weeks') < 4) { timeAgo=`${Math.floor(duration.as('weeks'))}주 전`; }
+                                      else if (duration.as('months') < 12) {
+                                      timeAgo=`${Math.floor(duration.as('months'))}달 전`; } else { timeAgo='오래 전' ; } %>
+                                      <span class="writeTime">
+                                        <%= timeAgo %>
+                                      </span>
+                                      <span class="writeTimeHover">
+                                        <%= luxon.DateTime.fromISO(sortedPOST[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                                      </span>
                           </div>
                           <div class="frontContent">
                             <h4>
@@ -106,20 +99,16 @@
                             style="color: #ececec;"></i>
                           <% const likePosts=cUSER.likePosts.includes(sortedPOST[i]._id); %>
                             <% if (likePosts) { %>
-                              <!-- 이미 좋아요 눌렀던 게시물일 경우 -->
                               <i class="fa-solid fa-heart backBtnHeart" data-id="<%= sortedPOST[i]._id %>"
                                 style="color: #FE5F55"></i>
-                              <!-- 좋아요 안 누른 게시물 -->
                               <% } else if (!likePosts) { %>
                                 <i class="fa-regular fa-heart backBtnHeart" data-id="<%= sortedPOST[i]._id %>"
                                   style="color: #ececec;"></i>
                                 <% } %>
                                   <% const bookmarkPosts=cUSER.bookmarkPosts.includes(sortedPOST[i]._id); %>
                                     <% if (bookmarkPosts) { %>
-                                      <!-- 이미 세이브 했던 게시물일 경우 -->
                                       <i class="fa-solid fa-bookmark backBtnBookmark" data-id="<%= sortedPOST[i]._id %>"
                                         style="color: #ececec;"></i>
-                                      <!-- 세이브 안 한 게시물 -->
                                       <% } else if (!bookmarkPosts) { %>
                                         <i class="fa-regular fa-bookmark backBtnBookmark"
                                           data-id="<%= sortedPOST[i]._id %>" style="color: #ececec;"></i>

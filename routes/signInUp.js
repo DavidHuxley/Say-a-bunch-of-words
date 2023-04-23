@@ -7,11 +7,13 @@ const luxon = require('luxon');
 router.get('/', async (req, res) => {
   try {// 로그인 했을 때는 메인 페이지로, 로그인 안 했을 때는 로그인 페이지로 보내줌
     if (req.user) {
-      const [postResult, userResult, currentUserResult] = await Promise.all([
+      const [postResult, userResult] = await Promise.all([
         req.app.DB.collection('POST').find().toArray(),
-        req.app.DB.collection('USER').find().toArray(),
-        req.app.DB.collection('USER').findOne({ id: req.user.id })
+        req.app.DB.collection('USER').find().toArray()
       ]);
+
+      const currentUserResult = userResult.find(user => user.id === req.user.id);
+
       res.render('main.ejs', { POST: postResult, USER: userResult, cUSER: currentUserResult, luxon: luxon });
     } else {
       res.render('signInUp.ejs');
@@ -54,15 +56,15 @@ router.post('/signup', async (req, res) => {
     const hashedPw = await bcrypt.hash(req.body.pw, 10); // 2의10승, 곧 1024번 해싱함
 
     await req.app.DB.collection('USER').insertOne({
-      email: req.body.email,
-      id: idToLowerCase,
-      pw: hashedPw,
-      nickname: idToLowerCase,
-      profileImg: defaultProfileImg,
-      isVerified: false,
-      postList: [],
-      likePosts: [],
-      bookmarkPosts: []
+      email: req.body.email, // 이메일, 대소문자 구분함
+      id: idToLowerCase, // 아이디, 대소문자 구분 안 함
+      pw: hashedPw, // 해싱된 비밀번호 (원본 못찾아줌)
+      nickname: idToLowerCase, // 닉네임, 대소문자 구분 안 함
+      profileImg: defaultProfileImg, // 프로필 이미지
+      isVerified: false, // 이메일 인증 여부
+      postList: [], // 작성한 게시물 목록
+      likePosts: [], // 좋아요 누른 게시물 목록
+      bookmarkPosts: [] // 북마크한 게시물 목록
     });
     res.status(200).send();
   } catch (error) {

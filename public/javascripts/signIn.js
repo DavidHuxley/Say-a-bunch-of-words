@@ -5,7 +5,7 @@ const signInPw = $('#signInPw');
 // signIn keyup 이벤트 핸들러 함수
 function signInKeyUp(event) {
   const target = event.target;
-
+  
   if (target === signInId.get(0)) {
     if (signInId.val()) {
       target.style.boxShadow = '';
@@ -20,18 +20,31 @@ function signInKeyUp(event) {
 signInId.on('keyup', signInKeyUp);
 signInPw.on('keyup', signInKeyUp);
 
+
 // 로그인 버튼 클릭 시 이벤트 핸들러 함수
-
 const signInBtn = document.getElementById("signInBtn");
+
+signInId.on('keyup', function (event) {
+  if (event.key === 'Enter') {
+    signInBtn.click();
+  }
+});
+signInPw.on('keyup', function (event) {
+  if (event.key === 'Enter') {
+    signInBtn.click();
+  }
+});
+
+
 signInBtn.addEventListener("click", function () {
-
+  
   let errorMsg = '';
-
+  
   if (!signInId.val()) {
     signInId.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
     errorMsg += '아이디를 입력하세요.<br>';
   }
-
+  
   if (!signInPw.val()) {
     signInPw.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
     errorMsg += '비밀번호를 입력하세요.<br>';
@@ -66,17 +79,17 @@ signInBtn.addEventListener("click", function () {
       id: id,
       pw: pw
     })
-      .then(function (response) {
-        // 처리 성공시 실행할 코드 작성
-        if (response.status === 200) {
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: `로그인 성공!`,
-            showConfirmButton: false,
-            timerProgressBar: true,
-            timer: 2000,
-            didOpen: (toast) => {
+    .then(function (response) {
+      // 처리 성공시 실행할 코드 작성
+      if (response.status === 200) {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: `로그인 성공!`,
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 2000,
+          didOpen: (toast) => {
               toast.addEventListener('mouseenter', Swal.stopTimer)
               toast.addEventListener('mouseleave', Swal.resumeTimer)
             },
@@ -88,19 +101,19 @@ signInBtn.addEventListener("click", function () {
       })
       .catch(function (error) {
         if (error.response.status === 401)
-          Swal.fire({
-            position: 'center',
-            icon: 'error',
-            title: `로그인 실패!`,
-            html: `<strong>아이디 또는 비밀번호가 틀렸습니다.</strong><br><strong>비밀번호는 대소문자를 구분합니다.</strong>`,
-            showConfirmButton: false,
-            timerProgressBar: true,
-            timer: 2000,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: `로그인 실패!`,
+          html: `<strong>아이디 또는 비밀번호가 틀렸습니다.</strong><br><strong>비밀번호는 대소문자를 구분합니다.</strong>`,
+          showConfirmButton: false,
+          timerProgressBar: true,
+          timer: 2000,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
       });
   }
 }

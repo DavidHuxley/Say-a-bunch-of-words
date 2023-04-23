@@ -22,12 +22,13 @@ router.post('/newpost', async (req, res) => {
             const currentTime = DateTime.local().toISO();
             var postNum = result.totalPost;
             var writer = {
-                _id: (postNum + 1).toString(), // 글 번호
+                _id: (postNum + 1), // 글 번호
                 title: req.body.frontTitle, // 제목
                 content: req.body.backContentText, // 내용 
                 writer: req.user.nickname, // 작성자
                 img: req.body.cardImgUrl, // 이미지경로
                 time: currentTime, // 작성 시간
+                views: 0, // 조회수
                 like: 0, // 좋아요 수
                 comment: 0, // 댓글 수
                 commentList: [], // 댓글 ID 리스트 
