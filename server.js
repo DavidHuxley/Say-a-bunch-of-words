@@ -96,6 +96,8 @@ const uploadRouter = require('./routes/upload.js');
 const writeRouter = require('./routes/write.js');
 const logoutRouter = require('./routes/logout.js');
 const searchRouter = require('./routes/search.js');
+const detailRouter = require('./routes/detail.js');
+const upDownRouter = require('./routes/upDown.js');
 
 app.use('/', signInUpRouter);
 app.use('/', sessionCheck, mainRouter);
@@ -103,6 +105,8 @@ app.use('/', sessionCheck, uploadRouter);
 app.use('/', sessionCheck, writeRouter);
 app.use('/', sessionCheck, logoutRouter);
 app.use('/', sessionCheck, searchRouter);
+app.use('/', sessionCheck, detailRouter);
+app.use('/', sessionCheck, upDownRouter);
 
 
 // 글 삭제
@@ -121,18 +125,6 @@ app.delete('/delete', (req, res) => {
 
 });
 
-
-// 글 상세보기
-app.get('/detail/:id', (req, res) => {
-    DB.collection('POST').findOne({_id : parseInt(req.params.id)}, (error, result) =>{
-        // console.log(result);
-        if(result == null) {
-            res.status(404).send('404 Not Found');
-        } else {
-            res.render('detail.ejs', { data : result });
-        };
-    });
-});
 
 // 글 수정
 

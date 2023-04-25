@@ -2,14 +2,24 @@
 <html>
 
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-  <link rel="stylesheet" href="/public//stylesheets/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="https://kit.fontawesome.com/8496074dee.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/public/stylesheets/main.css">
+  <link rel="stylesheet" href="/public/stylesheets/detail.css">
+  <link rel="stylesheet" href="/public/stylesheets/search.css">
+  <script src="https://unpkg.com/luxon"></script>
   <link rel="shortcut icon" href="/assets/icon/favi.ico">
+  <script>
+    window.luxon = luxon;
+  </script>
   <title>Say a bunch of words</title>
 </head>
 
@@ -17,31 +27,202 @@
 
   <%- include('nav.html') %>
 
-    <div class="container_sizing">
-      <div class="card" style="width: 100%;">
-        <div class="card-body">
-          <h5 class="card-title">
-            <%= data.title %>
-          </h5>
-          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-          <p class="card-text">
-            <%= data.content %>
-          </p>
-          <button type="submit" class="btn btn-outline-secondary"
-            onclick="location.href ='/edit/<%= data._id %>'">수정하기</button>
+    <div id="container">
+      <div id="topSection">
+        <div id="topSide">
+          <div class="search-wrapper">
+            <div class="input-holder">
+              <input type="text" class="search-input" placeholder="Search a bunch of words!" />
+              <button class="search-icon" onclick="searchToggle(this, event);"><span id="searchIcon"></span></button>
+            </div>
+            <span class="close" onclick="searchToggle(this, event);"></span>
+          </div>
         </div>
+      </div>
+      <div id="mainSection">
+        <div id="leftSide"></div>
+        <div id="main">
+          <div id="wrap">
+            <div class="card">
+              <div class="front">
+                <div id="frontImg">
+                  <label id="cardImgUpload" style="background-image: url('<%= POST.img %>')"></label>
+                </div>
+                <div id="frontText">
+                  <div id="writingTime">
+                    <% const currentTime=luxon.DateTime.local().toISO(); %>
+                      <% const postTime=luxon.DateTime.fromISO(POST.time); %>
+                        <% const duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
+                          <% let timeAgo='' ; %>
+                            <% if (duration.as('seconds') < 60) { timeAgo='방금 전' ; } else if (duration.as('minutes') <
+                              60) { timeAgo=`${Math.floor(duration.as('minutes'))}분 전`; } else if (duration.as('hours')
+                              < 24) { timeAgo=`${Math.floor(duration.as('hours'))}시간 전`; } else if (duration.as('days')
+                              < 7) { timeAgo=`${Math.floor(duration.as('days'))}일 전`; } else if (duration.as('weeks') <
+                              4) { timeAgo=`${Math.floor(duration.as('weeks'))}주 전`; } else if (duration.as('months') <
+                              12) { timeAgo=`${Math.floor(duration.as('months'))}달 전`; } else { timeAgo='오래 전' ; } %>
+                              <span id="writeTime">
+                                <%= timeAgo %>
+                              </span>
+                              <span id="writeTimeHover">
+                                <%= luxon.DateTime.fromISO(POST.time).toFormat('yyyy-MM-dd HH:mm') %>
+                              </span>
+                  </div>
+                  <div id="frontContent">
+                    <div id="frontTitle">
+                      <%= POST.title %>
+                    </div>
+                  </div>
+                  <div id="writerDiv">
+                    <span id="writer">
+                      <%= POST.writer %>
+                    </span>
+                    <img src='<%= WRITER.profileImg %>'>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card flipped">
+              <div class="back">
+                <div id="backContent">
+                  <div id="backContentText">
+                    <span>
+                      <%= POST.content %>
+                    </span>
+                  </div>
+                </div>
+                <div id="backBtnBundle">
+                  <div class="backBtnSpan">
+                    <span>조회수 <%= POST.views %></span>
+                    <span id="backBtnSpanComment">댓글수 <%= POST.comment %></span>
+                    <span id="backBtnSpanLike">좋아요 <%= POST.like %></span>
+                  </div>
+                  <div class="backBtnI">
+                    <i class="fa-regular fa-comment-dots backBtnComment" data-id="<%= POST._id %>"
+                      style="color: #ececec;"></i>
+                    <% const likePosts=cUSER.likePosts.includes(POST._id); %>
+                      <% if (likePosts) { %>
+                        <!-- 이미 좋아요 눌렀던 게시물일 경우 -->
+                        <i class="fa-solid fa-heart" id="backBtnHeart" data-id="<%= POST._id %>"
+                          style="color: #FE5F55"></i>
+                        <!-- 좋아요 안 누른 게시물 -->
+                        <% } else if (!likePosts) { %>
+                          <i class="fa-regular fa-heart" id="backBtnHeart" data-id="<%= POST._id %>"
+                            style="color: #ececec;"></i>
+                          <% } %>
+                            <% const bookmarkPosts=cUSER.bookmarkPosts.includes(POST._id); %>
+                              <% if (bookmarkPosts) { %>
+                                <!-- 이미 세이브 했던 게시물일 경우 -->
+                                <i class="fa-solid fa-bookmark" id="backBtnBookmark" data-id="<%= POST._id %>"
+                                  style="color: #ececec;"></i>
+                                <!-- 세이브 안 한 게시물 -->
+                                <% } else if (!bookmarkPosts) { %>
+                                  <i class="fa-regular fa-bookmark" id="backBtnBookmark" data-id="<%= POST._id %>"
+                                    style="color: #ececec;"></i>
+                                  <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="commentSection">
+            <div id="commentCard">
+              <% const filteredCOMMENT=COMMENT.filter(cmt=> cmt.isDeleted === false); %>
+                <% const sortedCOMMENT=filteredCOMMENT.sort((a, b)=> b.time.localeCompare(a.time)); %>
+                  <% if (sortedCOMMENT.length===0) { %>
+                    <div id="commentEmptyDiv">
+                      <span>이 카드엔 아직 누구도 댓글을 남기지 않았습니다.</span>
+                    </div>
+                    <% } else { %>
+                      <% for (var i=0; i < sortedCOMMENT.length; i++) { %>
+                        <div class="commentDiv">
+                          <div class="commentImg">
+                            <% const cmtUser=USER.find(user=> user.nickname === sortedCOMMENT[i].writer); %>
+                              <img src=<%=cmtUser.profileImg %>>
+                          </div>
+                          <div class="commentMain">
+                            <div class="commentTop">
+                              <div class="commentTopContent">
+                                <div class="commentTopContentWrap">
+                                  <span class="commentWriter">
+                                    <%= sortedCOMMENT[i].writer %>
+                                  </span>
+                                  <div class="commentTimeWrap">
+                                    <span class="commentTime">
+                                      <% const currentTime=luxon.DateTime.local().toISO(); %>
+                                        <% const commentTime=luxon.DateTime.fromISO(sortedCOMMENT[i].time); %>
+                                          <% const
+                                            duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(commentTime));
+                                            %>
+                                            <% let timeAgo='' ; %>
+                                              <% if (duration.as('seconds') < 60) { timeAgo='방금 전' ; } else if
+                                                (duration.as('minutes') < 60) {
+                                                timeAgo=`${Math.floor(duration.as('minutes'))}분 전`; } else if
+                                                (duration.as('hours') < 24) {
+                                                timeAgo=`${Math.floor(duration.as('hours'))}시간 전`; } else if
+                                                (duration.as('days') < 7) { timeAgo=`${Math.floor(duration.as('days'))}일
+                                                전`; } else if (duration.as('weeks') < 4) {
+                                                timeAgo=`${Math.floor(duration.as('weeks'))}주 전`; } else if
+                                                (duration.as('months') < 12) {
+                                                timeAgo=`${Math.floor(duration.as('months'))}달 전`; } else {
+                                                timeAgo='오래 전' ; } %>
+                                                <%= timeAgo %>
+                                    </span>
+                                    <span class="commentTimeHover">
+                                      <%= luxon.DateTime.fromISO(sortedCOMMENT[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="commentBtnBundle">
+                                <!-- 자신이 좋아요 누른 댓글은 색 변경 -->
+                                <% const likeComments=cUSER.likeComments.includes(sortedCOMMENT[i]._id); %>
+                                  <% if (!likeComments) { %>
+                                    <i class="fa-regular fa-heart commentLikeBtn" data-id="<%= sortedCOMMENT[i]._id %>"
+                                      style="color: #ececec;"></i>
+                                    <% } else if (likeComments) { %>
+                                      <i class="fa-solid fa-heart commentLikeBtn" data-id="<%= sortedCOMMENT[i]._id %>"
+                                        style="color: #FE5F55"></i>
+                                      <% } %>
+                                        <span>좋아요 <%= sortedCOMMENT[i].like %> </span>
+                              </div>
+                            </div>
+                            <div class="commentBottom">
+                              <span class="commentContent">
+                                <%= sortedCOMMENT[i].content %>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="commentDelete">
+                            <% if (sortedCOMMENT[i].writer===cUSER.nickname) { %>
+                              <div class="commentDeleteBtn" data-id="<%= sortedCOMMENT[i]._id %>">Delete</div>
+                              <% } %>
+                          </div>
+                        </div>
+                        <% } %>
+                   <% } %>
+            </div>
+            <div id="commentEditCard">
+              <div id="commentEdit">
+                <div id="commentEditMain">
+                  <div id="commentEditContent">
+                    <textarea name="" id="commentEditContentText"
+                      placeholder="타인을 비방하는 댓글은 운영원칙 및 법률에 제재 받을 수 있습니다."></textarea>
+                  </div>
+                  <div id="commentEditBtnBundle">
+                    <div id="commentSubmitBtn" data-id="<%= POST._id %>">Submit</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="rightSide"></div>
       </div>
     </div>
 
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-      crossorigin="anonymous"></script>
-
-
+    <script src="/public/javascripts/search.js"></script>
+    <script src="/public/javascripts/detail.js"></script>
 </body>
 
 </html>

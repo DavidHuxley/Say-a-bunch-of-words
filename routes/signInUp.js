@@ -63,8 +63,11 @@ router.post('/signup', async (req, res) => {
       profileImg: defaultProfileImg, // 프로필 이미지
       isVerified: false, // 이메일 인증 여부
       postList: [], // 작성한 게시물 목록
+      commentList: [], // 작성한 댓글 목록
       likePosts: [], // 좋아요 누른 게시물 목록
+      likeComments: [], // 좋아요 누른 댓글 목록
       bookmarkPosts: [] // 북마크한 게시물 목록
+      
     });
     res.status(200).send();
   } catch (error) {

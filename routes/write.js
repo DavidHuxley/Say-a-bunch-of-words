@@ -22,7 +22,7 @@ router.post('/newpost', async (req, res) => {
             const currentTime = DateTime.local().toISO();
             var postNum = result.totalPost;
             var writer = {
-                _id: (postNum + 1), // 글 번호
+                _id: (postNum + 1).toString(), // 글 번호
                 title: req.body.frontTitle, // 제목
                 content: req.body.backContentText, // 내용 
                 writer: req.user.nickname, // 작성자
@@ -31,7 +31,6 @@ router.post('/newpost', async (req, res) => {
                 views: 0, // 조회수
                 like: 0, // 좋아요 수
                 comment: 0, // 댓글 수
-                commentList: [], // 댓글 ID 리스트 
                 isDeleted: false, // 삭제 여부
             };
 
@@ -46,7 +45,7 @@ router.post('/newpost', async (req, res) => {
                     });
                 req.app.DB.collection('USER').updateOne(
                     { id: req.user.id },
-                    { $push: { postList: postNum + 1 } },
+                    { $push: { postList: (postNum + 1).toString() } },
                     (error, result) => {
                         if (error) { return console.log(error) };
                     });
@@ -57,6 +56,55 @@ router.post('/newpost', async (req, res) => {
         res.status(400).send('400 Bad Request');
     }
 });
+
+router.post('/comment', async (req, res) => {
+    try {
+        // 댓글 번호 생성
+        const commentNumResult = await req.app.DB.collection('COUNT').findOneAndUpdate(
+            { name: 'commentNum' },
+            { $inc: { totalComment: 1 } },
+            { returnDocument: 'after' }
+        );
+        const commentNum = commentNumResult.value.totalComment;
+        
+        // 댓글 쓰기
+        const currentTime = DateTime.local().toISO();
+        const commentWrite = {
+            _id: (commentNum + 1).toString(),
+            postId: req.body.id,
+            writer: req.user.nickname,
+            content: req.body.content,
+            time: currentTime,
+            like: 0,
+            isDeleted: false,
+        };
+        await req.app.DB.collection('COMMENT').insertOne(commentWrite);
+
+        // 게시물의 댓글 수 업데이트
+        await req.app.DB.collection('POST').updateOne(
+            { _id: req.body.id },
+            { $inc: { comment: 1 } }
+        );
+        // 해당 게시물의 댓글 수 가져오기
+        const postCommentCount = await req.app.DB.collection('COMMENT').countDocuments({ postId: req.body.id });
+
+
+        // 유저 정보에 댓글 ID 추가
+        await req.app.DB.collection('USER').updateOne(
+            { id: req.user.id },
+            { $push: { commentList: (commentNum + 1).toString() } }
+        );
+
+        // 변경된 댓글 수 응답
+        res.status(200).json({ postCommentCount: postCommentCount });
+    } catch (error) {
+        res.status(400).send('400 Bad Request');
+    }
+});
+
+
+
+
 
 
 module.exports = router;

@@ -1,0 +1,28 @@
+const router = require('express').Router();
+const luxon = require('luxon');
+
+// 글 상세보기
+router.get('/detail/:id', async (req, res) => {
+    try{
+        const [postResult, userResult, commentResult] = await Promise.all([
+            req.app.DB.collection('POST').findOne({ _id: req.params.id }),
+            req.app.DB.collection('USER').find().toArray(),
+            req.app.DB.collection('COMMENT').find({ postId: req.params.id }).toArray()
+        ]);
+        // 해당 게시물의 작성자 정보
+        const postWriter = postResult.writer;
+        const writerInfo = userResult.find(user => user.nickname === postWriter);
+
+        // 로그인 유저
+        const currentUserResult = userResult.find(user => user.id === req.user.id);
+
+        res.render('detail.ejs', { POST: postResult, USER: userResult , COMMENT: commentResult , cUSER: currentUserResult, WRITER: writerInfo, luxon: luxon });
+    } catch (error) {
+        res.status(400).send('400 Bad Request');
+        console.log(error);
+    }
+});
+
+
+
+module.exports = router;
