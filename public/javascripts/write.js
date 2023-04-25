@@ -141,13 +141,13 @@ cancelBtn.addEventListener("click", function () {
 
 
 
-// 카드 전면부 텍스트 글자수 120자 제한 및 90자 알람
+// 카드 전면부 텍스트 글자수 250자 제한 및 90자 알람
 const frontTitle = document.getElementById('frontTitle');
 let isAlerted = false;
 frontTitle.addEventListener('keyup', function () {
     const text = this.value;
     const len = text.length;
-    this.value = text.slice(0, 120);
+    this.value = text.slice(0, 250);
     if (len > 90 && !isAlerted) {
         isAlerted = true;
         const Toast = Swal.mixin({
@@ -167,7 +167,7 @@ frontTitle.addEventListener('keyup', function () {
             title: '이 이상은 리스트에서 봤을 때 생략될 가능성이 높습니다!'
         })
     }
-    if (len > 120) {
+    if (len > 250) {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -182,18 +182,18 @@ frontTitle.addEventListener('keyup', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '최대 작성 가능한 글자수는 120byte 입니다!'
+            title: '최대 작성 가능한 글자수는 250byte 입니다!'
         })
     }
 });
 
-// 카드 후면부 텍스트 400자 글자수 알람 및 1000자 제한
+// 카드 후면부 텍스트 400자 글자수 알람 및 2000자 제한
 const backContentText = document.getElementById('backContentText');
 let isAlerted2 = false;
 backContentText.addEventListener('keyup', function () {
     const text = this.value;
     const len = text.length;
-    this.value = text.slice(0, 1000);
+    this.value = text.slice(0, 2000);
     if (len > 400 && !isAlerted2) {
         isAlerted2 = true;
         const Toast = Swal.mixin({
@@ -213,7 +213,7 @@ backContentText.addEventListener('keyup', function () {
             title: '이 이상은 리스트에서 봤을 때 생략될 가능성이 높습니다!'
         })
     }
-    if (len > 1000) {
+    if (len > 2000) {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -228,7 +228,7 @@ backContentText.addEventListener('keyup', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '최대 작성 글자수는 1000byte 입니다.'
+            title: '최대 작성 가능한 글자수는 2000byte 입니다.'
         })
     }
 });

@@ -82,9 +82,7 @@
                               <%= sortedPOST[i].writer %>
                             </span>
                             <% const user=USER.find(u=> u.nickname === sortedPOST[i].writer); %>
-                              <% if (user) { %>
                                 <img src=<%=user.profileImg %>>
-                                <% } %>
                           </div>
                         </div>
                       </div>
