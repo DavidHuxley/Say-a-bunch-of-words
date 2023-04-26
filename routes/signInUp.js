@@ -5,7 +5,7 @@ const luxon = require('luxon');
 
 
 router.get('/', async (req, res) => {
-  try {// 로그인 했을 때는 메인 페이지로, 로그인 안 했을 때는 로그인 페이지로 보내줌
+  try {
     if (req.user) {
       const [postResult, userResult] = await Promise.all([
         req.app.DB.collection('POST').find().toArray(),

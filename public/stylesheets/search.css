@@ -19,7 +19,7 @@
 .search-wrapper.active .input-holder {
     width: calc((100vw - 200px - 2vw) / 3);
     border-radius: 50px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,.8);
     transition: all .5s cubic-bezier(0.000, 0.105, 0.035, 1.570);
 }
 .search-wrapper .input-holder .search-input {
@@ -89,7 +89,7 @@
     left: 9px;
     top: 18px;
     border-radius: 2px;
-    background: #FE5F55;
+    background: #ececec;
 }
 .search-wrapper .input-holder .search-icon span::after {
     width: 14px;
@@ -97,7 +97,7 @@
     left: 0px;
     top: 0px;
     border-radius: 16px;
-    border: 4px solid #FE5F55;
+    border: 4px solid #ececec;
 }
 .search-wrapper .close {
     position: absolute;
@@ -120,7 +120,7 @@
 .search-wrapper .close::before, .search-wrapper .close::after {
     position:absolute;
     content:'';
-    background: #FE5F55;
+    background: #ececec;
     border-radius: 2px;
 }
 .search-wrapper .close::before {

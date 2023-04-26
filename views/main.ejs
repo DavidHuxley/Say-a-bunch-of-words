@@ -98,7 +98,7 @@
                           <% const likePosts=cUSER.likePosts.includes(sortedPOST[i]._id); %>
                             <% if (likePosts) { %>
                               <i class="fa-solid fa-heart backBtnHeart" data-id="<%= sortedPOST[i]._id %>"
-                                style="color: #FE5F55"></i>
+                                style="color: rgba(255, 0, 0, .5)"></i>
                               <% } else if (!likePosts) { %>
                                 <i class="fa-regular fa-heart backBtnHeart" data-id="<%= sortedPOST[i]._id %>"
                                   style="color: #ececec;"></i>
@@ -124,6 +124,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="/public/javascripts/mainList.js"></script>
     <script src="/public/javascripts/search.js"></script>
-</body>
+    </body>
 
 </html>

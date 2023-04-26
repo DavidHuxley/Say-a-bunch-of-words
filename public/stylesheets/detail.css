@@ -261,10 +261,9 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-areas: 'span none i';
-    grid-template-columns: 20% auto 20%;
-    /* 추가 */
 }
+
+
 
 .backBtnSpan {
     width: 100%;
@@ -297,6 +296,10 @@
     cursor: pointer;
     display: flex;
     align-items: flex-end;
+}
+
+.postDeleteBtn {
+    
 }
 
 .card.flipped {
@@ -369,8 +372,7 @@ p {
     height: auto;
     display: grid;
     grid-template-areas:
-        'commentImg commentMain'
-        'commentDelete commentDelete';
+        'commentImg commentMain';
     grid-template-columns: 5% 95%;
     /* border: 1px solid blue; */
     border-bottom: 1px solid rgba(236, 236, 236, .2);
@@ -466,6 +468,15 @@ p {
     display: none;
 }
 
+.NewcommentTimeWrap {
+    width: auto;
+    height: 100%;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    color: rgba(236, 236, 236, .6);
+}
+
 .commentBtnBundle {
     grid-area: commentBtn;
     width: 100%;
@@ -509,24 +520,6 @@ p {
     margin: 0 1vw;
     color: rgba(236, 236, 236, 1);
     word-break: break-all;
-}
-
-.commentDelete {
-    grid-area: commentDelete;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.commentDeleteBtn {
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: none;
-    align-items: flex-end;
-    color: rgba(255, 0, 0, 1);
-    margin: 0 1vw 0 0;
 }
 
 #commentEditCard {
@@ -579,7 +572,11 @@ p {
     cursor: text;
     resize: none;
     padding: .5vh .5vw;
-    border: 1px solid #ececec;
+    border: 1px solid rgba(236, 236, 236, .4);
+    border-radius: 10px;
+}
+#commentEditContentText:focus{
+    border: 1px solid rgba(236, 236, 236, .8);
     border-radius: 10px;
 }
 
