@@ -35,10 +35,16 @@ $('.backBtnHeart, .backBtnBookmark').hover(function () {
   $(this).removeClass('fa-fade');
 });
 
+// 상세페이지 이동
+$('.backBtnComment').on('click', function() {
+  const postId = $(this).data('id');
+  window.location.href = `/detail/${postId}`;
+});
 
 
 
-// 카드 아이콘 클릭 시 좋아요, 북마크 추가/삭제 자바스크립트 기본 문법으로 axios 사용해서 addEventListener로 구현해보기
+
+
 const backBtnHeartList = document.querySelectorAll('.backBtnHeart');
 const backBtnBookmarkList = document.querySelectorAll('.backBtnBookmark');
 

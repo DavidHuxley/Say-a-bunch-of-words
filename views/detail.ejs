@@ -97,13 +97,17 @@
                     <span id="backBtnSpanLike">좋아요 <%= POST.like %></span>
                   </div>
                   <div class="backBtnI">
+                    <% if (POST.writer===cUSER.nickname) { %>
+                      <i class="fa-regular fa-trash-can postDeleteBtn"
+                        data-id="<%= POST._id %>" style="color: rgba(255, 0, 0, .5);"></i>
+                      <% } %>
                     <i class="fa-regular fa-comment-dots backBtnComment" data-id="<%= POST._id %>"
                       style="color: #ececec;"></i>
                     <% const likePosts=cUSER.likePosts.includes(POST._id); %>
                       <% if (likePosts) { %>
                         <!-- 이미 좋아요 눌렀던 게시물일 경우 -->
                         <i class="fa-solid fa-heart" id="backBtnHeart" data-id="<%= POST._id %>"
-                          style="color: #FE5F55"></i>
+                          style="color: rgba(255, 0, 0, .5)"></i>
                         <!-- 좋아요 안 누른 게시물 -->
                         <% } else if (!likePosts) { %>
                           <i class="fa-regular fa-heart" id="backBtnHeart" data-id="<%= POST._id %>"
@@ -128,10 +132,10 @@
             <div id="commentCard">
               <% const filteredCOMMENT=COMMENT.filter(cmt=> cmt.isDeleted === false); %>
                 <% const sortedCOMMENT=filteredCOMMENT.sort((a, b)=> b.time.localeCompare(a.time)); %>
-                  <% if (sortedCOMMENT.length===0) { %>
-                    <div id="commentEmptyDiv">
-                      <span>이 카드엔 아직 누구도 댓글을 남기지 않았습니다.</span>
-                    </div>
+                <% if (sortedCOMMENT.length===0) { %>
+                <div id="commentEmptyDiv">
+                  <span>이 카드엔 아직 누구도 댓글을 남기지 않았습니다.</span>
+                </div>
                     <% } else { %>
                       <% for (var i=0; i < sortedCOMMENT.length; i++) { %>
                         <div class="commentDiv">
@@ -174,16 +178,19 @@
                                 </div>
                               </div>
                               <div class="commentBtnBundle">
-                                <!-- 자신이 좋아요 누른 댓글은 색 변경 -->
-                                <% const likeComments=cUSER.likeComments.includes(sortedCOMMENT[i]._id); %>
-                                  <% if (!likeComments) { %>
-                                    <i class="fa-regular fa-heart commentLikeBtn" data-id="<%= sortedCOMMENT[i]._id %>"
-                                      style="color: #ececec;"></i>
-                                    <% } else if (likeComments) { %>
-                                      <i class="fa-solid fa-heart commentLikeBtn" data-id="<%= sortedCOMMENT[i]._id %>"
-                                        style="color: #FE5F55"></i>
-                                      <% } %>
-                                        <span>좋아요 <%= sortedCOMMENT[i].like %> </span>
+                                <% if (sortedCOMMENT[i].writer===cUSER.nickname) { %>
+                                  <i class="fa-regular fa-trash-can commentDeleteBtn"
+                                    data-id="<%= sortedCOMMENT[i]._id %>" style="color: rgba(255, 0, 0, .5);"></i>
+                                  <% } %>
+                                    <% const likeComments=cUSER.likeComments.includes(sortedCOMMENT[i]._id); %>
+                                      <% if (!likeComments) { %>
+                                        <i class="fa-regular fa-heart commentLikeBtn"
+                                          data-id="<%= sortedCOMMENT[i]._id %>" style="color: #ececec;"></i>
+                                        <% } else if (likeComments) { %>
+                                          <i class="fa-solid fa-heart commentLikeBtn"
+                                            data-id="<%= sortedCOMMENT[i]._id %>" style="color: rgba(255, 0, 0, .5)"></i>
+                                          <% } %>
+                                            <span class="commentLikeSpan">좋아요 <%= sortedCOMMENT[i].like %> </span>
                               </div>
                             </div>
                             <div class="commentBottom">
@@ -192,21 +199,16 @@
                               </span>
                             </div>
                           </div>
-                          <div class="commentDelete">
-                            <% if (sortedCOMMENT[i].writer===cUSER.nickname) { %>
-                              <div class="commentDeleteBtn" data-id="<%= sortedCOMMENT[i]._id %>">Delete</div>
-                              <% } %>
-                          </div>
                         </div>
                         <% } %>
-                   <% } %>
+                          <% } %>
             </div>
             <div id="commentEditCard">
               <div id="commentEdit">
                 <div id="commentEditMain">
                   <div id="commentEditContent">
                     <textarea name="" id="commentEditContentText"
-                      placeholder="타인을 비방하는 댓글은 운영원칙 및 법률에 제재 받을 수 있습니다."></textarea>
+                      placeholder="카드에 의견을 남겨보세요."></textarea>
                   </div>
                   <div id="commentEditBtnBundle">
                     <div id="commentSubmitBtn" data-id="<%= POST._id %>">Submit</div>
@@ -220,7 +222,9 @@
       </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="/public/javascripts/search.js"></script>
     <script src="/public/javascripts/detail.js"></script>
 </body>

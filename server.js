@@ -36,8 +36,8 @@ const bcrypt = require('bcrypt');
 
 // 세션 설정
 app.use(session({
-    secret: 'secretCode',
-    resave: true,
+    secret: 'secretCode', 
+    resave: true, 
     cookie: { maxAge: 60 * 60 * 1000 },
     saveUninitialized: false
 }));
@@ -98,6 +98,7 @@ const logoutRouter = require('./routes/logout.js');
 const searchRouter = require('./routes/search.js');
 const detailRouter = require('./routes/detail.js');
 const upDownRouter = require('./routes/upDown.js');
+const deleteRouter = require('./routes/delete.js');
 
 app.use('/', signInUpRouter);
 app.use('/', sessionCheck, mainRouter);
@@ -107,6 +108,7 @@ app.use('/', sessionCheck, logoutRouter);
 app.use('/', sessionCheck, searchRouter);
 app.use('/', sessionCheck, detailRouter);
 app.use('/', sessionCheck, upDownRouter);
+app.use('/', sessionCheck, deleteRouter);
 
 
 // 글 삭제

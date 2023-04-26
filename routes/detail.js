@@ -4,11 +4,16 @@ const luxon = require('luxon');
 // 글 상세보기
 router.get('/detail/:id', async (req, res) => {
     try{
+        // 조회수 증가
+        await req.app.DB.collection('POST').updateOne({ _id: req.params.id }, { $inc: { views: 1 } });
+
         const [postResult, userResult, commentResult] = await Promise.all([
             req.app.DB.collection('POST').findOne({ _id: req.params.id }),
             req.app.DB.collection('USER').find().toArray(),
             req.app.DB.collection('COMMENT').find({ postId: req.params.id }).toArray()
         ]);
+
+
         // 해당 게시물의 작성자 정보
         const postWriter = postResult.writer;
         const writerInfo = userResult.find(user => user.nickname === postWriter);

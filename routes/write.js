@@ -18,7 +18,6 @@ router.get('/write', (req, res) => {
 router.post('/newpost', async (req, res) => {
     try {
         await req.app.DB.collection('COUNT').findOne({ name: 'postNum' }, (error, result) => {
-            console.log(result.totalPost);
             const currentTime = DateTime.local().toISO();
             var postNum = result.totalPost;
             var writer = {
@@ -49,7 +48,7 @@ router.post('/newpost', async (req, res) => {
                     (error, result) => {
                         if (error) { return console.log(error) };
                     });
-                });
+            });
         });
         res.status(200).send();
     } catch (error) {
@@ -66,7 +65,7 @@ router.post('/comment', async (req, res) => {
             { returnDocument: 'after' }
         );
         const commentNum = commentNumResult.value.totalComment;
-        
+
         // 댓글 쓰기
         const currentTime = DateTime.local().toISO();
         const commentWrite = {
@@ -80,23 +79,29 @@ router.post('/comment', async (req, res) => {
         };
         await req.app.DB.collection('COMMENT').insertOne(commentWrite);
 
+        // 새로작성한 댓글과 해당 댓글 작성자 정보 가져오기
+        const [newComment, newCommenter] = await Promise.all([
+            req.app.DB.collection('COMMENT').findOne({ _id: commentWrite._id }),
+            req.app.DB.collection('USER').findOne({ nickname: req.user.nickname })
+        ]);
+
+
         // 게시물의 댓글 수 업데이트
         await req.app.DB.collection('POST').updateOne(
             { _id: req.body.id },
             { $inc: { comment: 1 } }
         );
-        // 해당 게시물의 댓글 수 가져오기
-        const postCommentCount = await req.app.DB.collection('COMMENT').countDocuments({ postId: req.body.id });
-
-
+        // 해당 게시물의 댓글 수
+        const postCommentCount = await req.app.DB.collection('POST').findOne({ _id: req.body.id });
+ 
         // 유저 정보에 댓글 ID 추가
         await req.app.DB.collection('USER').updateOne(
             { id: req.user.id },
             { $push: { commentList: (commentNum + 1).toString() } }
         );
 
-        // 변경된 댓글 수 응답
-        res.status(200).json({ postCommentCount: postCommentCount });
+        // 변경된 댓글 수 응답 및 댓글 정보 응답
+        res.status(200).json({ postCommentCount: postCommentCount.comment, newComment: newComment, newCommenter: newCommenter });
     } catch (error) {
         res.status(400).send('400 Bad Request');
     }
