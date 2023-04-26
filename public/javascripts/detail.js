@@ -354,7 +354,7 @@ commentSubmitBtn.addEventListener('click', function () {
 });
 
 
-// 댓글 좋아요 아이콘 클릭 시 좋아요 증가
+// 이벤트 위임을 통한 게시글,댓글 삭제 및 좋아요
 const eventDelegation = document.querySelector('#main');
 eventDelegation.addEventListener('click', function (event) {
     if (event.target.matches('.commentLikeBtn')) {
@@ -461,7 +461,7 @@ eventDelegation.addEventListener('click', function (event) {
         }
     }
     // 이벤트 위임을 사용하여 삭제 아이콘을 눌렀을때 commentDeleteBtn 클래스를 가지고 있으면 삭제
-    if (event.target.matches('.fa-trash-can') && event.target.classList.contains('commentDeleteBtn') )  {
+    if (event.target.matches('.fa-trash-can') && event.target.classList.contains('commentDeleteBtn')) {
         const commentId = event.target.dataset.id;
         const commentDeleteBtn = event.target;
         Swal.fire({
@@ -476,70 +476,120 @@ eventDelegation.addEventListener('click', function (event) {
             cancelButtonText: '취소'
         }).then((result) => {
             if (result.isConfirmed) {
-                    axios.post('/commentDelete', {
-                        id: commentId
-                    })
-                        .then(function (response) {
-
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-                            Toast.fire({
-                                icon: 'success',
-                                title: '삭제 완료!'
-                            })
-                            const postCommentCount = response.data.postCommentCount;
-                            const backBtnSpanComment = document.querySelector('#backBtnSpanComment');
-                            backBtnSpanComment.textContent = `댓글수 ${postCommentCount}`;
-                            commentDeleteBtn.parentElement.parentElement.parentElement.parentElement.remove();
-                            const commentCard = document.getElementById('commentCard');
-                            if (postCommentCount === 0) {
-                                const commentEmptyDiv = document.createElement('div');
-                                commentEmptyDiv.setAttribute('id', 'commentEmptyDiv');
-
-                                const commentEmptySpan = document.createElement('span');
-                                commentEmptySpan.textContent = '마지막 하나 남은 댓글 마저 지워버렸어요.';
-
-                                commentEmptyDiv.appendChild(commentEmptySpan);
-
-                                // 부모 요소에 추가
-                                commentCard.appendChild(commentEmptyDiv);
+                axios.post('/commentDelete', {
+                    id: commentId
+                })
+                    .then(function (response) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
                             }
-
                         })
-                        .catch(function (error) {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                            })
-
-                            Toast.fire({
-                                icon: 'error',
-                                title: `ERROR!`,
-                                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
-                            })
+                        Toast.fire({
+                            icon: 'success',
+                            title: '삭제 완료!'
                         })
+                        const postCommentCount = response.data.postCommentCount;
+                        const backBtnSpanComment = document.querySelector('#backBtnSpanComment');
+                        backBtnSpanComment.textContent = `댓글수 ${postCommentCount}`;
+                        commentDeleteBtn.parentElement.parentElement.parentElement.parentElement.remove();
+                        const commentCard = document.getElementById('commentCard');
+                        if (postCommentCount === 0) {
+                            const commentEmptyDiv = document.createElement('div');
+                            commentEmptyDiv.setAttribute('id', 'commentEmptyDiv');
+
+                            const commentEmptySpan = document.createElement('span');
+                            commentEmptySpan.textContent = '마지막 하나 남은 댓글 마저 지워버렸어요.';
+
+                            commentEmptyDiv.appendChild(commentEmptySpan);
+
+                            // 부모 요소에 추가
+                            commentCard.appendChild(commentEmptyDiv);
+                        }
+
+                    })
+                    .catch(function (error) {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+
+                        Toast.fire({
+                            icon: 'error',
+                            title: `ERROR!`,
+                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                        })
+                    })
             }
         })
     }
-    // 이벤트 위임을 사용하여 아이콘을 눌렀을때 postDeleteBtn  클래스를 가지고 있으면 삭제
-    // if (event.target.matches('.fa-trash-can') && event.target.classList.contains('postDeleteBtn') )  {
-
+    // 이벤트 위임을 사용하여 fa-trash-can, postDeleteBtn 을 가지고 있으면 게시글 삭제
+    if (event.target.matches('.fa-trash-can') && event.target.classList.contains('postDeleteBtn')) {
+        const postId = event.target.dataset.id;
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: `정말로 삭제하시겠습니까?`,
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: 'rgb(160, 0, 0)',
+            cancelButtonColor: '#2a2b38',
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post('/postDelete', {
+                    id: postId
+                })
+                    .then(function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: `삭제 완료!`,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                timer: 2000,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                },
+                                didClose: () => {
+                                    location.href = '/';
+                                }
+                            })
+                        }
+                    })
+                    .catch(function (error) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: `ERROR!`,
+                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                    })
+            }
+        })
+    };
 });
 
 

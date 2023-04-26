@@ -4,6 +4,10 @@ const luxon = require('luxon');
 // 글 상세보기
 router.get('/detail/:id', async (req, res) => {
     try{
+        // 해당 게시물이 삭제 상태가 아닐때만 실행
+        const detailPost = await req.app.DB.collection('POST').findOne({ _id: req.params.id });
+
+        if (detailPost.isDeleted === false) {
         // 조회수 증가
         await req.app.DB.collection('POST').updateOne({ _id: req.params.id }, { $inc: { views: 1 } });
 
@@ -22,6 +26,9 @@ router.get('/detail/:id', async (req, res) => {
         const currentUserResult = userResult.find(user => user.id === req.user.id);
 
         res.render('detail.ejs', { POST: postResult, USER: userResult , COMMENT: commentResult , cUSER: currentUserResult, WRITER: writerInfo, luxon: luxon });
+    } else {
+        res.status(404).send('404 Not Found');
+    }
     } catch (error) {
         res.status(400).send('400 Bad Request');
         console.log(error);
