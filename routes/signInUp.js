@@ -29,6 +29,9 @@ router.post('/signin', passport.authenticate('local', {
 }), (req, res, next) => {
   // 인증 성공
   if (req.isAuthenticated()) {
+    // 로그인 성공하면 COUNT 컬렉션에 로그인 횟수 1 증가
+    req.app.DB.collection('COUNT').updateOne({ name: 'signInCount' }, { $inc: { totalcount: 1 } });
+    req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $push: { signInlog: luxon.DateTime.local().toISO() } });
     return res.status(200).send();
   }
   // 인증 실패
@@ -66,7 +69,10 @@ router.post('/signup', async (req, res) => {
       commentList: [], // 작성한 댓글 목록
       likePosts: [], // 좋아요 누른 게시물 목록
       likeComments: [], // 좋아요 누른 댓글 목록
-      bookmarkPosts: [] // 북마크한 게시물 목록
+      bookmarkPosts: [], // 북마크한 게시물 목록
+      signUpDate: luxon.DateTime.local().toISO(), // 가입일
+      signInlog: [] // 로그인 기록
+      
       
     });
     res.status(200).send();

@@ -28,8 +28,20 @@ router.post('/postDelete', async (req, res) => {
 
         // 유저 정보에서 게시글 삭제
         await req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $pull: { postList: req.body.id } });
+        // 해당 게시글을 북마크한 모든 유저들을 찾아서 북마크 삭제
+        const bookmarkUsers = await req.app.DB.collection('USER').find({ bookmarkPosts: req.body.id }).toArray();
+        for (let i = 0; i < bookmarkUsers.length; i++) {
+            await req.app.DB.collection('USER').updateOne({ id: bookmarkUsers[i].id }, { $pull: { bookmarkPosts: req.body.id } });
+        }
 
-        res.status(200).send();
+        // POST컬렉션에서 삭제요청자의 게시글 총 갯수(삭제상태가 아닌것만) 가져오기
+        const postCount = await req.app.DB.collection('POST').countDocuments({ writer: req.user.nickname, isDeleted: false });
+
+        //  삭제 요청자의 bookmarkPosts 갯수 가져오기
+        const deleterInfo = await req.app.DB.collection('USER').findOne({ id: req.user.id });
+        const bookmarkPostsCount = deleterInfo.bookmarkPosts.length;
+
+        res.status(200).json( { postCount : postCount, bookmarkPostsCount : bookmarkPostsCount});
     } catch (error) {
         res.status(400).send('400 Bad Request');
     }
