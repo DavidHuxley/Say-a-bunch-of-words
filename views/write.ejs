@@ -82,16 +82,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="/public/javascripts/write.js"></script>
-    <script>
-      const writeTime = document.getElementById('writeTime');
-
-      function updateTime() {
-        const currentTime = luxon.DateTime.local().toFormat('yyyy-MM-dd HH:mm:ss');
-        writeTime.innerText = currentTime;
-      }
-
-      setInterval(updateTime, 1000);
-    </script>
 </body>
-
 </html>

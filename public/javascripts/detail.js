@@ -1,3 +1,5 @@
+const { DateTime } = luxon;
+
 const backBtnHeart = document.getElementById('backBtnHeart');
 const backBtnBookmark = document.getElementById('backBtnBookmark');
 
@@ -285,9 +287,10 @@ commentSubmitBtn.addEventListener('click', function () {
                   <div class="commentTop">
                     <div class="commentTopContent">
                       <div class="commentTopContentWrap">
-                        <span class="commentWriter">${newCommenter.nickname}</span>
-                        <div class="NewcommentTimeWrap">
-                          <span>방금 전</span>
+                        <span class="commentWriter" data-id="${newCommenter.nickname}">${newCommenter.nickname}</span>
+                        <div class="newcommentTimeWrap">
+                          <span class="newCommentTime">just before</span>
+                          <span class="newCommentTimeFormat"></span>
                         </div>
                       </div>
                     </div>
@@ -295,7 +298,7 @@ commentSubmitBtn.addEventListener('click', function () {
                     <i class="fa-regular fa-trash-can commentDeleteBtn"
                     data-id="${newComment._id}" style="color: rgba(255, 0, 0, .5);"></i>
                       <i class="fa-regular fa-heart commentLikeBtn" data-id="${newComment._id}" style="color: #ececec;"></i>
-                      <span class="commentLikeSpan">좋아요 0</span>
+                      <span class="commentLikeSpan">like 0</span>
                     </div>
                   </div>
                   <div class="commentBottom">
@@ -306,6 +309,22 @@ commentSubmitBtn.addEventListener('click', function () {
                 </div>
               </div>
                 `;
+
+                // 새로운 댓글에도 호버하면 시간 포맷해서 보여ㅓ줌
+                const newCommentTimeFormat = newCommentElement.querySelector('.newCommentTimeFormat');
+                newCommentTimeFormat.textContent = DateTime.fromISO(newComment.time).toFormat('yyyy-MM-dd HH:mm');             
+
+                const newCommentTime = newCommentElement.querySelector('.newCommentTime');
+                const newCommentTimeWrap = newCommentElement.querySelector('.newcommentTimeWrap');
+                newCommentTimeWrap.addEventListener('mouseenter', function () {
+                    newCommentTime.style.display = 'none';
+                    newCommentTimeFormat.style.display = 'flex';
+                })
+                newCommentTimeWrap.addEventListener('mouseleave', function () {
+                    newCommentTime.style.display = 'flex';
+                    newCommentTimeFormat.style.display = 'none';
+                })
+
 
                 //새로운 댓글을 가장 앞에 추가함
                 const commentsElement = document.querySelector('#commentCard');
@@ -353,6 +372,14 @@ commentSubmitBtn.addEventListener('click', function () {
     }
 });
 
+// 이벤트 위임을 통한 댓글 작성자 이름 클릭시 해당 유저의 프로필 페이지로 이동
+const commentCard = document.querySelector('#commentCard');
+commentCard.addEventListener('click', function (event) {
+    if (event.target.matches('.commentWriter')) {
+        const commenterId = event.target.dataset.id;
+        location.href = `/@${commenterId}`;
+    }
+});
 
 // 이벤트 위임을 통한 게시글,댓글 삭제 및 좋아요
 const eventDelegation = document.querySelector('#main');
@@ -505,7 +532,7 @@ eventDelegation.addEventListener('click', function (event) {
                             commentEmptyDiv.setAttribute('id', 'commentEmptyDiv');
 
                             const commentEmptySpan = document.createElement('span');
-                            commentEmptySpan.textContent = '마지막 하나 남은 댓글 마저 지워버렸어요.';
+                            commentEmptySpan.textContent = 'you deleted the last remaining comment, how heartless...';
 
                             commentEmptyDiv.appendChild(commentEmptySpan);
 
@@ -593,6 +620,13 @@ eventDelegation.addEventListener('click', function (event) {
 });
 
 
+const postWriter = document.getElementById('writer');
+// powtWriter 클릭 시 프로필 페이지로 이동
+postWriter.addEventListener('click', function () {
+    const writerId = postWriter.dataset.id;
+    location.href = `/@${writerId}`;
+});
+
 
 
 // 버튼 효과, 이벤트위임
@@ -603,9 +637,6 @@ $('#main').on('mouseenter', '#backBtnHeart, #backBtnBookmark, .commentLikeBtn, .
 }).on('mouseleave', '#backBtnHeart, #backBtnBookmark, .commentLikeBtn, .fa-trash-can', function () {
     $(this).removeClass('fa-fade');
 });
-
-
-
 
 // backBtnComment 버튼 클릭시 스크롤 댓글창으로 이동
 $('.backBtnComment').click(function () {

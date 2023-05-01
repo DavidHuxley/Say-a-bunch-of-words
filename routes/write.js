@@ -30,6 +30,7 @@ router.post('/newpost', async (req, res) => {
                 views: 0, // 조회수
                 like: 0, // 좋아요 수
                 comment: 0, // 댓글 수
+                bookmarkUsers: [], // 북마크한 유저
                 isDeleted: false, // 삭제 여부
             };
 

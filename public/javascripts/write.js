@@ -1,3 +1,4 @@
+const { DateTime } = luxon;
 // 이미지 파일 업로드
 // 1. 확장자 검사
 // 2. 파일 사이즈 검사
@@ -321,3 +322,11 @@ postBtn.addEventListener("click", function () {
         }
     });
 });
+
+// 현재 시간 표시
+const writeTime = document.getElementById('writeTime');
+function updateTime() {
+  const currentTime = DateTime.local().toFormat('yyyy-MM-dd HH:mm:ss');
+  writeTime.innerText = currentTime;
+}
+setInterval(updateTime, 1000);
