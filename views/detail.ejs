@@ -51,15 +51,33 @@
                 <div id="frontText">
                   <div id="writingTime">
                     <% const currentTime=luxon.DateTime.local().toISO(); %>
-                      <% const postTime=luxon.DateTime.fromISO(POST.time); %>
-                        <% const duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
-                          <% let timeAgo='' ; %>
-                            <% if (duration.as('seconds') < 60) { timeAgo='방금 전' ; } else if (duration.as('minutes') <
-                              60) { timeAgo=`${Math.floor(duration.as('minutes'))}분 전`; } else if (duration.as('hours')
-                              < 24) { timeAgo=`${Math.floor(duration.as('hours'))}시간 전`; } else if (duration.as('days')
-                              < 7) { timeAgo=`${Math.floor(duration.as('days'))}일 전`; } else if (duration.as('weeks') <
-                              4) { timeAgo=`${Math.floor(duration.as('weeks'))}주 전`; } else if (duration.as('months') <
-                              12) { timeAgo=`${Math.floor(duration.as('months'))}달 전`; } else { timeAgo='오래 전' ; } %>
+                    <% const postTime=luxon.DateTime.fromISO(POST.time); %>
+                    <% const duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
+                    <% let timeAgo=''; %>
+                    <% if (duration.as('seconds') < 60) { timeAgo='just before'; } 
+                    else if (duration.as('minutes') < 60) { 
+                      const minutes = Math.floor(duration.as('minutes'));
+                      timeAgo = minutes === 1 ? `${minutes} minute ago` : `${minutes} minutes ago`; 
+                    } 
+                    else if (duration.as('hours') < 24) {
+                      const hours = Math.floor(duration.as('hours'));
+                      timeAgo = hours === 1 ? `${hours} hour ago` : `${hours} hours ago`; 
+                    } 
+                    else if (duration.as('days') < 7) { 
+                      const days = Math.floor(duration.as('days'));
+                      timeAgo = days === 1 ? `${days} day ago` : `${days} days ago`; 
+                    } 
+                    else if (duration.as('weeks') < 4) {
+                      const weeks = Math.floor(duration.as('weeks'));
+                      timeAgo = weeks === 1 ? `${weeks} week ago` : `${weeks} weeks ago`; 
+                    } 
+                    else if (duration.as('months') < 12) {
+                      const months = Math.floor(duration.as('months'));
+                      timeAgo = months === 1 ? `${months} month ago` : `${months} months ago`; 
+                    } 
+                    else {
+                      timeAgo = 'long time ago'; 
+                    } %>
                               <span id="writeTime">
                                 <%= timeAgo %>
                               </span>
@@ -73,7 +91,7 @@
                     </div>
                   </div>
                   <div id="writerDiv">
-                    <span id="writer">
+                    <span id="writer" data-id="<%= POST.writer %>">
                       <%= POST.writer %>
                     </span>
                     <img src='<%= WRITER.profileImg %>'>
@@ -92,9 +110,9 @@
                 </div>
                 <div id="backBtnBundle">
                   <div class="backBtnSpan">
-                    <span>조회수 <%= POST.views %></span>
-                    <span id="backBtnSpanComment">댓글수 <%= POST.comment %></span>
-                    <span id="backBtnSpanLike">좋아요 <%= POST.like %></span>
+                    <span>view <%= POST.views %></span>
+                    <span id="backBtnSpanComment">comment <%= POST.comment %></span>
+                    <span id="backBtnSpanLike">like <%= POST.like %></span>
                   </div>
                   <div class="backBtnI">
                     <% if (POST.writer===cUSER.nickname) { %>
@@ -134,7 +152,7 @@
                 <% const sortedCOMMENT=filteredCOMMENT.sort((a, b)=> b.time.localeCompare(a.time)); %>
                 <% if (sortedCOMMENT.length===0) { %>
                 <div id="commentEmptyDiv">
-                  <span>이 카드엔 아직 누구도 댓글을 남기지 않았습니다.</span>
+                  <span>No one has commented on this postcard yet.</span>
                 </div>
                     <% } else { %>
                       <% for (var i=0; i < sortedCOMMENT.length; i++) { %>
@@ -147,29 +165,40 @@
                             <div class="commentTop">
                               <div class="commentTopContent">
                                 <div class="commentTopContentWrap">
-                                  <span class="commentWriter">
+                                  <span class="commentWriter" data-id="<%= sortedCOMMENT[i].writer %>">
                                     <%= sortedCOMMENT[i].writer %>
                                   </span>
                                   <div class="commentTimeWrap">
                                     <span class="commentTime">
                                       <% const currentTime=luxon.DateTime.local().toISO(); %>
-                                        <% const commentTime=luxon.DateTime.fromISO(sortedCOMMENT[i].time); %>
-                                          <% const
-                                            duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(commentTime));
-                                            %>
-                                            <% let timeAgo='' ; %>
-                                              <% if (duration.as('seconds') < 60) { timeAgo='방금 전' ; } else if
-                                                (duration.as('minutes') < 60) {
-                                                timeAgo=`${Math.floor(duration.as('minutes'))}분 전`; } else if
-                                                (duration.as('hours') < 24) {
-                                                timeAgo=`${Math.floor(duration.as('hours'))}시간 전`; } else if
-                                                (duration.as('days') < 7) { timeAgo=`${Math.floor(duration.as('days'))}일
-                                                전`; } else if (duration.as('weeks') < 4) {
-                                                timeAgo=`${Math.floor(duration.as('weeks'))}주 전`; } else if
-                                                (duration.as('months') < 12) {
-                                                timeAgo=`${Math.floor(duration.as('months'))}달 전`; } else {
-                                                timeAgo='오래 전' ; } %>
-                                                <%= timeAgo %>
+                                      <% const commentTime=luxon.DateTime.fromISO(sortedCOMMENT[i].time); %>
+                                      <% const duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(commentTime)); %>
+                                      <% let timeAgo=''; %>
+                                      <% if (duration.as('seconds') < 60) { timeAgo='just before'; } 
+                                      else if (duration.as('minutes') < 60) { 
+                                        const minutes = Math.floor(duration.as('minutes'));
+                                        timeAgo = minutes === 1 ? `${minutes} minute ago` : `${minutes} minutes ago`; 
+                                      } 
+                                      else if (duration.as('hours') < 24) {
+                                        const hours = Math.floor(duration.as('hours'));
+                                        timeAgo = hours === 1 ? `${hours} hour ago` : `${hours} hours ago`; 
+                                      } 
+                                      else if (duration.as('days') < 7) { 
+                                        const days = Math.floor(duration.as('days'));
+                                        timeAgo = days === 1 ? `${days} day ago` : `${days} days ago`; 
+                                      } 
+                                      else if (duration.as('weeks') < 4) {
+                                        const weeks = Math.floor(duration.as('weeks'));
+                                        timeAgo = weeks === 1 ? `${weeks} week ago` : `${weeks} weeks ago`; 
+                                      } 
+                                      else if (duration.as('months') < 12) {
+                                        const months = Math.floor(duration.as('months'));
+                                        timeAgo = months === 1 ? `${months} month ago` : `${months} months ago`; 
+                                      } 
+                                      else {
+                                        timeAgo = 'long time ago'; 
+                                      } %>
+                                      <%= timeAgo %>
                                     </span>
                                     <span class="commentTimeHover">
                                       <%= luxon.DateTime.fromISO(sortedCOMMENT[i].time).toFormat('yyyy-MM-dd HH:mm') %>
@@ -190,7 +219,7 @@
                                           <i class="fa-solid fa-heart commentLikeBtn"
                                             data-id="<%= sortedCOMMENT[i]._id %>" style="color: rgba(255, 0, 0, .5)"></i>
                                           <% } %>
-                                            <span class="commentLikeSpan">좋아요 <%= sortedCOMMENT[i].like %> </span>
+                                            <span class="commentLikeSpan">like <%= sortedCOMMENT[i].like %> </span>
                               </div>
                             </div>
                             <div class="commentBottom">
@@ -208,7 +237,7 @@
                 <div id="commentEditMain">
                   <div id="commentEditContent">
                     <textarea name="" id="commentEditContentText"
-                      placeholder="카드에 의견을 남겨보세요."></textarea>
+                      placeholder="Write your comments on the postcard!"></textarea>
                   </div>
                   <div id="commentEditBtnBundle">
                     <div id="commentSubmitBtn" data-id="<%= POST._id %>">Submit</div>

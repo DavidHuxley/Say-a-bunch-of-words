@@ -28,28 +28,35 @@
 #resetBtn {
     margin-right: auto;
     color: rgba(255, 0, 0, .5);
+    transition: 350 ease-in-out;
 }
 
 #resetBtn:hover {
     color: red;
+    transform: scale(1.05);
 }
 
 #cancelBtn {
     margin-right: 0;
     color: rgba(236, 236, 236, .5);
+    transition: 350 ease-in-out;
+    
 }
 
 #cancelBtn:hover {
     color: #ececec;
+    transform: scale(1.05);
 }
 
 #postBtn {
     margin-left: 1vw;
     color: rgba(236, 236, 236, .5);
+    transition: 350 ease-in-out;
 }
 
 #postBtn:hover {
     color: #ececec;
+    transform: scale(1.05);
 }
 
 .card {

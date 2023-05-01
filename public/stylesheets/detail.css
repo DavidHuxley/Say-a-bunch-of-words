@@ -445,6 +445,7 @@ p {
     align-items: center;
     margin: 0 1vw;
     color: rgba(236, 236, 236, .8);
+    cursor: pointer;
 }
 
 .commentTimeWrap {
@@ -468,13 +469,20 @@ p {
     display: none;
 }
 
-.NewcommentTimeWrap {
+.newcommentTimeWrap {
     width: auto;
     height: 100%;
     justify-content: flex-start;
     display: flex;
     align-items: center;
     color: rgba(236, 236, 236, .6);
+}
+.newCommentTime{
+    display: flex;
+}
+
+.newCommentTimeFormat {
+    display: none;
 }
 
 .commentBtnBundle {
