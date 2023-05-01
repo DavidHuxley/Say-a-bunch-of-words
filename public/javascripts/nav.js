@@ -44,3 +44,16 @@ logout.addEventListener('click', () => {
             console.log(err);
         })
 })
+
+// desk를 누르면 로그인 유저의 nickname으로 이동하는 
+desk.addEventListener('click', () => {
+    axios.get('/personal')
+        .then(res => {
+            if (res.status === 200) {
+                location.href = `/@${res.data.nickname}`;
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})

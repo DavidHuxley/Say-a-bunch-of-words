@@ -41,7 +41,11 @@ $('.backBtnComment').on('click', function() {
   window.location.href = `/detail/${postId}`;
 });
 
-
+// writer class를 가진 div의 첫번째 span을 클릭하면 span의 data-id로 이동하는 이벤트
+$('.writer').find('span').on('click', function() {
+  const nickname = $(this).data('id');
+  window.location.href = `/@${nickname}`;
+});
 
 
 

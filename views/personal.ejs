@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/8496074dee.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="/public//stylesheets/main.css">
+  <link rel="stylesheet" href="/public//stylesheets/search.css">
+  <link rel="stylesheet" href="/public/stylesheets/desk.css">
+  <link rel="shortcut icon" href="/assets/icon/favi.ico">
+
+  <title>Say a bunch of words</title>
+</head>
+
+<body>
+  <%- include('nav.ejs') %>
+
+    <div id="container">
+      <div id="topSection">
+        <div id="topSide">
+          <div class="search-wrapper">
+            <div class="input-holder">
+              <input type="text" class="search-input" placeholder="Search a bunch of words!" />
+              <button class="search-icon" onclick="searchToggle(this, event);"><span id="searchIcon"></span></button>
+            </div>
+            <span class="close" onclick="searchToggle(this, event);"></span>
+          </div>
+        </div>
+      </div>
+      <div id="mainSection">
+        <div id="leftSide"></div>
+        <div id="main">
+          <div id="DeskContainer">
+            <div id="profileSection">
+              <div id="profileImgDiv">
+                <img id="profileImg" src=<%=pU.profileImg %>>
+              </div>
+              <div id="profileConDiv">
+                <!-- 현재 유저와 해당 페이지 유저가 일치 할 경우 -->
+                <% if (pU.id===cU.id) { %>
+                  <span id="proConDate">join date: <%= luxon.DateTime.fromISO(pU.signUpDate).toFormat('yyyy-MM-dd HH:mm') %>
+                      </span>
+                  <% } %>
+                    <div id="profileContent">
+                      <div id="proConId">
+                        <span id="proConIdTag">ID</span>
+                        <span id="proConIdSpan">
+                          <%= pU.id %>
+                        </span>
+                      </div>
+                      <div id="proConNickname">
+                        <span id="proConNicknameTag">Nickname</span>
+                        <span id="proConNicknameSpan">
+                          <%= pU.nickname %>
+                        </span>
+                      </div>
+                      <div id="proConEmail">
+                        <span id="proConEmailTag">Email</span>
+                        <span id="proConEmailSpan">
+                          <%= pU.email %>
+                        </span>
+                      </div>
+                      <% if (pU.id===cU.id) { %>
+                        <div id="proConEditBtn">Edit</div>
+                        <% } %>
+                    </div>
+              </div>
+            </div>
+            <div id="contentSection">
+              <div id="arrayMenuDiv">
+                <div id="menuIndicator"></div>
+                <div id="wPMenuDiv"><span id="wPMenuSpan">Written postcards</span></div>
+                <% if (pU.id===cU.id) { %>
+                  <div id="sPMenuDiv"><span id="sPMenuSpan">Saved Postcards</span></div>
+                  <% } %>
+              </div>
+              <% const filterWPost=pUP.filter(postcard=> postcard.isDeleted === false); %>
+              <% const sortedWPost=filterWPost.sort((a, b)=> b.time.localeCompare(a.time)); %>
+              <% const filterSPost=bP.filter(postcard=> postcard.isDeleted === false); %>
+              <% const sortedSPost=filterSPost.reverse(); %>
+                  <div id="resultDiv">
+                    <div id="totalResult">
+                      <span id="totalResultInfo">Total of <span id="writtenPostsCount">
+                          <%= pU.postList.length %>
+                        </span>
+                        <% if (pU.id===cU.id) { %>
+                          <span id="bookmarkPostsCount">
+                            <%= pU.bookmarkPosts.length %>
+                          </span>
+                          <% } %> Postcards
+                        </span>
+                        <% if (pU.id===cU.id) { %>
+                        <span id="bookmarkArrayInfo">
+                          Saved Postcards are listed in the order you recently saved them
+                        </span>
+                        <% } %>
+                    </div>
+                    <div id="wPostArrayDiv">
+                      <% if (sortedWPost.length===0) { %>
+                        <div class="wPostArray">
+                          <div class="wPostNo"><span>No Postcards written yet</span></div>
+                        </div>
+                        <% } else { %>
+                          <% for (var i=0; i < sortedWPost.length; i++) { %>
+                          <div class="wPostArray">
+                            <div class="wPostAt">
+                              <span>#<%= sortedWPost[i]._id %></span>
+                              <span class="wPostAtitle" data-id="<%= sortedWPost[i]._id %>"><%= sortedWPost[i].title %></span>
+                              <span>
+                                <%= luxon.DateTime.fromISO(sortedWPost[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                              </span></div>
+                            <div class="wPostAInfo">
+                              <span>like <%= sortedWPost[i].like %></span>
+                              <span>comment <%= sortedWPost[i].comment %></span>
+                              <span>views <%= sortedWPost[i].views %></span>
+                            </div>
+                              <% if (pU.id ===cU.id) { %>
+                              <div class="wPostAdi"><span class="wPostAdBtn">
+                                <i class="fa-regular fa-trash-can"
+                                data-id="<%= sortedWPost[i]._id %>" style="color: rgba(255, 0, 0, .5);"></i></span></div>
+                              <% } %>
+                          </div>
+                          <% } %>
+                          <% } %>
+                        </div>
+                        <% if (pU.id===cU.id) { %>
+                          <div id="sPostArrayDiv">
+                            <% if (sortedSPost.length===0) { %>
+                              <div class="sPostArray">
+                                <div class="sPostNo"><span>No Postcards saved yet</span></div>
+                              </div>
+                              <% } else { %>
+                                <% for (var i=0; i < sortedSPost.length; i++) { %>
+                            <div class="sPostArray">
+                              <div class="sPostAt">
+                                <span>#<%= sortedSPost[i]._id %></span>
+                                <span class="sPostAtitle" data-id="<%= sortedSPost[i]._id %>"><%= sortedSPost[i].title %></span>
+                                <span><%= sortedSPost[i].writer %></span>
+                                <span>
+                                  <%= luxon.DateTime.fromISO(sortedSPost[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                                  </span></div>
+                              <div class="sPostInfo">
+                                <span>like <%= sortedSPost[i].like %></span>
+                                <span>comment <%= sortedSPost[i].comment %></span>
+                                <span>views <%= sortedSPost[i].views %></span>
+                              </div>
+                              <div class="sPostAsi"><span>
+                                <% const bookmarkPosts=cU.bookmarkPosts.includes(sortedSPost[i]._id); %>
+                                <% if (bookmarkPosts) { %>
+                                  <!-- 이미 세이브 했던 게시물일 경우 -->
+                                  <i class="fa-solid fa-bookmark bookmarkBtn" data-id="<%= sortedSPost[i]._id %>"
+                                  style="color: #ececec;"></i>
+                                  <!-- 세이브 안 한 게시물 -->
+                                  <% } else if (!bookmarkPosts) { %>
+                                    <i class="fa-regular fa-bookmark bookmarkBtn" data-id="<%= sortedSPost[i]._id %>"
+                                      style="color: #ececec;"></i>
+                                    <% } %>
+                              </span></div>
+                            </div>
+                            <% } %>
+                            <% } %>
+                          </div>
+                          <% } %>
+                  </div>
+            </div>
+          </div>
+          <div id="rightSide"></div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+      <script src="/public/javascripts/search.js"></script>
+      <script src="/public/javascripts/personal.js"></script>
+</body>
+
+</html>

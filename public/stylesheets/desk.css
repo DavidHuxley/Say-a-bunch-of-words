@@ -1,0 +1,543 @@
+#DeskContainer {
+    width: calc(100vw - 200px);
+    height: auto;
+    display: grid;
+    margin-top: 3vh;
+    grid-template-areas:
+        'profileSection'
+        'contentSection';
+    grid-row-gap: 30px;
+}
+
+#profileSection {
+    grid-area: profileSection;
+    width: 1100px;
+    height: 300px;
+    display: grid;
+    grid-template-areas:
+        'profileImgDiv profileConDiv';
+    grid-template-columns: 300px auto;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: #2a2b38;
+    border: 2px solid #ececec;
+    position: relative;
+}
+
+#profileImgDiv {
+    grid-area: profileImgDiv;
+    width: 300px;
+    height: 300px;
+}
+
+#profileImgDiv::before {
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 300px;
+    width: 1px;
+    height: 220px;
+    background-color: rgba(236, 236, 236, .3);
+    z-index: 1;
+
+}
+
+#profileImgDiv img {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#profileConDiv {
+    grid-area: profileConDiv;
+    width: 800px;
+    height: 300px;
+}
+
+#profileContent {
+    width: 780px;
+    height: 280px;
+    padding: 5%;
+    display: grid;
+    grid-template-areas:
+        'proConId proConId'
+        'proConNickname proConNickname'
+        'proConEmail proConEditBtn';
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-items: center;
+    grid-row-gap: 30px;
+}
+
+#proConId {
+    grid-area: proConId;
+    width: 700px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+#proConIdTag {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    padding: 0 5px;
+    font-weight: 400;
+    font-size: 15px;
+    background-color: #2a2b38;
+}
+
+#proConIdSpan {
+    font-size: 20px;
+    font-weight: 500;
+    color: #ececec;
+    padding: 0 20px;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#proConDate{
+    position: absolute;
+    display: flex;
+    color: rgba(236, 236, 236, .3);
+    align-items: center;
+    justify-content: center;
+    top: 20px;
+    right: 30px;
+}
+
+#proConNickname {
+    grid-area: proConNickname;
+    width: 700px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+#proConNicknameTag {
+    position: absolute;
+    top: 107px;
+    left: 50px;
+    padding: 0 5px;
+    font-weight: 400;
+    font-size: 15px;
+    background-color: #2a2b38;
+}
+
+#proConNicknameSpan {
+    font-size: 20px;
+    font-weight: 500;
+    color: #ececec;
+    padding: 0 20px;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#proConEmail {
+    grid-area: proConEmail;
+    width: 630px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+#proConEmailTag {
+    position: absolute;
+    top: 182px;
+    left: 50px;
+    padding: 0 5px;
+    font-weight: 400;
+    font-size: 15px;
+    background-color: #2a2b38;
+}
+
+#proConEmailSpan {
+    font-size: 20px;
+    font-weight: 500;
+    color: #ececec;
+    padding: 0 20px;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#proConEditBtn {
+    grid-area: proConEditBtn;
+    width: 70px;
+    height: 40px;
+    font-weight: 600;
+    color: #ececec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ececec;
+    background-color: #2a2b38;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#proConEditBtn:hover {
+    background-color: #ececec;
+    color: #2a2b38;
+}
+
+
+#contentSection {
+    grid-area: contentSection;
+    width: 1100px;
+    height: auto;
+    display: grid;
+    grid-template-areas:
+        'contentMenuDiv'
+        'contentDiv';
+    grid-template-rows: 50px auto;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: #2a2b38;
+    border: 2px solid #ececec;
+    position: relative;
+}
+
+#arrayMenuDiv {
+    grid-area: contentMenuDiv;
+    width: 1100px;
+    height: 50px;
+    display: grid;
+    grid-template-areas:
+        'wPMenuDiv sPMenuDiv';
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+    grid-template-rows: 20px 30px auto;
+}
+
+#menuIndicator{
+    position: absolute;
+    top: 50px;
+    left: 533px;
+    width: 563px;
+    height: 1px;
+    background-color: #ececec;
+    z-index: 1;
+    transition: .25s ease-in-out;
+}
+
+
+#sPMenuDiv::before {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(30deg);
+    width: 1px;
+    height: 30px;
+    background-color: rgba(236, 236, 236, .3);
+}
+
+#wPMenuDiv {
+    grid-area: wPMenuDiv;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#wPMenuDiv span {
+    padding: 10px 20px;
+    transition: all 0.35s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    color: #ececec;
+}
+
+#sPMenuDiv {
+    grid-area: sPMenuDiv;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sPMenuDiv span {
+    padding: 10px 20px;
+    transition: all 0.35s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    color: rgba(236, 236, 236, .3);
+}
+
+
+#resultDiv {
+    grid-area: contentDiv;
+    width: 1100px;
+    height: auto;
+    display: grid;
+    margin: 0 auto;
+    grid-template-areas:
+        'resultSpan'
+        'resultContentDiv';
+    grid-template-rows: 50px auto;
+}
+
+#totalResult{
+    grid-area: resultSpan;
+    width: 1100px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#totalResultInfo{
+    padding: 0 0 0 25px;
+    justify-self: left;
+}
+
+#bookmarkArrayInfo {
+    opacity: 0;
+    padding: 0 25px 0 0;
+    justify-self: right;
+    font-size: 14px;
+    color: rgba(236, 236, 236, .3);
+    transition: .25s ease-in-out;
+}
+
+#wPostArrayDiv{
+    grid-area: resultContentDiv;
+    width: 1100px;
+    height: auto;
+    display:grid;
+}
+
+#bookmarkPostsCount{
+    display: none;
+}
+
+
+.wPostArray{
+    width: 1050px;
+    height: 50px;
+    display: grid;
+    grid-template-areas:
+        'wPostArrayTitle wPostArrayInfo wPostArrayDBtn';
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: 50px;
+    border-top: 1px solid rgba(236, 236, 236, .2);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.wPostNo{
+    margin: 0 auto;
+    width: 100%;
+    height: 50px;
+}
+
+.wPostNo span {
+    line-height: 50px;
+    font-size: 1rem;
+    color: rgba(236, 236, 236, .6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wPostAt{
+    grid-area: wPostArrayTitle;
+    max-width: 700px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 0 0 0 20px;
+    justify-self: left;
+}
+
+.wPostAt span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wPostAt :nth-child(1) {
+    min-width: 25px;
+    margin: 0 10px 0 0;
+    color: rgba(236, 236, 236, .5);
+}
+.wPostAt :nth-child(2) {
+    max-width: 500px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+}
+.wPostAt :nth-child(3) {
+    min-width: 125px;
+    color: rgba(236, 236, 236, .5);
+}
+
+.wPostAInfo{
+    grid-area: wPostArrayInfo;
+    max-width: 250px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    justify-self: end;
+    margin: 0 10px;
+}
+.wPostAInfo :nth-child(1){
+    margin: 0 10px 0 0;
+}
+.wPostAInfo :nth-child(2){
+    margin: 0 10px 0 0;
+}
+.wPostAInfo span{
+    color: rgba(236, 236, 236, .5);
+}
+
+.wPostAdi{
+    grid-area: wPostArrayDBtn;
+    max-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    justify-self: end;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#sPostArrayDiv{
+    grid-area: resultContentDiv;
+    width: 1100px;
+    height: auto;
+    display:none;
+}
+
+.sPostArray{
+    width: 1050px;
+    height: 50px;
+    display: grid;
+    grid-template-areas:
+        'sPostArrayTitle sPostArrayInfo sPostArrayDBtn';
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: 50px;
+    border-top: 1px solid rgba(236, 236, 236, .2);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.sPostNo{
+    margin: 0 auto;
+    width: 100%;
+    height: 50px;
+}
+
+.sPostNo span {
+    line-height: 50px;
+    font-size: 1rem;
+    color: rgba(236, 236, 236, .6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.sPostAt{
+    grid-area: sPostArrayTitle;
+    max-width: 750px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding: 0 0 0 20px;
+    justify-self: left;
+}
+
+.sPostAt span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sPostAt :nth-child(1) {
+    min-width: 25px;
+    margin: 0 10px 0 0;
+    color: rgba(236, 236, 236, .5);
+}
+.sPostAt :nth-child(2) {
+    max-width: 450px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+}
+.sPostAt :nth-child(3) {
+    min-width: auto;
+    color: rgba(236, 236, 236, .5);
+    cursor: pointer;
+    text-align: right;
+}
+.sPostAt :nth-child(4) {
+    min-width: 130px;
+    margin: 0 10px 0 10px;
+    color: rgba(236, 236, 236, .5);
+}
+
+
+
+.sPostInfo{
+    grid-area: sPostArrayInfo;
+    max-width: 250px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    justify-self: end;
+    margin: 0 10px;
+}
+
+.sPostInfo span {
+    color: rgba(236, 236, 236, .5);
+}
+
+.sPostInfo :nth-child(1){
+    margin: 0 10px 0 0;
+}
+.sPostInfo :nth-child(2){
+    margin: 0 10px 0 0;
+}
+
+.sPostAsi{
+    grid-area: sPostArrayDBtn;
+    max-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    justify-self: end;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 18px;
+}

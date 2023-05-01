@@ -99,6 +99,7 @@ const searchRouter = require('./routes/search.js');
 const detailRouter = require('./routes/detail.js');
 const upDownRouter = require('./routes/upDown.js');
 const deleteRouter = require('./routes/delete.js');
+const personalRouter = require('./routes/personal.js');
 
 app.use('/', signInUpRouter);
 app.use('/', sessionCheck, mainRouter);
@@ -109,49 +110,4 @@ app.use('/', sessionCheck, searchRouter);
 app.use('/', sessionCheck, detailRouter);
 app.use('/', sessionCheck, upDownRouter);
 app.use('/', sessionCheck, deleteRouter);
-
-
-// 글 삭제
-
-app.delete('/delete', (req, res) => {
-    console.log(req.body)
-    req.body._id = parseInt(req.body._id);
-
-    var deleteData = { _id : req.body._id}
-
-    DB.collection('POST').deleteOne( deleteData ,(error,result) =>{
-        console.log('delete complete');
-        if (error) {console.log(error)}
-        res.status(200).send();
-    });
-
-});
-
-
-// 글 수정
-
-app.get('/edit/:id', (req, res) => {
-    DB.collection('POST').findOne({_id : parseInt(req.params.id)}, (error, result) => {
-        // console.log(result);
-        if(result == null) {
-            res.status(404).send('404 Not Found');
-        } else {
-            res.render('edit.ejs', { data : result});
-        }
-    });
-});
-
-app.put('/edit', (req, res)=> {
-    DB.collection('POST').updateOne(
-        {_id : parseInt(req.body.id)},
-     {$set : { title: req.body.title , content: req.body.content }},
-     (error, result) => {
-        // console.log('complete');
-        res.redirect('/');
-    })
-})
-
-app.get('/mypage', (req, res) => {
-    // console.log(req.user)
-    res.render('mypage.ejs', { user : req.user })
-})
+app.use('/', sessionCheck, personalRouter);

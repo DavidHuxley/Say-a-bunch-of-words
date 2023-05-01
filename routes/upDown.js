@@ -37,7 +37,9 @@ router.post('/bookmarkUp', async (req, res) => {
     try{
         const postId = req.body.id;
         const userId = req.user._id;
+        const userid = req.user.id;
         await req.app.DB.collection('USER').updateOne({ _id: userId }, { $push: { bookmarkPosts: postId } });
+        await req.app.DB.collection('POST').updateOne({ _id: postId }, { $push: { bookmarkUsers: userid } });
         res.status(200).send();
     }
     catch (error) {
@@ -49,11 +51,16 @@ router.post('/bookmarkDown', async (req, res) => {
     try{
         const postId = req.body.id;
         const userId = req.user._id;
+        const userid = req.user.id;
         await req.app.DB.collection('USER').updateOne({ _id: userId }, { $pull: { bookmarkPosts: postId } });
-        res.status(200).send();
+        await req.app.DB.collection('POST').updateOne({ _id: postId }, { $pull: { bookmarkUsers: userid } });
+        
+        const bookmarkPostsCount = await req.app.DB.collection('USER').findOne({ _id: userId }).bookmarkPosts.length;
+        
+        res.status(200).json({ bookmarkPostsCount: bookmarkPostsCount });
     }
     catch (error) {
-        res.status(400).send('400 Bad Request');
+        res.status(400).send(error);
     }
 });
 
