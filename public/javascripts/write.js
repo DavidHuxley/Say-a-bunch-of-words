@@ -237,8 +237,8 @@ backContentText.addEventListener('keyup', function () {
 // axios /newpost post 요청 보내기
 const postBtn = document.getElementById("postBtn");
 postBtn.addEventListener("click", function () {
-    const frontTitle = document.getElementById("frontTitle").value;  // 120자 제한
-    const backContentText = document.getElementById("backContentText").value;   // 1000자 제한
+    const frontTitle = document.getElementById("frontTitle").value;  // 250자 제한
+    const backContentText = document.getElementById("backContentText").value;   // 2000자 제한
     const cardImgUpload = document.getElementById("cardImgUpload").style.backgroundImage;   // url(" , ") 포함
     // 샘플이미지 배열 생성 및 랜덤 인덱스 생성으로 랜덤 요소 선택하게 해줌
     const randomSample = [];
@@ -255,78 +255,91 @@ postBtn.addEventListener("click", function () {
         backContentText: backContentText,
         cardImgUrl: cardImgUrl
     };
-    // 작성 전 알림창
-    Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: `정말로 작성하시겠습니까?`,
-        text: `작성이 완료된 카드는 수정이 불가능합니다.`,
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonColor: 'rgb(160, 0, 0)',
-        cancelButtonColor: '#2a2b38',
-        confirmButtonText: '작성',
-        cancelButtonText: '취소'
-    }).then((result) => {
-        if (result.isConfirmed) {
+    if (!frontTitle) { // frontTitle이 없을 경우 알림창
 
-            axios.post("/newpost", data)
-                .then(function (response) {
-                    if (response.status === 200) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            html: `<strong>게시글 작성 성공!</strong>`,
-                            showConfirmButton: false,
-                            timerProgressBar: true,
-                            timer: 2000,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            },
-                            didClose: () => {
-                                location.href = "/main";
-                            }
-                        });
-                    }
-                }).catch(function (error) {
-                    if (error.response.status === 400) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            html: `<strong>게시글 작성 실패!</strong>`,
-                            showConfirmButton: false,
-                            timerProgressBar: true,
-                            timer: 2000,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'warning',
-                            title: `알수없는 오류가 발생했습니다!`,
-                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
-                            showConfirmButton: false,
-                            timerProgressBar: true,
-                            timer: 2000,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        });
-                    }
-                });
-        }
-    });
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: `카드 전면부는 공백이 불가능합니다`,
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+        })
+    } else {
+        // 작성 전 알림창
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: `정말로 작성하시겠습니까?`,
+            text: `작성이 완료된 카드는 수정이 불가능합니다.`,
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonColor: 'rgb(160, 0, 0)',
+            cancelButtonColor: '#2a2b38',
+            confirmButtonText: '작성',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.post("/newpost", data)
+                    .then(function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                html: `<strong>게시글 작성 성공!</strong>`,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                timer: 2000,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                },
+                                didClose: () => {
+                                    location.href = "/main";
+                                }
+                            });
+                        }
+                    }).catch(function (error) {
+                        if (error.response.status === 400) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                html: `<strong>게시글 작성 실패!</strong>`,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                timer: 2000,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'warning',
+                                title: `알수없는 오류가 발생했습니다!`,
+                                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                timer: 2000,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            });
+                        }
+                    });
+            }
+        });
+    }
 });
 
 // 현재 시간 표시
 const writeTime = document.getElementById('writeTime');
 function updateTime() {
-  const currentTime = DateTime.local().toFormat('yyyy-MM-dd HH:mm:ss');
-  writeTime.innerText = currentTime;
+    const currentTime = DateTime.local().toFormat('yyyy-MM-dd HH:mm:ss');
+    writeTime.innerText = currentTime;
 }
 setInterval(updateTime, 1000);
