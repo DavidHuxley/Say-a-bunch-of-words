@@ -54,8 +54,10 @@ router.post('/bookmarkDown', async (req, res) => {
         const userid = req.user.id;
         await req.app.DB.collection('USER').updateOne({ _id: userId }, { $pull: { bookmarkPosts: postId } });
         await req.app.DB.collection('POST').updateOne({ _id: postId }, { $pull: { bookmarkUsers: userid } });
-        
-        const bookmarkPostsCount = await req.app.DB.collection('USER').findOne({ _id: userId }).bookmarkPosts.length;
+
+
+        const userInfo = await req.app.DB.collection('USER').findOne({ id: userid });
+        const bookmarkPostsCount = userInfo.bookmarkPosts.length;
         
         res.status(200).json({ bookmarkPostsCount: bookmarkPostsCount });
     }
