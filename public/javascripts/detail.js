@@ -32,7 +32,7 @@ backBtnHeart.addEventListener('click', function () {
                 // 좋아요 수 업데이트
                 const postLikeCount = response.data.likeCount;
                 const backBtnSpanLike = document.querySelector('#backBtnSpanLike');
-                backBtnSpanLike.textContent = `좋아요 ${postLikeCount}`;
+                backBtnSpanLike.textContent = `like ${postLikeCount}`;
 
             })
             .catch(function (error) {
@@ -81,7 +81,7 @@ backBtnHeart.addEventListener('click', function () {
                 // 좋아요 수 업데이트
                 const postLikeCount = response.data.likeCount;
                 const backBtnSpanLike = document.querySelector('#backBtnSpanLike');
-                backBtnSpanLike.textContent = `좋아요 ${postLikeCount}`;
+                backBtnSpanLike.textContent = `like ${postLikeCount}`;
             })
             .catch(function (error) {
                 const Toast = Swal.mixin({
@@ -339,7 +339,7 @@ commentSubmitBtn.addEventListener('click', function () {
                 // 댓글 수 업데이트 
                 const postCommentCount = response.data.postCommentCount;
                 const backBtnSpanComment = document.querySelector('#backBtnSpanComment');
-                backBtnSpanComment.textContent = `댓글수 ${postCommentCount}`;
+                backBtnSpanComment.textContent = `comment ${postCommentCount}`;
 
                 // 댓글 작성 폼 초기화
                 commentEditContentText.value = '';
@@ -414,7 +414,7 @@ eventDelegation.addEventListener('click', function (event) {
                     // 좋아요 수 업데이트 
                     const commentLikeCount = response.data.likeCount;
                     const commentLikeCountSpan = commentLikeBtn.nextElementSibling;
-                    commentLikeCountSpan.textContent = `좋아요 ${commentLikeCount}`;
+                    commentLikeCountSpan.textContent = `like ${commentLikeCount}`;
 
 
                 })
@@ -464,7 +464,7 @@ eventDelegation.addEventListener('click', function (event) {
                     // 좋아요 수 업데이트
                     const commentLikeCount = response.data.likeCount;
                     const commentLikeCountSpan = commentLikeBtn.nextElementSibling;
-                    commentLikeCountSpan.textContent = `좋아요 ${commentLikeCount}`;
+                    commentLikeCountSpan.textContent = `like ${commentLikeCount}`;
                 })
                 .catch(function (error) {
                     const Toast = Swal.mixin({
@@ -524,7 +524,7 @@ eventDelegation.addEventListener('click', function (event) {
                         })
                         const postCommentCount = response.data.postCommentCount;
                         const backBtnSpanComment = document.querySelector('#backBtnSpanComment');
-                        backBtnSpanComment.textContent = `댓글수 ${postCommentCount}`;
+                        backBtnSpanComment.textContent = `comment ${postCommentCount}`;
                         commentDeleteBtn.parentElement.parentElement.parentElement.parentElement.remove();
                         const commentCard = document.getElementById('commentCard');
                         if (postCommentCount === 0) {

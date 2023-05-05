@@ -11,7 +11,7 @@
   <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
   <link rel="stylesheet" href="/public//stylesheets/main.css">
   <link rel="stylesheet" href="/public//stylesheets/search.css">
-  <link rel="stylesheet" href="/public/stylesheets/desk.css">
+  <link rel="stylesheet" href="/public/stylesheets/personal.css">
   <link rel="shortcut icon" href="/assets/icon/favi.ico">
 
   <title>Say a bunch of words</title>
@@ -41,7 +41,6 @@
                 <img id="profileImg" src=<%=pU.profileImg %>>
               </div>
               <div id="profileConDiv">
-                <!-- 현재 유저와 해당 페이지 유저가 일치 할 경우 -->
                 <% if (pU.id===cU.id) { %>
                   <span id="proConDate">join date: <%= luxon.DateTime.fromISO(pU.signUpDate).toFormat('yyyy-MM-dd HH:mm') %>
                       </span>
@@ -52,21 +51,57 @@
                         <span id="proConIdSpan">
                           <%= pU.id %>
                         </span>
+                        <% if (pU.id===cU.id) { %>
+                          <div id="DeletIdBtn">
+                            Delete Account
+                          </div>
+                          <% } %>
                       </div>
                       <div id="proConNickname">
                         <span id="proConNicknameTag">Nickname</span>
                         <span id="proConNicknameSpan">
                           <%= pU.nickname %>
                         </span>
+                        <% if (pU.id===cU.id) { %>
+                            <span id="proConNicknameEditTag">Nickname</span>
+                            <span id="proConNicknameEditSpan">
+                              <input type="text" id="proConNicknameEditInput" spellcheck="false" value=<%= pU.nickname %>>
+                              <i class="fa-solid fa-check" id="proConNicknameAvailCheckIcon"></i>
+                            </span>
+                            <div id="proConNicknameEditCheck">
+                              <span>Check availability
+                                <i class="fa-solid fa-check" id="proConNicknameDupliCheckIcon"></i>
+                              </span>
+                            </div>
+                          <% } %>
                       </div>
                       <div id="proConEmail">
                         <span id="proConEmailTag">Email</span>
                         <span id="proConEmailSpan">
+                          <% if (pU.emailVisibility == false && pU.id !== cU.id) { %>
+                        <span id="proConEmailView">
+                          Private Email address
+                          </span>
+                          <% } else if (pU.id === cU.id || pU.emailVisibility == true ) {%>
                           <%= pU.email %>
+                          <%  if (pU.id===cU.id && pU.emailVisibility == false) { %>
+                            <span class="proConEmailViewCheck">
+                              <i class="fa-solid fa-eye-slash"></i>
+                              <span>Private</span>
+                            </span>
+                            <% } else if (pU.id===cU.id && pU.emailVisibility == true) { %>
+                            <span class="proConEmailViewCheck">
+                              <i class="fa-solid fa-eye"></i>
+                              <span>Public</span>
+                            </span>
+                            <% } %>
+                          <% } %>
                         </span>
                       </div>
                       <% if (pU.id===cU.id) { %>
                         <div id="proConEditBtn">Edit</div>
+                        <div id="proConSaveBtn">Save</div>
+                        <span id="proConEditInfo">Only nickname and email visibility can be modified</span>
                         <% } %>
                     </div>
               </div>

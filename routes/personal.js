@@ -44,5 +44,21 @@ router.get('/@:nickname', async (req, res) => {
     }
 });
 
+router.post('/proConNicknameEditCheck', async (req, res) => {
+    try {
+        const nickname = req.body.nickname.toLowerCase();
+        const user = await req.app.DB.collection('USER').findOne({ nickname: nickname });
+        if (user) {
+            return res.status(200).json({ result: true });
+        } else {
+            return res.status(200).json({ result: false });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+
 
 module.exports = router;

@@ -65,6 +65,7 @@ router.post('/signup', async (req, res) => {
       nickname: idToLowerCase, // 닉네임, 대소문자 구분 안 함
       profileImg: defaultProfileImg, // 프로필 이미지
       isVerified: false, // 이메일 인증 여부
+      emailVisibility: false, // 이메일 공개 여부
       postList: [], // 작성한 게시물 목록
       commentList: [], // 작성한 댓글 목록
       likePosts: [], // 좋아요 누른 게시물 목록

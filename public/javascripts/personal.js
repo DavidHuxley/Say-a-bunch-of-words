@@ -119,19 +119,19 @@ wPostAdBtnArray.forEach((wPostAdBtn) => {
                         if (postCount == 0) {
                             const div = document.createElement("div");
                             div.classList.add("wPostArray");
-                          
+
                             const innerDiv = document.createElement("div");
                             innerDiv.classList.add("wPostNo");
-                          
+
                             const span = document.createElement("span");
                             span.textContent = "You have burned all the postcards you had written. Nothing is left..";
-                          
+
                             innerDiv.appendChild(span);
                             div.appendChild(innerDiv);
-                          
+
                             const parent = document.getElementById("wPostArrayDiv");
                             parent.appendChild(div);
-                          }
+                        }
                         // 삭제 하려는 게시글이 저장된 게시글일 경우 저장된 게시글에서도 해당 data-id를 가진 요소 삭제
                         const sPostAtitles = document.querySelectorAll('.sPostAtitle');
                         const sPostAtitleArray = Array.from(sPostAtitles);
@@ -145,19 +145,19 @@ wPostAdBtnArray.forEach((wPostAdBtn) => {
                                 if (bookmarkPostCount == 0) {
                                     const div = document.createElement("div");
                                     div.classList.add("sPostArray");
-                                  
+
                                     const innerDiv = document.createElement("div");
                                     innerDiv.classList.add("sPostNo");
-                                  
+
                                     const span = document.createElement("span");
                                     span.textContent = "The postcards you had saved have just turned into ashes, burned by you. How unfortunate..";
-                                  
+
                                     innerDiv.appendChild(span);
                                     div.appendChild(innerDiv);
-                                  
+
                                     const parent = document.getElementById("sPostArrayDiv");
                                     parent.appendChild(div);
-                                  }
+                                }
                             }
                         });
 
@@ -196,63 +196,222 @@ bookmarkBtnArray.forEach((bookmarkBtn) => {
         axios.post('/bookmarkDown', {
             id: postId
         })
-        .then(function (response) {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 1500,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+            .then(function (response) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'success',
+                    title: '북마크 취소!'
+                })
+                // 북마크 취소 성공시 해당 버튼의 부모 요소인 .sPostArray div 삭제
+                bookmarkBtn.parentElement.parentElement.parentElement.remove();
+                const bookmarkPostCount = response.data.bookmarkPostsCount;
+                bookmarkPostsCount.innerHTML = `${bookmarkPostCount}`;
+
+                if (bookmarkPostCount == 0) {
+                    const div = document.createElement("div");
+                    div.classList.add("sPostArray");
+
+                    const innerDiv = document.createElement("div");
+                    innerDiv.classList.add("sPostNo");
+
+                    const span = document.createElement("span");
+                    span.textContent = "The postcards you had saved have just turned into ashes, burned by you. How unfortunate..";
+
+                    innerDiv.appendChild(span);
+                    div.appendChild(innerDiv);
+
+                    const parent = document.getElementById("sPostArrayDiv");
+                    parent.appendChild(div);
                 }
             })
-            Toast.fire({
-                icon: 'success',
-                title: '북마크 취소!'
-            })
-            // 북마크 취소 성공시 해당 버튼의 부모 요소인 .sPostArray div 삭제
-            bookmarkBtn.parentElement.parentElement.parentElement.remove();
-            const bookmarkPostCount = response.data.bookmarkPostsCount;
-            bookmarkPostsCount.innerHTML = `${bookmarkPostCount}`;
-
-            if (bookmarkPostCount == 0) {
-                const div = document.createElement("div");
-                div.classList.add("sPostArray");
-
-                const innerDiv = document.createElement("div");
-                innerDiv.classList.add("sPostNo");
-
-                const span = document.createElement("span");
-                span.textContent = "The postcards you had saved have just turned into ashes, burned by you. How unfortunate..";
-
-                innerDiv.appendChild(span);
-                div.appendChild(innerDiv);
-
-                const parent = document.getElementById("sPostArrayDiv");
-                parent.appendChild(div);
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 1500,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-            Toast.fire({
-                icon: 'error',
-                title: `ERROR!`,
-                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
-            })
-        });
+            .catch(function (error) {
+                console.log(error);
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                Toast.fire({
+                    icon: 'error',
+                    title: `ERROR!`,
+                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                })
+            });
     });
 });
-                
+
+const proConNicknameEditInput = document.getElementById("proConNicknameEditInput");
+const proConNicknameEditTag = document.getElementById("proConNicknameEditTag");
+
+const proConEditBtn = document.getElementById("proConEditBtn");
+const proConSaveBtn = document.getElementById("proConSaveBtn");
+const proConEmailViewCheck = document.querySelectorAll(".proConEmailViewCheck");
+const proConNicknameEditSpan = document.getElementById("proConNicknameEditSpan");
+const proConNicknameEditCheck = document.getElementById("proConNicknameEditCheck");
+const DeletIdBtn = document.getElementById("DeletIdBtn");
+const proConEditInfo = document.getElementById("proConEditInfo");
+
+const proConNicknameTag = document.getElementById("proConNicknameTag");
+const proConNicknameSpan = document.getElementById("proConNicknameSpan");
+
+proConEditBtn.addEventListener('click', () => {
+    proConEditBtn.style.display = "none";
+    proConSaveBtn.style.display = "flex";
+    proConNicknameEditTag.style.display = "flex";
+    proConEmailViewCheck.forEach((proConEmailViewCheck) => {
+        proConEmailViewCheck.style.display = "inline";
+    });
+    proConNicknameEditSpan.style.display = "inline";
+    proConNicknameEditCheck.style.display = "flex";
+    DeletIdBtn.style.display = "flex";
+    proConEditInfo.style.display = "flex";
+    
+    proConNicknameTag.style.display = "none";
+    proConNicknameSpan.style.display = "none";
+});
+
+const nicknameRegex = /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,8}$/;
+const proConNicknameAvailCheckIcon = document.getElementById("proConNicknameAvailCheckIcon");
+const proConNicknameDupliCheckIcon = document.getElementById("proConNicknameDupliCheckIcon");
+
+let proConNicknameAvailCheckbox = true;
+let proConNicknameDupliCheckbox = true;
+
+proConNicknameEditInput.addEventListener('keyup', () => {
+    const inputValue = proConNicknameEditInput.value;
+    if (nicknameRegex.test(inputValue) && inputValue.toLowerCase() !== proConNicknameEditInput.defaultValue.toLowerCase()) {
+        proConNicknameAvailCheckIcon.style.color = "rgba(0, 255, 0, .8)"
+        proConNicknameAvailCheckbox = true;
+        proConNicknameAvailCheckbox = false;
+    } else if (nicknameRegex.test(inputValue) && inputValue.toLowerCase() === proConNicknameEditInput.defaultValue.toLowerCase()) {
+        proConNicknameAvailCheckIcon.style.color = "rgba(236, 236, 236, .8)"
+        proConNicknameAvailCheckbox = true;
+        proConNicknameAvailCheckbox = false;
+    } else {
+        proConNicknameAvailCheckIcon.style.color = "rgba(236, 236, 236, .4)" 
+        proConNicknameAvailCheckbox = false;
+        proConNicknameDupliCheckbox = false;
+    }
+});
+
+proConNicknameEditCheck.addEventListener('click', () => {
+    const inputValue = proConNicknameEditInput.value;
+    if (inputValue.toLowerCase() !== proConNicknameEditInput.defaultValue) {
+        if (nicknameRegex.test(inputValue)) {
+            axios.post('/proConNicknameEditCheck', {
+                nickname: inputValue
+            })
+                .then(function (response) {
+                    if (response.data.result == true) {
+                        proConNicknameDupliCheckIcon.style.color = "rgba(236, 236, 236, .4)";
+                        proConNicknameDupliCheckbox = false;
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'warning',
+                            title: `이미 사용중인 닉네임입니다.`,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            timer: 2000,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            },
+                            didClose: () => {
+                                proConNicknameEditInput.focus();
+                            }
+                        })
+                    } else if (response.data.result == false) {
+                        proConNicknameDupliCheckIcon.style.color = "rgba(0, 255, 0, .8)";
+                        proConNicknameDupliCheckbox = true;
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: `사용 가능한 닉네임입니다!`,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                            timer: 2000,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: `닉네임은 2~8자의 영문, 숫자, 한글만 사용 가능합니다.`,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                },
+                didClose: () => {
+                    proConNicknameEditInput.focus();
+                }
+            })
+            proConNicknameDupliCheckIcon.style.color = "rgba(236, 236, 236, .4)";
+            proConNicknameDupliCheckbox = false;
+        }
+    } else if (inputValue.toLowerCase() == proConNicknameEditInput.defaultValue.toLowerCase()) {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: `원래 사용하던 닉네임입니다.`,
+            html: `<strong>그대로 두셔도 무방합니다!</strong>`,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 2000,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            },
+            didClose: () => {
+                proConNicknameEditInput.focus();
+            }
+        })
+        proConNicknameDupliCheckIcon.style.color = "rgba(236, 236, 236, .8)";
+        proConNicknameDupliCheckbox = true;
+    }
+});
+
+
+// proConEmailViewCheck를 클릭했을때 첫번째 자식요소가 fa-eye-slash 클래스를 가지고 있으면 해당 클래스 지우고 fa-eye 추가
+// proConEmailViewCheck를 클릭했을때 첫번째 자식요소가 fa-eye 클래스를 가지고 있으면 해당 클래스 지우고 fa-eye-slash 추가
+proConEmailViewCheck.forEach((proConEmailViewCheck) => {
+    proConEmailViewCheck.addEventListener('click', () => {
+        const proConEmailViewCheckIcon = proConEmailViewCheck.firstElementChild;
+        const proConEmailViewCheckText = proConEmailViewCheck.lastElementChild;
+        if (proConEmailViewCheckIcon.classList.contains("fa-eye-slash")) {
+            proConEmailViewCheckIcon.classList.remove("fa-eye-slash");
+            proConEmailViewCheckIcon.classList.add("fa-eye");
+            proConEmailViewCheckText.innerText = "Public";
+        } else if (proConEmailViewCheckIcon.classList.contains("fa-eye")) {
+            proConEmailViewCheckIcon.classList.remove("fa-eye");
+            proConEmailViewCheckIcon.classList.add("fa-eye-slash");
+            proConEmailViewCheckText.innerText = "Private";
+        }
+    });
+});
