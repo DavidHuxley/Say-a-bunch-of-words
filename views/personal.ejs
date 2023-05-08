@@ -39,6 +39,15 @@
             <div id="profileSection">
               <div id="profileImgDiv">
                 <img id="profileImg" src=<%=pU.profileImg %>>
+                <% if (pU.id===cU.id) { %>
+                  <div id="profileImgEditBtn">Edit
+                    <input type="file" name="profileImg" accept=".jpg,.png,jpeg,.gif,.webp" id="profileImgInput">
+                  </div>
+                    <div id="profileImgBtnBox">
+                      <div id="profileImgUploadBtn">Upload Img</div>
+                      <div id="profileImgDeleteeBtn">Delete Img</div>
+                    </div>
+                  <% } %>
               </div>
               <div id="profileConDiv">
                 <% if (pU.id===cU.id) { %>
@@ -100,6 +109,7 @@
                       </div>
                       <% if (pU.id===cU.id) { %>
                         <div id="proConEditBtn">Edit</div>
+                        <div id="proConCancelBtn">Cancel</div>
                         <div id="proConSaveBtn">Save</div>
                         <span id="proConEditInfo">Only nickname and email visibility can be modified</span>
                         <% } %>

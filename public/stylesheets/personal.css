@@ -53,6 +53,70 @@
     transform: translate(-50%, -50%);
 }
 
+#profileImgInput {
+    display: none;
+}
+
+#profileImgEditBtn{
+    position: absolute;
+    bottom: 20px;
+    left: 230px;
+    font-weight: 600;
+    padding: 0 10px;
+    background-color: #2a2b38;
+    border: 1px solid #ececec;
+    color: #ececec;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    z-index: 2;
+}
+
+#profileImgEditBtn:hover{
+    background-color: #ececec;
+    color: #2a2b38;
+}
+
+#profileImgBtnBox{
+    position: absolute;
+    bottom: 10px;
+    left: 200px;
+    z-index: 2;
+    background-color: #2a2b38;
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
+    font-weight: 500;
+}
+
+#profileImgUploadBtn{
+    display: flex;
+    padding: 0 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+#profileImgUploadBtn:hover {
+    background-color: #ececec;
+    color: #2a2b38;
+}
+
+#profileImgDeleteeBtn{
+    display: flex;
+    padding: 0 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+#profileImgDeleteeBtn:hover {
+    background-color: #ececec;
+    color: #2a2b38;
+}
+
+
+
 #profileConDiv {
     grid-area: profileConDiv;
     width: 800px;
@@ -88,7 +152,7 @@
 
 #proConIdTag {
     position: absolute;
-    top: 30px;
+    top: 27px;
     left: 50px;
     padding: 0 5px;
     font-weight: 400;
@@ -107,6 +171,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 #DeletIdBtn {
@@ -149,7 +215,7 @@
 
 #proConNicknameTag {
     position: absolute;
-    top: 107px;
+    top: 104px;
     left: 50px;
     padding: 0 5px;
     font-weight: 400;
@@ -160,6 +226,7 @@
 
 #proConNicknameSpan {
     display: flex;
+    min-width: 120px;
     font-size: 20px;
     font-weight: 500;
     color: #ececec;
@@ -170,6 +237,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -235,7 +304,7 @@
     color: rgba(236, 236, 236, .8);
 }
 #proConNicknameDupliCheckIcon{
-    color: rgba(236, 236, 236, .8);
+    color: rgba(236, 236, 236, .4);
     padding: 0 0 0 10px;
 }
 
@@ -250,7 +319,7 @@
 
 #proConEmailTag {
     position: absolute;
-    top: 182px;
+    top: 179px;
     left: 50px;
     padding: 0 5px;
     font-weight: 400;
@@ -269,6 +338,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 #proConEmailView {
@@ -304,6 +375,29 @@
 }
 
 #proConEditBtn:hover {
+    background-color: #ececec;
+    color: #2a2b38;
+}
+
+#proConCancelBtn{
+    position: absolute;
+    bottom: 44px;
+    right: 120px;
+    width: 70px;
+    height: 40px;
+    font-weight: 600;
+    color: #ececec;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ececec;
+    background-color: #2a2b38;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: none;
+}
+
+#proConCancelBtn:hover {
     background-color: #ececec;
     color: #2a2b38;
 }

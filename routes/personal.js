@@ -59,6 +59,21 @@ router.post('/proConNicknameEditCheck', async (req, res) => {
     }
 });
 
+router.post('/proConEdit', async (req, res) => {
+    try {
+        const nickname = req.body.nickname.toLowerCase();
+        const emailView = req.body.emailView;
+        await req.app.DB.collection('USER').updateOne({ nickname: req.user.nickname }, { $set: { nickname: nickname, emailVisibility: emailView } });
+        await req.app.DB.collection('POST').updateMany({ writer: req.user.nickname }, { $set: { writer: nickname } });
+        await req.app.DB.collection('COMMENT').updateMany({ writer: req.user.nickname }, { $set: { writer: nickname } });
+
+        res.status(200).json({ result: true, nickname: nickname });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 
 module.exports = router;

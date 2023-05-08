@@ -39,4 +39,17 @@ router.post('/upload', async (req, res) => {
   })
 });
 
+// 프로필이미지 업로드
+router.post('/profileImgUpload', async (req, res) => {
+  upload.single('profileImgInput')(req, res, (err) => {
+    try {
+      const imageUrl = `/public/image/${req.filename}`;
+      req.app.DB.collection('USER').updateOne({ _id: req.user._id }, { $set: { profileImg: imageUrl } });
+      res.status(200).json({ imageUrl });
+    } catch (error) {
+      res.status(400).send();
+    }
+  })
+});
+
 module.exports = router;

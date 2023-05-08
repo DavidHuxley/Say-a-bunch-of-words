@@ -12,21 +12,46 @@ const bookmarkPostsCount = document.getElementById('bookmarkPostsCount');
 const bookmarkArrayInfo = document.getElementById('bookmarkArrayInfo');
 const menuIndicator = document.getElementById('menuIndicator');
 
+
+const profileImg = document.getElementById('profileImg');
+
+const profileImgEditBtn = document.getElementById('profileImgEditBtn');
+const profileImgBtnBox = document.getElementById('profileImgBtnBox');
+
+profileImgEditBtn.addEventListener('click', () => {
+    profileImgBtnBox.style.display = 'block';
+});
+
+// profileImgBtnBox block 상태일때 다른 곳 클릭시 none으로 변경
+document.addEventListener('click', (e) => {
+    if (e.target !== profileImgEditBtn) {
+        profileImgBtnBox.style.display = 'none';
+    }
+});
+
+
+if(!sPMenuSpan) {
+    menuIndicator.style.left = '0px';
+    menuIndicator.style.width = '1098px';
+    wPMenuSpan.style.cursor = 'default';
+}
+
 // wPMenuSpan 클릭에 따른 리스트 변경 이벤트
 wPMenuSpan.addEventListener('click', () => {
     wPMenuSpan.style.color = '#ececec';
-    sPMenuSpan.style.color = 'rgba(236, 236, 236, .3)';
     wPostArrayDiv.style.display = 'grid';
-    sPostArrayDiv.style.display = 'none';
     writtenPostsCount.style.display = 'inline';
+    if(sPMenuSpan) {
+    sPMenuSpan.style.color = 'rgba(236, 236, 236, .3)';
+    sPostArrayDiv.style.display = 'none';
     bookmarkPostsCount.style.display = 'none';
     bookmarkArrayInfo.style.opacity = '0';
     menuIndicator.style.left = '533px';
     menuIndicator.style.width = '563px';
+    }
 });
 
-
-// sPMenuSpan 클릭에 따른 리스트 변경 이벤트
+if (sPMenuSpan) {
 sPMenuSpan.addEventListener('click', () => {
     sPMenuSpan.style.color = '#ececec';
     wPMenuSpan.style.color = 'rgba(236, 236, 236, .3)';
@@ -37,7 +62,8 @@ sPMenuSpan.addEventListener('click', () => {
     bookmarkArrayInfo.style.opacity = '1';
     menuIndicator.style.left = '0px';
     menuIndicator.style.width = '533px';
-});
+})
+};
 
 // .fa-trash-can, .fa-bookmark hover 시 fa-fade 클래스 넣기
 const buttons = document.querySelectorAll('.fa-trash-can, .fa-bookmark');
@@ -261,6 +287,7 @@ const proConNicknameEditTag = document.getElementById("proConNicknameEditTag");
 
 const proConEditBtn = document.getElementById("proConEditBtn");
 const proConSaveBtn = document.getElementById("proConSaveBtn");
+const proConCancelBtn = document.getElementById("proConCancelBtn");
 const proConEmailViewCheck = document.querySelectorAll(".proConEmailViewCheck");
 const proConNicknameEditSpan = document.getElementById("proConNicknameEditSpan");
 const proConNicknameEditCheck = document.getElementById("proConNicknameEditCheck");
@@ -273,6 +300,7 @@ const proConNicknameSpan = document.getElementById("proConNicknameSpan");
 proConEditBtn.addEventListener('click', () => {
     proConEditBtn.style.display = "none";
     proConSaveBtn.style.display = "flex";
+    proConCancelBtn.style.display = "flex";
     proConNicknameEditTag.style.display = "flex";
     proConEmailViewCheck.forEach((proConEmailViewCheck) => {
         proConEmailViewCheck.style.display = "inline";
@@ -281,9 +309,11 @@ proConEditBtn.addEventListener('click', () => {
     proConNicknameEditCheck.style.display = "flex";
     DeletIdBtn.style.display = "flex";
     proConEditInfo.style.display = "flex";
-    
+
     proConNicknameTag.style.display = "none";
     proConNicknameSpan.style.display = "none";
+    proConNicknameDupliCheckIcon.style.color = "rgba(236, 236, 236, .4)"
+    proConNicknameAvailCheckIcon.style.color = "rgba(236, 236, 236, .8)"
 });
 
 const nicknameRegex = /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,8}$/;
@@ -295,18 +325,18 @@ let proConNicknameDupliCheckbox = true;
 
 proConNicknameEditInput.addEventListener('keyup', () => {
     const inputValue = proConNicknameEditInput.value;
+    // 닉네임 중복 체크
+    proConNicknameDupliCheckIcon.style.color = "rgba(236, 236, 236, .4)"
+    proConNicknameDupliCheckbox = false;
     if (nicknameRegex.test(inputValue) && inputValue.toLowerCase() !== proConNicknameEditInput.defaultValue.toLowerCase()) {
         proConNicknameAvailCheckIcon.style.color = "rgba(0, 255, 0, .8)"
         proConNicknameAvailCheckbox = true;
-        proConNicknameAvailCheckbox = false;
     } else if (nicknameRegex.test(inputValue) && inputValue.toLowerCase() === proConNicknameEditInput.defaultValue.toLowerCase()) {
         proConNicknameAvailCheckIcon.style.color = "rgba(236, 236, 236, .8)"
         proConNicknameAvailCheckbox = true;
-        proConNicknameAvailCheckbox = false;
     } else {
-        proConNicknameAvailCheckIcon.style.color = "rgba(236, 236, 236, .4)" 
+        proConNicknameAvailCheckIcon.style.color = "rgba(236, 236, 236, .4)"
         proConNicknameAvailCheckbox = false;
-        proConNicknameDupliCheckbox = false;
     }
 });
 
@@ -392,7 +422,7 @@ proConNicknameEditCheck.addEventListener('click', () => {
                 proConNicknameEditInput.focus();
             }
         })
-        proConNicknameDupliCheckIcon.style.color = "rgba(236, 236, 236, .8)";
+        proConNicknameDupliCheckIcon.style.color = "rgba(0, 255, 0, .8)";
         proConNicknameDupliCheckbox = true;
     }
 });
@@ -415,3 +445,209 @@ proConEmailViewCheck.forEach((proConEmailViewCheck) => {
         }
     });
 });
+
+proConSaveBtn.addEventListener('click', () => {
+    if (proConNicknameAvailCheckbox == true && proConNicknameDupliCheckbox == true) {
+        Swal.fire({
+            title: '저장하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'rgb(160, 0, 0)',
+            cancelButtonColor: '#2a2b38',
+            confirmButtonText: '저장',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post('/proConEdit', {
+                    nickname: proConNicknameEditInput.value,
+                    emailView: proConEmailViewCheck[0].firstElementChild.classList.contains("fa-eye-slash") ? 0 : 1
+                })
+                .then(function (response) {
+                        if (response.data.result == true) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: `저장되었습니다!`,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                timer: 2000,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                            location.href = `/@${response.data.nickname}`;
+
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: `저장에 실패했습니다.`,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                                timer: 2000,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                },
+                                didClose: () => {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                        Toast.fire({
+                            icon: 'error',
+                            title: `ERROR!`,
+                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                        })
+                    });
+            }
+        })
+    } else {
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: `닉네임 사용 가능여부를 확인해주세요.`,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 2000,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            },
+            didClose: () => {
+                proConNicknameEditInput.focus();
+            }
+        })
+    }
+});
+
+proConCancelBtn.addEventListener('click', () => {
+    proConEditBtn.style.display = "flex";
+    proConSaveBtn.style.display = "none";
+    proConCancelBtn.style.display = "none";
+    proConNicknameEditTag.style.display = "none";
+    proConNicknameEditInput.value = proConNicknameEditInput.defaultValue;
+
+    proConEmailViewCheck.forEach((proConEmailViewCheck) => {
+        proConEmailViewCheck.style.display = "none";
+    });
+    proConNicknameEditSpan.style.display = "none";
+    proConNicknameEditCheck.style.display = "none";
+    DeletIdBtn.style.display = "none";
+    proConEditInfo.style.display = "none";
+
+    proConNicknameTag.style.display = "flex";
+    proConNicknameSpan.style.display = "flex";
+});
+
+
+const profileImgUploadBtn = document.getElementById("profileImgUploadBtn");
+// profileImgUploadBtn 클릭시 profileImgInput 클릭
+profileImgUploadBtn.addEventListener('click', () => {
+    profileImgInput.click();
+});
+
+const profileImgInput = document.getElementById("profileImgInput");
+profileImgInput.addEventListener("change", function () {
+    // 파일을 선택했을 경우에만 아래 코드 실행
+    if (profileImgInput.value) {
+
+        let errorMsg = "";
+        // 선택된 파일이 PNG, JPG, JPEG, GIF, WEBP 확장자를 가졌는지 확인
+        const ext = profileImgInput.value.slice(profileImgInput.value.lastIndexOf(".") + 1).toLowerCase();
+        if (ext !== "jpg" && ext !== "jpeg" && ext !== "png" && ext !== "gif" && ext !== "webp") {
+            errorMsg += 'JPG, JPEG, PNG, GIF, WEBP 파일만 업로드 가능합니다.<br>';
+        } // 선택된 파일이 10mb를 초과하는지 확인
+        if (profileImgInput.files[0].size > 10 * 1024 * 1024) {
+            errorMsg += '10Mb 이하의 파일만 업로드 가능합니다.<br>';
+        } if (errorMsg) {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                html: `<strong>${errorMsg}</strong>`,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+            profileImgInput.value = "";
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("profileImgInput", profileImgInput.files[0]);
+
+        axios.post("/profileImgUpload", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(function (response) {
+            if (response.status === 200) {
+                const imageUrl = response.data.imageUrl;
+                profileImg.src = imageUrl;
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    html: `<strong>업로드 성공!</strong>`,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    timer: 2000,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+            }
+        }).catch(function (error) {
+            if (error.response.status === 400) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    html: `<strong>업로드 실패!</strong>`,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    timer: 2000,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+            } else {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: `알수없는 오류가 발생했습니다!`,
+                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    timer: 2000,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+            }
+        })
+    }
+});
+
+
+
