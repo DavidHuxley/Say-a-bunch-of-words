@@ -2,17 +2,23 @@ const router = require('express').Router();
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const uploadDir = path.join(__dirname, '../public/image');
+const postImgDir = path.join(__dirname, '../public/image/postImg');
+const profileImgDir = path.join(__dirname, '../public/image/profileImg');
 
 // 파일 업로드
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, uploadDir);
+      if (file.fieldname === 'cardImg') {
+        cb(null, postImgDir);
+      } else if (file.fieldname === 'profileImgInput') {
+        cb(null, profileImgDir);
+      }
     },
     filename: (req, file, cb) => {
       const ext = path.extname(file.originalname);
-      const filename = `${uuidv4()}${ext}`;
+      const userId = req.user.id;
+      const filename = `${userId}_${uuidv4()}${ext}`;
       req.filename = filename;
       cb(null, filename);
     },
@@ -31,7 +37,7 @@ const upload = multer({
 router.post('/upload', async (req, res) => {
   upload.single('cardImg')(req, res, (err) => {
     try {
-      const imageUrl = `/public/image/${req.filename}`;
+      const imageUrl = `/public/image/postImg/${req.filename}`;
       res.status(200).json({ imageUrl });
     } catch (error) {
       res.status(400).send();
@@ -43,7 +49,7 @@ router.post('/upload', async (req, res) => {
 router.post('/profileImgUpload', async (req, res) => {
   upload.single('profileImgInput')(req, res, (err) => {
     try {
-      const imageUrl = `/public/image/${req.filename}`;
+      const imageUrl = `/public/image/profileImg/${req.filename}`;
       req.app.DB.collection('USER').updateOne({ _id: req.user._id }, { $set: { profileImg: imageUrl } });
       res.status(200).json({ imageUrl });
     } catch (error) {
