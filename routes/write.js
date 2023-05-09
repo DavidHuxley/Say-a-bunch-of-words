@@ -36,7 +36,6 @@ router.post('/newpost', async (req, res) => {
 
             req.app.DB.collection('POST').insertOne(writer, (error, result) => {
                 if (error) return console.log(error);
-                console.log('post complete');
                 req.app.DB.collection('COUNT').updateOne(
                     { name: 'postNum' },
                     { $inc: { totalPost: 1 } },

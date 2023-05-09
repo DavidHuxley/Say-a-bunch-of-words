@@ -58,7 +58,11 @@
                       <div id="proConId">
                         <span id="proConIdTag">ID</span>
                         <span id="proConIdSpan">
-                          <%= pU.id %>
+                          <% if (pU.id === cU.id) { %>
+                            <%= pU.id %>
+                          <% } else { %>
+                            <%= pU.id.split('').map((char, i) => i % 2 === 0 ? char : '*').join('') %>
+                          <% } %>
                         </span>
                         <% if (pU.id===cU.id) { %>
                           <div id="DeletIdBtn">
