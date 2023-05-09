@@ -30,7 +30,7 @@ document.addEventListener('click', (e) => {
 });
 
 
-if(!sPMenuSpan) {
+if (!sPMenuSpan) {
     menuIndicator.style.left = '0px';
     menuIndicator.style.width = '1098px';
     wPMenuSpan.style.cursor = 'default';
@@ -41,28 +41,28 @@ wPMenuSpan.addEventListener('click', () => {
     wPMenuSpan.style.color = '#ececec';
     wPostArrayDiv.style.display = 'grid';
     writtenPostsCount.style.display = 'inline';
-    if(sPMenuSpan) {
-    sPMenuSpan.style.color = 'rgba(236, 236, 236, .3)';
-    sPostArrayDiv.style.display = 'none';
-    bookmarkPostsCount.style.display = 'none';
-    bookmarkArrayInfo.style.opacity = '0';
-    menuIndicator.style.left = '533px';
-    menuIndicator.style.width = '563px';
+    if (sPMenuSpan) {
+        sPMenuSpan.style.color = 'rgba(236, 236, 236, .3)';
+        sPostArrayDiv.style.display = 'none';
+        bookmarkPostsCount.style.display = 'none';
+        bookmarkArrayInfo.style.opacity = '0';
+        menuIndicator.style.left = '533px';
+        menuIndicator.style.width = '563px';
     }
 });
 
 if (sPMenuSpan) {
-sPMenuSpan.addEventListener('click', () => {
-    sPMenuSpan.style.color = '#ececec';
-    wPMenuSpan.style.color = 'rgba(236, 236, 236, .3)';
-    sPostArrayDiv.style.display = 'grid';
-    wPostArrayDiv.style.display = 'none';
-    writtenPostsCount.style.display = 'none';
-    bookmarkPostsCount.style.display = 'inline';
-    bookmarkArrayInfo.style.opacity = '1';
-    menuIndicator.style.left = '0px';
-    menuIndicator.style.width = '533px';
-})
+    sPMenuSpan.addEventListener('click', () => {
+        sPMenuSpan.style.color = '#ececec';
+        wPMenuSpan.style.color = 'rgba(236, 236, 236, .3)';
+        sPostArrayDiv.style.display = 'grid';
+        wPostArrayDiv.style.display = 'none';
+        writtenPostsCount.style.display = 'none';
+        bookmarkPostsCount.style.display = 'inline';
+        bookmarkArrayInfo.style.opacity = '1';
+        menuIndicator.style.left = '0px';
+        menuIndicator.style.width = '533px';
+    })
 };
 
 // .fa-trash-can, .fa-bookmark hover 시 fa-fade 클래스 넣기
@@ -343,7 +343,25 @@ proConNicknameEditInput.addEventListener('keyup', () => {
 proConNicknameEditCheck.addEventListener('click', () => {
     const inputValue = proConNicknameEditInput.value;
     if (inputValue.toLowerCase() !== proConNicknameEditInput.defaultValue) {
-        if (nicknameRegex.test(inputValue)) {
+        if (inputValue.toLowerCase().includes("admin") || inputValue.toLowerCase().includes("관리자") || inputValue.toLowerCase().includes("운영자")) {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: `금칙어가 포함되어 있습니다.`,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                },
+                didClose: () => {
+                    proConNicknameEditInput.focus();
+                }
+            })
+            proConNicknameDupliCheckIcon.style.color = "rgba(236, 236, 236, .4)";
+            proConNicknameDupliCheckbox = false;
+        } else if (nicknameRegex.test(inputValue)) {
             axios.post('/proConNicknameEditCheck', {
                 nickname: inputValue
             })
@@ -462,7 +480,7 @@ proConSaveBtn.addEventListener('click', () => {
                     nickname: proConNicknameEditInput.value,
                     emailView: proConEmailViewCheck[0].firstElementChild.classList.contains("fa-eye-slash") ? 0 : 1
                 })
-                .then(function (response) {
+                    .then(function (response) {
                         if (response.data.result == true) {
                             Swal.fire({
                                 position: 'center',
@@ -649,5 +667,57 @@ profileImgInput.addEventListener("change", function () {
     }
 });
 
-
-
+// profileImg 삭제(기본이미지로 돌림)
+const profileImgDeleteeBtn = document.getElementById("profileImgDeleteeBtn");
+profileImgDeleteeBtn.addEventListener('click', () => {
+    axios.post("/profileImgDelete", {
+        profileImgDelete: true
+    }).then(function (response) {
+        if (response.status === 200) {
+            const defaultProfileImg = '/assets/profile/defaultProfile.png';
+            profileImg.src = defaultProfileImg;
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `삭제 성공!`,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+        }
+    }).catch(function (error) {
+        if (error.response.status === 400) {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: `삭제 실패!`,
+                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+        } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: `알수없는 오류가 발생했습니다!`,
+                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                timer: 2000,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+        }
+    })
+});

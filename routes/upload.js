@@ -52,4 +52,15 @@ router.post('/profileImgUpload', async (req, res) => {
   })
 });
 
+// 프로필이미지 제거
+const defaultProfileImg = '/assets/profile/defaultProfile.png';
+router.post('/profileImgDelete', async (req, res) => {
+  try {
+    req.app.DB.collection('USER').updateOne({ _id: req.user._id }, { $set: { profileImg: defaultProfileImg } });
+    res.status(200).send();
+  } catch (error) {
+    res.status(400).send();
+  }
+});
+
 module.exports = router;
