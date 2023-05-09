@@ -2,6 +2,15 @@ const toBeDeveloped = $('.toBeDeveloped');
 const signInId = $('#signInId');
 const signInPw = $('#signInPw');
 
+// signInId, signInPw 포커스 바로 영문나오게 
+signInId.on('focus', function () {
+  signInId.attr('lang', 'en');
+});
+signInPw.on('focus', function () {
+  signInPw.attr('lang', 'en');
+});
+
+
 // signIn keyup 이벤트 핸들러 함수
 function signInKeyUp(event) {
   const target = event.target;
