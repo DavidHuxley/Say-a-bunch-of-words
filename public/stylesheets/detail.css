@@ -390,11 +390,12 @@ p {
     /* border: 1px solid red; */
 }
 .commentImg img {
-    width: 4vw;
+    width: 4vh;
     height: 4vh;
     border-radius: 50%;
     object-fit: cover;
     margin: 1vh 1vw;
+
 }
 
 .commentMain {

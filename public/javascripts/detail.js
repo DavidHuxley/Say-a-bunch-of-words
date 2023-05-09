@@ -326,9 +326,9 @@ commentSubmitBtn.addEventListener('click', function () {
                 })
 
 
-                //새로운 댓글을 가장 앞에 추가함
+                //새로운 댓글을 가장 마지막에 추가함
                 const commentsElement = document.querySelector('#commentCard');
-                commentsElement.insertBefore(newCommentElement, commentsElement.firstChild);
+                commentsElement.insertBefore(newCommentElement, commentsElement.lastChild);
 
                 // 만약 댓글이 하나도 없었다면 commentEmptyDiv 요소 안보이게 정리
                 if (document.querySelector('#commentEmptyDiv') !== null) {
@@ -638,14 +638,16 @@ $('#main').on('mouseenter', '#backBtnHeart, #backBtnBookmark, .commentLikeBtn, .
     $(this).removeClass('fa-fade');
 });
 
-// backBtnComment 버튼 클릭시 스크롤 댓글창으로 이동
-$('.backBtnComment').click(function () {
-    var scrollTo = $(document).height() - $(window).height();
 
-    $('html, body').animate({
-        scrollTop: scrollTo
-    }, 1000, 'easeInOutQuart');
-});
+// 댓글 하단 작성으로 변경으로 인해 우선 주석처리
+// backBtnComment 버튼 클릭시 스크롤 댓글창으로 이동
+// $('.backBtnComment').click(function () {
+//     var scrollTo = $(document).height() - $(window).height();
+
+//     $('html, body').animate({
+//         scrollTop: scrollTo
+//     }, 1000, 'easeInOutQuart');
+// });
 
 // 클릭시 상단으로 이동
 $('#commentSubmitBtn').click(function () {

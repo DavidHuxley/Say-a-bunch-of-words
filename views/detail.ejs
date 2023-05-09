@@ -149,7 +149,7 @@
           <div id="commentSection">
             <div id="commentCard">
               <% const filteredCOMMENT=COMMENT.filter(cmt=> cmt.isDeleted === false); %>
-                <% const sortedCOMMENT=filteredCOMMENT.sort((a, b)=> b.time.localeCompare(a.time)); %>
+                <% const sortedCOMMENT=filteredCOMMENT.sort((a, b)=> a.time.localeCompare(b.time)); %>
                 <% if (sortedCOMMENT.length===0) { %>
                 <div id="commentEmptyDiv">
                   <span>No one has commented on this postcard yet.</span>

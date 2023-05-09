@@ -340,10 +340,13 @@ proConNicknameEditInput.addEventListener('keyup', () => {
     }
 });
 
+// 금칙어 설정
+const unavailableWords = ["admin", "관리자", "운영자"];
+
 proConNicknameEditCheck.addEventListener('click', () => {
     const inputValue = proConNicknameEditInput.value;
     if (inputValue.toLowerCase() !== proConNicknameEditInput.defaultValue) {
-        if (inputValue.toLowerCase().includes("admin") || inputValue.toLowerCase().includes("관리자") || inputValue.toLowerCase().includes("운영자")) {
+        if (unavailableWords.some(words => inputValue.toLowerCase().includes(words))) {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',

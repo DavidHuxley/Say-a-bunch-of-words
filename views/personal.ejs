@@ -45,7 +45,7 @@
                   </div>
                     <div id="profileImgBtnBox">
                       <div id="profileImgUploadBtn">Upload Img</div>
-                      <div id="profileImgDeleteeBtn">Delete Img</div>
+                      <div id="profileImgDeleteeBtn">Remove Img</div>
                     </div>
                   <% } %>
               </div>
@@ -74,7 +74,7 @@
                         <% if (pU.id===cU.id) { %>
                             <span id="proConNicknameEditTag">Nickname</span>
                             <span id="proConNicknameEditSpan">
-                              <input type="text" id="proConNicknameEditInput" spellcheck="false" value=<%= pU.nickname %>>
+                              <input type="text" id="proConNicknameEditInput" spellcheck="false" autocomplete="off" value=<%= pU.nickname %>>
                               <i class="fa-solid fa-check" id="proConNicknameAvailCheckIcon"></i>
                             </span>
                             <div id="proConNicknameEditCheck">
