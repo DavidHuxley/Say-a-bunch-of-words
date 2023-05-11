@@ -90,7 +90,7 @@ signInBtn.addEventListener("click", function () {
     })
     .then(function (response) {
       // 처리 성공시 실행할 코드 작성
-      if (response.status === 200) {
+      if (response.data.result === 'success') {
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -106,8 +106,22 @@ signInBtn.addEventListener("click", function () {
               location.href = '/';
             }
           })
-        }
-      })
+        } else if (response.data.result === 'deletedAccount') {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: `탈퇴한 계정입니다!`,
+            html: `<strong>탈퇴한 계정은 복구할 수 없습니다.</strong>`,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            timer: 2000,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+        } 
+      }) 
       .catch(function (error) {
         if (error.response.status === 401)
         Swal.fire({

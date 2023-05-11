@@ -74,6 +74,31 @@ router.post('/proConEdit', async (req, res) => {
     }
 });
 
+router.post('/deleteAccount', async (req, res) => {
+    try {
+        
+        // POST 컬렉션에서 탈퇴 유저 게시글 삭제상태로 전환
+        await req.app.DB.collection('POST').updateMany({ writer: req.user.nickname }, { $set: { isDeleted: true } });
+        // COMMENT 컬렉션에서 탈퇴 유저 댓글 삭제상태로 전환
+        await req.app.DB.collection('COMMENT').updateMany({ writer: req.user.nickname }, { $set: { isDeleted: true } });
+        // COMMENT 컬렉션에서 탈퇴 유저가 댓글이 삭제상태로 전환될 때 해당 댓글이 달린 게시물의 id(postId)를 추출해서 JSON 배열로 저장
+        const deletedComment = await req.app.DB.collection('COMMENT').find({ writer: req.user.nickname }).toArray();
+        const deletedCommentPostId = [];
+        for (let i = 0; i < deletedComment.length; i++) {
+            deletedCommentPostId.push(deletedComment[i].postId);
+        }
+        for (let i = 0; i < deletedCommentPostId.length; i++) {
+            await req.app.DB.collection('POST').updateOne({ _id: deletedCommentPostId[i] }, { $inc: { comment: -1 } });
+        }
+
+        await req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $set: { isDeleted: true } });
+        await req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $set: { deletedAt: luxon.DateTime.local().toISO() } });
+        res.status(200).json({ result: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
 
 
 module.exports = router;

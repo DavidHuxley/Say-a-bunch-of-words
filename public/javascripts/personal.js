@@ -18,9 +18,11 @@ const profileImg = document.getElementById('profileImg');
 const profileImgEditBtn = document.getElementById('profileImgEditBtn');
 const profileImgBtnBox = document.getElementById('profileImgBtnBox');
 
-profileImgEditBtn.addEventListener('click', () => {
-    profileImgBtnBox.style.display = 'block';
-});
+if(profileImgEditBtn){
+    profileImgEditBtn.addEventListener('click', () => {
+        profileImgBtnBox.style.display = 'block';
+    });
+}
 
 // profileImgBtnBox block 상태일때 다른 곳 클릭시 none으로 변경
 document.addEventListener('click', (e) => {
@@ -721,6 +723,69 @@ profileImgDeleteeBtn.addEventListener('click', () => {
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
             });
+        }
+    })
+});
+
+
+// DeletIdBtn 클릭시 Swal.fire알람 후 axios.post '/deleteAccount' 요청 보내기
+
+DeletIdBtn.addEventListener('click', () => {
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: `정말로 계정을 삭제하시겠습니까?`,
+        html: `<strong>삭제된 계정은 복구할 수 없습니다!</strong>`,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonColor: 'rgb(160, 0, 0)',
+        cancelButtonColor: '#2a2b38',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post('/deleteAccount', {
+            }).then(function (response) {
+                // result가 true일때
+                if (response.data.result === true) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: `계정 삭제 성공!`,
+                        html: `<strong>이용해주셔서 감사합니다!</strong>`,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        timer: 1500,
+                    });
+                    setTimeout(() => {
+                        axios.get('/logout')
+                            .then(res => {
+                                if (res.status === 200) {
+                                        location.href = '/';
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+                    }, 2000);
+                }
+            }).catch(function (error) {
+                if (error.response.status === 500) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: `알수없는 오류가 발생했습니다!`,
+                        html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        timer: 2000,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                }
+            })
         }
     })
 });

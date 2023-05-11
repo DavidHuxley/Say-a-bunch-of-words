@@ -4,36 +4,26 @@ const bcrypt = require('bcrypt');
 const luxon = require('luxon');
 
 
-router.get('/', async (req, res) => {
-  try {
-    if (req.user) {
-      const [postResult, userResult] = await Promise.all([
-        req.app.DB.collection('POST').find().toArray(),
-        req.app.DB.collection('USER').find().toArray()
-      ]);
+//  '/'로 get 요청오면 자동으로 '/main'으로 리다이렉트
 
-      const currentUserResult = userResult.find(user => user.id === req.user.id);
-
-      res.render('main.ejs', { POST: postResult, USER: userResult, cUSER: currentUserResult, luxon: luxon });
-    } else {
-      res.render('signInUp.ejs');
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
+router.get('/', (req, res) => {
+  res.redirect('/main');
 });
 
 router.post('/signin', passport.authenticate('local', {
   failureFlash: true
 }), (req, res, next) => {
-  // 인증 성공
-  if (req.isAuthenticated()) {
+  // 회원탈퇴한 유저 체크
+  if (req.user && req.user.isDeleted === true) {
+    req.session.destroy();
+    return res.status(200).json({ result: 'deletedAccount' }); // 탈퇴한 유저 응답
+  } else if (req.isAuthenticated()) { //인증성공
     // 로그인 성공하면 COUNT 컬렉션에 로그인 횟수 1 증가
     req.app.DB.collection('COUNT').updateOne({ name: 'signInCount' }, { $inc: { totalcount: 1 } });
     req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $push: { signInlog: luxon.DateTime.local().toISO() } });
-    return res.status(200).send();
+    return res.status(200).json({ result: 'success' });
   }
+
   // 인증 실패
   return res.status(401).send(req.flash('error'));
 });
