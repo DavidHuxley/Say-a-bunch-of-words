@@ -11,6 +11,12 @@ $(document).ready(function () {
   });
 });
 
+$('.card').children().not('h4, span, i').hover(function () {
+  $(this).css('cursor', 'pointer');
+}, function () {
+  $(this).css('cursor', 'auto');
+});
+
 
 // 다른 요소 클릭 시 flipped 클래스 제거
 $(document).on('click', function (e) {

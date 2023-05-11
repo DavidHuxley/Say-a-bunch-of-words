@@ -103,6 +103,7 @@ signUpBtn.addEventListener("click", function () {
     // 회원가입 폼 유효성 검사 통과 시
     const emailField = document.getElementById("signUpEmail");
     const idField = document.getElementById("signUpId");
+    const passField = document.getElementById("signUpPw");
     const email = document.getElementById("signUpEmail").value;
     const id = document.getElementById("signUpId").value;
     const pw = document.getElementById("signUpPw").value;
@@ -115,6 +116,12 @@ signUpBtn.addEventListener("click", function () {
     }) // 회원가입 성공 시
       .then(function (response) {
         if (response.status === 200) {
+          emailField.value = '';
+          emailField.style.boxShadow = '';
+          idField.value = '';
+          idField.style.boxShadow = '';
+          passField.value = '';
+          passField.style.boxShadow = '';
           Swal.fire({
             position: 'center',
             icon: 'success',
