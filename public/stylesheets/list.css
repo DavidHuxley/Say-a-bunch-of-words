@@ -1,18 +1,19 @@
 #listDiv {
   margin: 1vh 1vw;
-  width: calc((100vw - 200px) - 2vw);
+  width: calc((100vw - 400px) - 2vw);
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(3, calc((100vw - 200px - 2vw) / 3));
+  grid-template-columns: repeat(3, calc((100vw - 400px - 2vw) / 3));
   justify-items: center;
 }
 
 .cardlist {
   display: flex;
-  width: calc((100vw - 200px - 2vw) / 3);
+  width: calc((100vw - 400px - 2vw) / 3);
   height: 20vh;
   position: relative;
   -webkit-perspective: 800;
+  -webkit-transition: -webkit-transform .5s;
   padding: 1vh 1vw;
 }
 
