@@ -44,7 +44,10 @@
               <% const sortedPOST=filteredPOST.sort((a, b)=> b.time.localeCompare(a.time)); %>
                 <% for (var i=0; i < sortedPOST.length; i++) { %>
                   <div class="cardlist">
-                    <div class="card">
+                    <% const postScore = sortedPOST[i].comment + sortedPOST[i].like * 2; %>
+                    <% const transparency = Math.min(1, Math.max(0, postScore / 100)).toFixed(2); %>
+                    <% const boxShadowColor = `rgba(255, 255, 204, ${transparency})`; %>
+                    <div class="card" style="box-shadow: 0px 0px 1vw 1vw <%= boxShadowColor %>">
                       <div class="front">
                         <div class="frontImg">
                           <img class="frontImg" src=<%=sortedPOST[i].img %>> </img>

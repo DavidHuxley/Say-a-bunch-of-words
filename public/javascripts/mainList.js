@@ -1,10 +1,9 @@
-
-// 카드 클릭 시 flipped 클래스 추가
+// 카드 클릭 시 scale클래스를 가지고 있다면 flipped 클래스 추가
 $(document).ready(function () {
   $('.card').click(function () {
     $(this).toggleClass('flipped');
   });
-
+  
   // 내부 요소 클릭 시 이벤트 전파 막기
   $('.card h4, .card span, .card i').click(function (event) {
     event.stopPropagation();
@@ -25,11 +24,11 @@ $(document).on('click', function (e) {
   }
 });
 
-// 카드 hover 시 그림자 효과
-$('.card').hover(function () {
-  $(this).css('box-shadow', '0 0 1vw 1vw rgba(236, 236, 238, 0.6)');
+// cardlist hover 시 scale 효과
+$('.cardlist').hover(function () {
+  $(this).css('transform', 'scale(1.05)');
 }, function () {
-  $(this).css('box-shadow', 'none');
+  $(this).css('transform', 'scale(1)');
 });
 
 // 카드가 fa-regular 클래스를 가지고 있을땐 아이콘 hover시 fade 효과
@@ -52,7 +51,6 @@ $('.writer').find('span').on('click', function() {
   const nickname = $(this).data('id');
   window.location.href = `/@${nickname}`;
 });
-
 
 
 const backBtnHeartList = document.querySelectorAll('.backBtnHeart');
