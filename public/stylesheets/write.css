@@ -1,5 +1,5 @@
 #wrap {
-    width: 80vw;
+    width: calc(100vw - 600px);
     height: 80vh;
     display: grid;
     margin: 0 auto;
@@ -9,7 +9,7 @@
 
 #writeBtnBundle {
     display: flex;
-    width: calc((100vw - 200px - 2vw) / 1.5);
+    width: calc((100vw - 600px - 2vw) / 1.5);
     height: 3vh;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .card {
-    width: calc((100vw - 200px - 2vw) / 1.5);
+    width: calc((100vw - 600px - 2vw) / 1.5);
     height: 30vh;
     -webkit-transform-style: preserve-3d;
     -webkit-transition: -webkit-transform .7s;
@@ -130,7 +130,7 @@
     overflow: hidden;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
 }
 
 

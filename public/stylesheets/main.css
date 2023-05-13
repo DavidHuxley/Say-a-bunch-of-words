@@ -76,18 +76,18 @@ body::-webkit-scrollbar-track {
 
 #leftSide {
     grid-area: leftSide;
-    width: 200px;
+    width: 300px;
     height: auto;
 }
 
 #rightSide {
     grid-area: rightSide;
-    width: 200px;
+    width: 300px;
     height: auto;
 }
 
 #main {
     grid-area: main;
-    width: calc(100vw - 400px);
+    width: calc(100vw - 600px);
     height: auto;
 }
