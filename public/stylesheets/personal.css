@@ -535,21 +535,6 @@
         'resultContentDiv';
     grid-template-rows: 50px auto;
     overflow-x: hidden;
-    overflow-y: auto;
-}
-
-#resultDiv::-webkit-scrollbar {
-    width: 3px;
-}
-
-#resultDiv::-webkit-scrollbar-thumb {
-    background-color: #ececec;
-    border-radius: 10px;
-}
-
-#resultDiv::-webkit-scrollbar-track {
-    background-color: #2a2b38;
-    border-radius: 10px;
 }
 
 
@@ -580,6 +565,7 @@
     width: 1100px;
     height: auto;
     display:grid;
+    overflow-y: auto;
 }
 
 #bookmarkPostsCount{
@@ -685,6 +671,7 @@
     width: 1100px;
     height: auto;
     display:none;
+    overflow-y: auto;
 }
 
 .sPostArray{

@@ -16,10 +16,18 @@
 }
 
 :root {
+    --scrollbar-width: 5px;
+    --scrollbar-thumb-color: #ececec;
+    --scrollbar-thumb-radius: 10px;
+    --scrollbar-track-color: #2a2b38;
+    --scrollbar-track-radius: 10px;
+
     --confirm-button-color: #a5dc86;
     --cancel-button-color: #1f2029;
     --background-color: #2a2b38;
   }
+
+  /* swal2 스타일 통일 */
   .swal2-confirm {
     background-color: var(--confirm-button-color) !important;
     color: #2a2b38 !important;
@@ -36,6 +44,21 @@
   .swal2-styled:focus {
     box-shadow: none !important;
     outline: none !important;
+  }
+
+  /* 스크롤바 스타일 통일 */
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: var(--scrollbar-thumb-radius);
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track-color);
+    border-radius: var(--scrollbar-track-radius);
   }
 
 
