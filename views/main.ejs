@@ -134,7 +134,9 @@
                   </div>
                   <% } %>
           </div>
-          <div id="seeMore"></div>
+          <% if (sortedPOST.length >= 12) { %>
+            <div id="seeMore"></div>
+            <% } %>
         </div>
         <div id="rightSide"></div>
       </div>

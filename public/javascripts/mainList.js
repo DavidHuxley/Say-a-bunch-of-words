@@ -1,5 +1,3 @@
-// seeMore로 인한 신규 DOM요소 생기므로 이벤트 위임을 통해 이벤트 처리
-const eventDelegation = document.querySelector('#main');
 
 // card 클릭 시 flipped 클래스 추가
 $(document).on('click', '.card', function() {
@@ -66,107 +64,118 @@ $(document).on('click', '.writer span:first-child', function() {
   window.location.href = `/@${nickname}`;
 });
 
-
-const backBtnHeartList = document.querySelectorAll('.backBtnHeart');
 const backBtnBookmarkList = document.querySelectorAll('.backBtnBookmark');
 
-backBtnHeartList.forEach((backBtnHeart) => {
-  backBtnHeart.addEventListener('click', function () {
-    const postId = this.dataset.id; // 해당 버튼의 데이터 속성에서 게시물 ID를 가져옴
+// seeMore로 인한 신규 DOM요소 생기므로 이벤트 위임을 통해 이벤트 처리
+const eventDelegation = document.querySelector('#main');
+
+eventDelegation.addEventListener('click', function (event) {
+  if (event.target.classList.contains('backBtnHeart')) {
+    const postId = event.target.dataset.id;
+    const backBtnHeart = event.target;
+
     if (backBtnHeart.classList.contains('fa-regular')) {
-      axios.post('/likeUp', {
-        id: postId
-      })
-      .then(function (response) {
+      axios
+        .post('/likeUp', {
+          id: postId,
+        })
+        .then(function (response) {
           backBtnHeart.classList.remove('fa-regular');
           backBtnHeart.classList.add('fa-solid');
           backBtnHeart.style.color = '#FE5F55';
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
 
           Toast.fire({
             icon: 'success',
-            title: '좋아요 완료!'
-          })
+            title: 'Liked the postcard!',
+          });
         })
         .catch(function (error) {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
 
           Toast.fire({
             icon: 'error',
             title: `ERROR!`,
-            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
-          })
+            html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
+          });
         });
     } else if (backBtnHeart.classList.contains('fa-solid')) {
-      axios.post('/likeDown', {
-        id: postId
-      })
+      axios
+        .post('/likeDown', {
+          id: postId,
+        })
         .then(function (response) {
           backBtnHeart.classList.remove('fa-solid');
           backBtnHeart.classList.add('fa-regular');
           backBtnHeart.style.color = '#ECECEC';
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
 
           Toast.fire({
             icon: 'success',
-            title: '좋아요 취소!'
-          })
+            title: 'Uniked the postcard!',
+          });
         })
         .catch(function (error) {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+          });
 
           Toast.fire({
             icon: 'error',
             title: `ERROR!`,
-            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
-          })
+            html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
+          });
         });
     }
-  });
+  }
 });
-backBtnBookmarkList.forEach((backBtnBookmark) => {
-  backBtnBookmark.addEventListener('click', function () {
-    const postId = this.dataset.id; // 해당 버튼의 데이터 속성에서 게시물 ID를 가져옴
+
+// bookmark 이벤트 위임처리
+
+
+eventDelegation.addEventListener('click', function (event) {
+  if (event.target.classList.contains('backBtnBookmark')) {
+    const postId = event.target.dataset.id;
+    const backBtnBookmark = event.target;
+
     if (backBtnBookmark.classList.contains('fa-regular')) {
       axios.post('/bookmarkUp', {
         id: postId
@@ -176,7 +185,7 @@ backBtnBookmarkList.forEach((backBtnBookmark) => {
           backBtnBookmark.classList.add('fa-solid');
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
@@ -188,13 +197,13 @@ backBtnBookmarkList.forEach((backBtnBookmark) => {
 
           Toast.fire({
             icon: 'success',
-            title: '북마크 완료!'
+            title: 'Postcard saved!'
           })
         })
         .catch(function (error) {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
@@ -207,7 +216,7 @@ backBtnBookmarkList.forEach((backBtnBookmark) => {
           Toast.fire({
             icon: 'error',
             title: `ERROR!`,
-            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+            html: `<strong>issue : https://github.com/DavidHuxley</strong>`
           })
         });
     } else if (backBtnBookmark.classList.contains('fa-solid')) {
@@ -219,7 +228,7 @@ backBtnBookmarkList.forEach((backBtnBookmark) => {
           backBtnBookmark.classList.add('fa-regular');
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
@@ -231,13 +240,13 @@ backBtnBookmarkList.forEach((backBtnBookmark) => {
 
           Toast.fire({
             icon: 'success',
-            title: '북마크 취소!'
+            title: 'Postcard unsaved!'
           })
         })
         .catch(function (error) {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 1500,
             timerProgressBar: true,
@@ -250,18 +259,20 @@ backBtnBookmarkList.forEach((backBtnBookmark) => {
           Toast.fire({
             icon: 'error',
             title: `ERROR!`,
-            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+            html: `<strong>issue : https://github.com/DavidHuxley</strong>`
           })
         });
     }
-  });
+  }
 });
 
 // 클라이언트에서 seeMore 버튼 클릭 시 실행되는 함수
-function handleSeeMore() {
+function handleSeeMore(btnId) {
+
   seeMoreClickCount++;
   const count = seeMoreClickCount;
 
+  if (btnId === 'seeMore') {
   axios.post('/seeMore', {
     count: count
   })
@@ -278,7 +289,7 @@ function handleSeeMore() {
       seeMoreBtn.style.display = 'none';
       const Toast = Swal.mixin({
         toast: true,
-        position: 'top',
+        position: 'bottom-end',
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,
@@ -287,17 +298,59 @@ function handleSeeMore() {
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
       })
-
+      
       Toast.fire({
         icon: 'info',
-        title: '더 이상 게시글이 없습니다'
+        title: 'No more postcards!'
       })
     }
-
+    
   })
   .catch(function (error) {
     console.log(error);
   });
+  } else if (btnId === 'searchSeeMore') {
+
+    const searchValue = document.querySelector('#searchSeeMore').dataset.id;
+
+    axios.post('/searchSeeMore', {
+      count: count,
+      searchValue: searchValue
+    })
+    .then(function (response) {
+      // 받아온 데이터를 이용하여 DOM 요소 생성
+      const newPosts = createDOMElements(response.data);
+  
+      // 생성된 DOM 요소를 기존의 게시글 목록에 추가
+      const listDiv = document.querySelector('.listDiv');
+      listDiv.appendChild(newPosts);
+  
+      // 받아온 데이터가 12개 미만이면 seeMore 버튼을 숨김
+      if (response.data.POST.length < 12) {
+        searchSeeMoreBtn.style.display = 'none';
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'bottom-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'info',
+          title: 'No more postcards!'
+        })
+      }
+      
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 }
 
 // 받아온 데이터를 이용하여 DOM 요소를 생성하는 함수
@@ -308,7 +361,6 @@ function createDOMElements(data) {
   const sortedPOST = data.POST;
   const USER = data.USER;
   const cUSER = data.cUSER;
-  const Luxon = data.Luxon;
 
   // 데이터를 반복하여 DOM 요소 생성
   sortedPOST.forEach(sortedPOST => {
@@ -405,5 +457,13 @@ function createDOMElements(data) {
 
 // seeMore 버튼에 클릭 이벤트 리스너 추가
 const seeMoreBtn = document.getElementById('seeMore');
+const searchSeeMoreBtn = document.getElementById('searchSeeMore');
 let seeMoreClickCount = 0;
-seeMoreBtn.addEventListener('click', handleSeeMore);
+
+if (seeMoreBtn) {
+  seeMoreBtn.addEventListener('click', () => handleSeeMore('seeMore'));
+}
+
+if (searchSeeMoreBtn) {
+  searchSeeMoreBtn.addEventListener('click', () => handleSeeMore('searchSeeMore'));
+}

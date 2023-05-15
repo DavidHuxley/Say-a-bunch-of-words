@@ -43,7 +43,7 @@
       <div id="mainSection">
         <div id="leftSide"></div>
         <div id="main">
-          <div id="listDiv">
+          <div class="listDiv">
             <!-- 삭제된 게시글 보여주지 않음 -->
             <% const filteredPOST=POST.filter(post=> post.isDeleted === false); %>
               <!-- 최신글부터 보여주기 위해 작성시간순으로 내림차순 소트함 -->
@@ -130,6 +130,9 @@
                   </div>
                   <% } %>
           </div>
+          <% if (sortedPOST.length >= 12) { %>
+            <div id="searchSeeMore" data-id=<%= searchValue %>></div>
+            <% } %>
         </div>
         <div id="rightSide"></div>
       </div>
