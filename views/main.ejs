@@ -39,7 +39,7 @@
       <div id="mainSection">
         <div id="leftSide"></div>
         <div id="main">
-          <div id="listDiv">
+          <div class="listDiv">
             <% const filteredPOST=POST.filter(post=> post.isDeleted === false); %>
               <% const sortedPOST=filteredPOST.sort((a, b)=> b.time.localeCompare(a.time)); %>
                 <% for (var i=0; i < sortedPOST.length; i++) { %>
@@ -134,6 +134,7 @@
                   </div>
                   <% } %>
           </div>
+          <div id="seeMore"></div>
         </div>
         <div id="rightSide"></div>
       </div>
