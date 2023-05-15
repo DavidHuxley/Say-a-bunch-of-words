@@ -51,12 +51,12 @@ signInBtn.addEventListener("click", function () {
   
   if (!signInId.val()) {
     signInId.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '아이디를 입력하세요.<br>';
+    errorMsg += 'Please enter your ID.<br>';
   }
   
   if (!signInPw.val()) {
     signInPw.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '비밀번호를 입력하세요.<br>';
+    errorMsg += 'Please enter your PW.<br>';
   }
   if (errorMsg) {
     Swal.fire({
@@ -94,7 +94,7 @@ signInBtn.addEventListener("click", function () {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: `로그인 성공!`,
+          title: `Sign in success!`,
           showConfirmButton: false,
           timerProgressBar: true,
           timer: 2000,
@@ -110,8 +110,8 @@ signInBtn.addEventListener("click", function () {
           Swal.fire({
             position: 'center',
             icon: 'error',
-            title: `탈퇴한 계정입니다!`,
-            html: `<strong>탈퇴한 계정은 복구할 수 없습니다.</strong>`,
+            title: `This account has been recently deleted`,
+            html: `<strong>You can't recover a withdrawn account.</strong>`,
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 2000,
@@ -127,8 +127,8 @@ signInBtn.addEventListener("click", function () {
         Swal.fire({
           position: 'center',
           icon: 'error',
-          title: `로그인 실패!`,
-          html: `<strong>아이디 또는 비밀번호가 틀렸습니다.</strong><br><strong>비밀번호는 대소문자를 구분합니다.</strong>`,
+          title: `Sign in failed`,
+          html: `<strong>Invalid ID or password.</strong><br><strong>Passwords are case-sensitive.</strong>`,
           showConfirmButton: false,
           timerProgressBar: true,
           timer: 2000,
@@ -149,7 +149,7 @@ toBeDeveloped.each(function () {
     Swal.fire({
       position: 'center',
       icon: 'warning',
-      title: `추후 추가 예정입니다!`,
+      title: `It will be developed later!`,
       showConfirmButton: false,
       timerProgressBar: true,
       timer: 2000,

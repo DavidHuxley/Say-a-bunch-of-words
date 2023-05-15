@@ -111,13 +111,13 @@ wPostAdBtnArray.forEach((wPostAdBtn) => {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: `정말로 삭제하시겠습니까?`,
+            title: `Are you sure you want to delete it?`,
             showCancelButton: true,
             showConfirmButton: true,
             confirmButtonColor: 'rgb(160, 0, 0)',
             cancelButtonColor: '#2a2b38',
-            confirmButtonText: '삭제',
-            cancelButtonText: '취소'
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.post('/postDelete', {
@@ -126,7 +126,7 @@ wPostAdBtnArray.forEach((wPostAdBtn) => {
                     .then(function (response) {
                         const Toast = Swal.mixin({
                             toast: true,
-                            position: 'top-end',
+                            position: 'bottom-end',
                             showConfirmButton: false,
                             timer: 1500,
                             timerProgressBar: true,
@@ -137,7 +137,7 @@ wPostAdBtnArray.forEach((wPostAdBtn) => {
                         })
                         Toast.fire({
                             icon: 'success',
-                            title: '삭제 완료!'
+                            title: 'Deleted!'
                         })
                         // 삭제 성공시 해당 버튼의 부모요소인 .wPostArray div 삭제
                         postDeleteBtn.parentElement.parentElement.parentElement.remove();
@@ -193,7 +193,7 @@ wPostAdBtnArray.forEach((wPostAdBtn) => {
                     .catch(function (error) {
                         const Toast = Swal.mixin({
                             toast: true,
-                            position: 'top-end',
+                            position: 'bottom-end',
                             showConfirmButton: false,
                             timer: 1500,
                             timerProgressBar: true,
@@ -206,7 +206,7 @@ wPostAdBtnArray.forEach((wPostAdBtn) => {
                         Toast.fire({
                             icon: 'error',
                             title: `ERROR!`,
-                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                            html: `<strong>issue : https://github.com/DavidHuxley</strong>`
                         })
                     })
             }
@@ -227,7 +227,7 @@ bookmarkBtnArray.forEach((bookmarkBtn) => {
             .then(function (response) {
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -238,7 +238,7 @@ bookmarkBtnArray.forEach((bookmarkBtn) => {
                 })
                 Toast.fire({
                     icon: 'success',
-                    title: '북마크 취소!'
+                    title: 'Postcard Unsaved!'
                 })
                 // 북마크 취소 성공시 해당 버튼의 부모 요소인 .sPostArray div 삭제
                 bookmarkBtn.parentElement.parentElement.parentElement.remove();
@@ -266,7 +266,7 @@ bookmarkBtnArray.forEach((bookmarkBtn) => {
                 console.log(error);
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -278,7 +278,7 @@ bookmarkBtnArray.forEach((bookmarkBtn) => {
                 Toast.fire({
                     icon: 'error',
                     title: `ERROR!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                    html: `<strong>issue : https://github.com/DavidHuxley</strong>`
                 })
             });
     });
@@ -352,7 +352,7 @@ proConNicknameEditCheck.addEventListener('click', () => {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: `금칙어가 포함되어 있습니다.`,
+                title: `Your nickname contains a disallowed word. Please check again`,
                 showConfirmButton: false,
                 timerProgressBar: true,
                 timer: 2000,
@@ -377,7 +377,7 @@ proConNicknameEditCheck.addEventListener('click', () => {
                         Swal.fire({
                             position: 'center',
                             icon: 'warning',
-                            title: `이미 사용중인 닉네임입니다.`,
+                            title: `The nickname is already in use.`,
                             showConfirmButton: false,
                             timerProgressBar: true,
                             timer: 2000,
@@ -395,7 +395,7 @@ proConNicknameEditCheck.addEventListener('click', () => {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: `사용 가능한 닉네임입니다!`,
+                            title: `The nickname is available!`,
                             showConfirmButton: false,
                             timerProgressBar: true,
                             timer: 2000,
@@ -413,7 +413,7 @@ proConNicknameEditCheck.addEventListener('click', () => {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: `닉네임은 2~8자의 영문, 숫자, 한글만 사용 가능합니다.`,
+                title: `Nicknames can only be 2-8 characters long and can only contain letters, numbers, and Korean characters.`,
                 showConfirmButton: false,
                 timerProgressBar: true,
                 timer: 2000,
@@ -432,8 +432,8 @@ proConNicknameEditCheck.addEventListener('click', () => {
         Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `원래 사용하던 닉네임입니다.`,
-            html: `<strong>그대로 두셔도 무방합니다!</strong>`,
+            title: `This is your original nickname.`,
+            html: `<strong>It's okay to leave it as it is.</strong>`,
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 2000,
@@ -472,13 +472,13 @@ proConEmailViewCheck.forEach((proConEmailViewCheck) => {
 proConSaveBtn.addEventListener('click', () => {
     if (proConNicknameAvailCheckbox == true && proConNicknameDupliCheckbox == true) {
         Swal.fire({
-            title: '저장하시겠습니까?',
+            title: 'Do you want to save it?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'rgb(160, 0, 0)',
             cancelButtonColor: '#2a2b38',
-            confirmButtonText: '저장',
-            cancelButtonText: '취소'
+            confirmButtonText: 'Save',
+            cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.post('/proConEdit', {
@@ -490,7 +490,7 @@ proConSaveBtn.addEventListener('click', () => {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: `저장되었습니다!`,
+                                title: `Saved!`,
                                 showConfirmButton: false,
                                 timerProgressBar: true,
                                 timer: 2000,
@@ -505,7 +505,7 @@ proConSaveBtn.addEventListener('click', () => {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'error',
-                                title: `저장에 실패했습니다.`,
+                                title: `Failed to save.`,
                                 showConfirmButton: false,
                                 timerProgressBar: true,
                                 timer: 2000,
@@ -523,7 +523,7 @@ proConSaveBtn.addEventListener('click', () => {
                         console.log(error);
                         const Toast = Swal.mixin({
                             toast: true,
-                            position: 'top-end',
+                            position: 'bottom-end',
                             showConfirmButton: false,
                             timer: 1500,
                             timerProgressBar: true,
@@ -535,7 +535,7 @@ proConSaveBtn.addEventListener('click', () => {
                         Toast.fire({
                             icon: 'error',
                             title: `ERROR!`,
-                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                            html: `<strong>issue : https://github.com/DavidHuxley</strong>`
                         })
                     });
             }
@@ -544,7 +544,7 @@ proConSaveBtn.addEventListener('click', () => {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: `닉네임 사용 가능여부를 확인해주세요.`,
+            title: `Please check the availability of nicknames.`,
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 2000,
@@ -594,10 +594,10 @@ profileImgInput.addEventListener("change", function () {
         // 선택된 파일이 PNG, JPG, JPEG, GIF, WEBP 확장자를 가졌는지 확인
         const ext = profileImgInput.value.slice(profileImgInput.value.lastIndexOf(".") + 1).toLowerCase();
         if (ext !== "jpg" && ext !== "jpeg" && ext !== "png" && ext !== "gif" && ext !== "webp") {
-            errorMsg += 'JPG, JPEG, PNG, GIF, WEBP 파일만 업로드 가능합니다.<br>';
+            errorMsg += 'Only JPG, JPEG, PNG, GIF, and WEBP files can be uploaded.<br>';
         } // 선택된 파일이 10mb를 초과하는지 확인
         if (profileImgInput.files[0].size > 10 * 1024 * 1024) {
-            errorMsg += '10Mb 이하의 파일만 업로드 가능합니다.<br>';
+            errorMsg += 'Only files up to 10Mb can be uploaded.<br>';
         } if (errorMsg) {
             Swal.fire({
                 position: 'center',
@@ -629,7 +629,7 @@ profileImgInput.addEventListener("change", function () {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    html: `<strong>업로드 성공!</strong>`,
+                    html: `<strong>Upload successful!</strong>`,
                     showConfirmButton: false,
                     timerProgressBar: true,
                     timer: 2000,
@@ -644,7 +644,7 @@ profileImgInput.addEventListener("change", function () {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    html: `<strong>업로드 실패!</strong>`,
+                    html: `<strong>Upload failed!</strong>`,
                     showConfirmButton: false,
                     timerProgressBar: true,
                     timer: 2000,
@@ -657,8 +657,8 @@ profileImgInput.addEventListener("change", function () {
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
-                    title: `알수없는 오류가 발생했습니다!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                    title: `An unknown error has occurred!`,
+                    html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
                     showConfirmButton: false,
                     timerProgressBar: true,
                     timer: 2000,
@@ -684,7 +684,7 @@ profileImgDeleteeBtn.addEventListener('click', () => {
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: `삭제 성공!`,
+                title: `Delete IMG!`,
                 showConfirmButton: false,
                 timerProgressBar: true,
                 timer: 2000,
@@ -699,8 +699,8 @@ profileImgDeleteeBtn.addEventListener('click', () => {
             Swal.fire({
                 position: 'center',
                 icon: 'error',
-                title: `삭제 실패!`,
-                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                title: `Failed to delete IMG!`,
+                html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
                 showConfirmButton: false,
                 timerProgressBar: true,
                 timer: 2000,
@@ -713,8 +713,8 @@ profileImgDeleteeBtn.addEventListener('click', () => {
             Swal.fire({
                 position: 'center',
                 icon: 'warning',
-                title: `알수없는 오류가 발생했습니다!`,
-                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                title: `An unknown error has occurred!`,
+                html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
                 showConfirmButton: false,
                 timerProgressBar: true,
                 timer: 2000,
@@ -734,14 +734,14 @@ DeletIdBtn.addEventListener('click', () => {
     Swal.fire({
         position: 'center',
         icon: 'warning',
-        title: `정말로 계정을 삭제하시겠습니까?`,
-        html: `<strong>삭제된 계정은 복구할 수 없습니다!</strong>`,
+        title: `Are you sure you want to delete the account?`,
+        html: `<strong>Deleted accounts cannot be recovered!</strong>`,
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonColor: 'rgb(160, 0, 0)',
         cancelButtonColor: '#2a2b38',
-        confirmButtonText: '삭제',
-        cancelButtonText: '취소'
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
             axios.post('/deleteAccount', {
@@ -751,8 +751,8 @@ DeletIdBtn.addEventListener('click', () => {
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: `계정 삭제 성공!`,
-                        html: `<strong>이용해주셔서 감사합니다!</strong>`,
+                        title: `Deleted your account`,
+                        html: `<strong>Thank you for using it</strong>`,
                         showConfirmButton: false,
                         timerProgressBar: true,
                         timer: 1500,
@@ -774,8 +774,8 @@ DeletIdBtn.addEventListener('click', () => {
                     Swal.fire({
                         position: 'center',
                         icon: 'warning',
-                        title: `알수없는 오류가 발생했습니다!`,
-                        html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                        title: `An unknown error has occurred!`,
+                        html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
                         showConfirmButton: false,
                         timerProgressBar: true,
                         timer: 2000,

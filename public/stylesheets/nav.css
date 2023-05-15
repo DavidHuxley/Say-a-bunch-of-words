@@ -206,7 +206,7 @@
 
 .nav ul li span:hover {
   text-decoration: none;
-  color: rgba(255, 0, 0, .5);
+  color: #1f2029;
 }
 
 .nav ul li span:after {

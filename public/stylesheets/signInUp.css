@@ -1,6 +1,29 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 @import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+:root {
+  --confirm-button-color: #a5dc86;
+  --cancel-button-color: #1f2029;
+  --background-color: #2a2b38;
+}
+.swal2-confirm {
+  background-color: var(--confirm-button-color) !important;
+  color: #2a2b38 !important;
+}
+.swal2-cancel {
+  background-color: var(--cancel-button-color) !important;
+  color: #ececec !important;
+}
+.swal2-popup {
+  background-color: var(--background-color) !important;
+  color: #ececec !important;
+}
+
+.swal2-styled:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;

@@ -19,11 +19,11 @@ cardImg.addEventListener("change", function () {
         const ext = cardImg.value.slice(cardImg.value.lastIndexOf(".") + 1).toLowerCase();
         if (ext !== "jpg" && ext !== "jpeg" && ext !== "png" && ext !== "gif" && ext !== "webp") {
             frontImg.style.boxShadow = "0 0 5px rgba(255, 0, 0, .8), inset 0 0 3px rgb(255, 0, 0, .5)";
-            errorMsg += 'JPG, JPEG, PNG, GIF, WEBP 파일만 업로드 가능합니다.<br>';
+            errorMsg += 'Only JPG, JPEG, PNG, GIF, and WEBP files can be uploaded.<br>';
         } // 선택된 파일이 10mb를 초과하는지 확인
         if (cardImg.files[0].size > 10 * 1024 * 1024) {
             frontImg.style.boxShadow = "0 0 5px rgba(255, 0, 0, .8), inset 0 0 3px rgb(255, 0, 0, .5)";
-            errorMsg += '10Mb 이하의 파일만 업로드 가능합니다.<br>';
+            errorMsg += 'Only files up to 10Mb can be uploaded.<br>';
         } if (errorMsg) {
             Swal.fire({
                 position: 'center',
@@ -63,7 +63,7 @@ cardImg.addEventListener("change", function () {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    html: `<strong>업로드 성공!</strong>`,
+                    html: `<strong>Upload successful!</strong>`,
                     showConfirmButton: false,
                     timerProgressBar: true,
                     timer: 2000,
@@ -85,7 +85,7 @@ cardImg.addEventListener("change", function () {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    html: `<strong>업로드 실패!</strong>`,
+                    html: `<strong>Upload failed!</strong>`,
                     showConfirmButton: false,
                     timerProgressBar: true,
                     timer: 2000,
@@ -98,8 +98,8 @@ cardImg.addEventListener("change", function () {
                 Swal.fire({
                     position: 'center',
                     icon: 'warning',
-                    title: `알수없는 오류가 발생했습니다!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                    title: `An unknown error has occurred!`,
+                    html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
                     showConfirmButton: false,
                     timerProgressBar: true,
                     timer: 2000,
@@ -153,7 +153,7 @@ frontTitle.addEventListener('keyup', function () {
         isAlerted = true;
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
@@ -165,13 +165,13 @@ frontTitle.addEventListener('keyup', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '이 이상은 리스트에서 봤을 때 생략될 가능성이 높습니다!'
+            title: 'If additional content is written, there is a higher likelihood of it being omitted in the list view!'
         })
     }
     if (len > 250) {
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
@@ -183,7 +183,7 @@ frontTitle.addEventListener('keyup', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '최대 작성 가능한 글자수는 250byte 입니다!'
+            title: 'Maximum character count is 250 bytes!'
         })
     }
 });
@@ -199,7 +199,7 @@ backContentText.addEventListener('keyup', function () {
         isAlerted2 = true;
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
@@ -211,13 +211,13 @@ backContentText.addEventListener('keyup', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '이 이상은 리스트에서 봤을 때 생략될 가능성이 높습니다!'
+            title: 'If additional content is written, there is a higher likelihood of it being omitted in the list view!'
         })
     }
     if (len > 2000) {
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
@@ -229,7 +229,7 @@ backContentText.addEventListener('keyup', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '최대 작성 가능한 글자수는 2000byte 입니다.'
+            title: 'Maximum character count is 2000 bytes!'
         })
     }
 });
@@ -260,7 +260,7 @@ postBtn.addEventListener("click", function () {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: `카드 전면부는 공백이 불가능합니다`,
+            title: `The front part of the postcard cannot be blank.`,
             showCancelButton: false,
             showConfirmButton: false,
             timer: 2000,
@@ -271,14 +271,14 @@ postBtn.addEventListener("click", function () {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: `정말로 작성하시겠습니까?`,
-            text: `작성이 완료된 카드는 수정이 불가능합니다.`,
+            title: `Are you sure you want to write that?`,
+            text: `Once you write it, you can't change it.`,
             showCancelButton: true,
             showConfirmButton: true,
             confirmButtonColor: 'rgb(160, 0, 0)',
             cancelButtonColor: '#2a2b38',
-            confirmButtonText: '작성',
-            cancelButtonText: '취소'
+            confirmButtonText: 'Write',
+            cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
 
@@ -288,7 +288,7 @@ postBtn.addEventListener("click", function () {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                html: `<strong>게시글 작성 성공!</strong>`,
+                                html: `<strong>Successfully created a postcard!</strong>`,
                                 showConfirmButton: false,
                                 timerProgressBar: true,
                                 timer: 2000,
@@ -306,7 +306,7 @@ postBtn.addEventListener("click", function () {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'error',
-                                html: `<strong>게시글 작성 실패!</strong>`,
+                                html: `<strong>Failed to create postcard!</strong>`,
                                 showConfirmButton: false,
                                 timerProgressBar: true,
                                 timer: 2000,
@@ -319,8 +319,8 @@ postBtn.addEventListener("click", function () {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'warning',
-                                title: `알수없는 오류가 발생했습니다!`,
-                                html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                                title: `An unknown error has occurred!`,
+                                html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
                                 showConfirmButton: false,
                                 timerProgressBar: true,
                                 timer: 2000,

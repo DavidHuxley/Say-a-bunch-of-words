@@ -15,6 +15,29 @@
     /* 한글 범위 */
 }
 
+:root {
+    --confirm-button-color: #a5dc86;
+    --cancel-button-color: #1f2029;
+    --background-color: #2a2b38;
+  }
+  .swal2-confirm {
+    background-color: var(--confirm-button-color) !important;
+    color: #2a2b38 !important;
+  }
+  .swal2-cancel {
+    background-color: var(--cancel-button-color) !important;
+    color: #ececec !important;
+  }
+  .swal2-popup {
+    background-color: var(--background-color) !important;
+    color: #ececec !important;
+  }
+
+  .swal2-styled:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
 
 html {
     overflow-x: hidden;

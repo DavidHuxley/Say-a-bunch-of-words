@@ -15,7 +15,7 @@ backBtnHeart.addEventListener('click', function () {
                 backBtnHeart.style.color = 'rgba(255, 0, 0, .5)';
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -27,7 +27,7 @@ backBtnHeart.addEventListener('click', function () {
 
                 Toast.fire({
                     icon: 'success',
-                    title: '좋아요 완료!'
+                    title: 'Liked the postcard!'
                 })
                 // 좋아요 수 업데이트
                 const postLikeCount = response.data.likeCount;
@@ -38,7 +38,7 @@ backBtnHeart.addEventListener('click', function () {
             .catch(function (error) {
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -51,7 +51,7 @@ backBtnHeart.addEventListener('click', function () {
                 Toast.fire({
                     icon: 'error',
                     title: `ERROR!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                    html: `<strong>Issue : https://github.com/DavidHuxley</strong>`
                 })
             });
     } else if (backBtnHeart.classList.contains('fa-solid')) {
@@ -64,7 +64,7 @@ backBtnHeart.addEventListener('click', function () {
                 backBtnHeart.style.color = '#ECECEC';
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -76,7 +76,7 @@ backBtnHeart.addEventListener('click', function () {
 
                 Toast.fire({
                     icon: 'success',
-                    title: '좋아요 취소!'
+                    title: 'Unliked the postcard!'
                 })
                 // 좋아요 수 업데이트
                 const postLikeCount = response.data.likeCount;
@@ -86,7 +86,7 @@ backBtnHeart.addEventListener('click', function () {
             .catch(function (error) {
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -99,7 +99,7 @@ backBtnHeart.addEventListener('click', function () {
                 Toast.fire({
                     icon: 'error',
                     title: `ERROR!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                    html: `<strong>Issue : https://github.com/DavidHuxley</strong>`
                 })
             });
     }
@@ -116,7 +116,7 @@ backBtnBookmark.addEventListener('click', function () {
                 backBtnBookmark.classList.add('fa-solid');
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -128,13 +128,13 @@ backBtnBookmark.addEventListener('click', function () {
 
                 Toast.fire({
                     icon: 'success',
-                    title: '북마크 완료!'
+                    title: 'Postcard saved!'
                 })
             })
             .catch(function (error) {
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -147,7 +147,7 @@ backBtnBookmark.addEventListener('click', function () {
                 Toast.fire({
                     icon: 'error',
                     title: `ERROR!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                    html: `<strong>Issue : https://github.com/DavidHuxley</strong>`
                 })
             });
     } else if (backBtnBookmark.classList.contains('fa-solid')) {
@@ -159,7 +159,7 @@ backBtnBookmark.addEventListener('click', function () {
                 backBtnBookmark.classList.add('fa-regular');
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -171,13 +171,13 @@ backBtnBookmark.addEventListener('click', function () {
 
                 Toast.fire({
                     icon: 'success',
-                    title: '북마크 취소!'
+                    title: 'Postcard unsaved!'
                 })
             })
             .catch(function (error) {
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 1500,
                     timerProgressBar: true,
@@ -190,7 +190,7 @@ backBtnBookmark.addEventListener('click', function () {
                 Toast.fire({
                     icon: 'error',
                     title: `ERROR!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                    html: `<strong>Issue : https://github.com/DavidHuxley</strong>`
                 })
             });
     }
@@ -207,7 +207,7 @@ commentEditContentText.addEventListener('keyup', function () {
         commentAlerted = true;
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
@@ -219,7 +219,7 @@ commentEditContentText.addEventListener('keyup', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '최대 작성 가능한 글자수는 1000byte 입니다!'
+            title: 'Maximum character count is 1000 bytes!'
         })
     }
 });
@@ -235,7 +235,7 @@ commentSubmitBtn.addEventListener('click', function () {
     if (content === '') {
         const Toast = Swal.mixin({
             toast: true,
-            position: 'top-end',
+            position: 'bottom-end',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,
@@ -247,7 +247,7 @@ commentSubmitBtn.addEventListener('click', function () {
 
         Toast.fire({
             icon: 'warning',
-            title: '아무런 내용이 없습니다!'
+            title: 'There is nothing!'
         })
     } else {
         axios.post('/comment', {
@@ -257,7 +257,7 @@ commentSubmitBtn.addEventListener('click', function () {
             .then(function (response) {
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true,
@@ -269,7 +269,7 @@ commentSubmitBtn.addEventListener('click', function () {
 
                 Toast.fire({
                     icon: 'success',
-                    title: '댓글 작성 완료!'
+                    title: 'Comment completed!'
                 })
 
                 // 새로운 댓글, 댓글 작성자 정보가져옴 
@@ -352,7 +352,7 @@ commentSubmitBtn.addEventListener('click', function () {
             .catch(function (error) {
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true,
@@ -365,7 +365,7 @@ commentSubmitBtn.addEventListener('click', function () {
                 Toast.fire({
                     icon: 'error',
                     title: `ERROR!`,
-                    html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                    html: `<strong>Issue : https://github.com/DavidHuxley</strong>`
                 })
                 console.log(error)
             });
@@ -397,7 +397,7 @@ eventDelegation.addEventListener('click', function (event) {
                     commentLikeBtn.style.color = 'rgba(255, 0, 0, .5)';
                     const Toast = Swal.mixin({
                         toast: true,
-                        position: 'top-end',
+                        position: 'bottom-end',
                         showConfirmButton: false,
                         timer: 1500,
                         timerProgressBar: true,
@@ -409,7 +409,7 @@ eventDelegation.addEventListener('click', function (event) {
 
                     Toast.fire({
                         icon: 'success',
-                        title: '좋아요 완료!'
+                        title: 'like it!'
                     })
                     // 좋아요 수 업데이트 
                     const commentLikeCount = response.data.likeCount;
@@ -421,7 +421,7 @@ eventDelegation.addEventListener('click', function (event) {
                 .catch(function (error) {
                     const Toast = Swal.mixin({
                         toast: true,
-                        position: 'top-end',
+                        position: 'bottom-end',
                         showConfirmButton: false,
                         timer: 1500,
                         timerProgressBar: true,
@@ -434,7 +434,7 @@ eventDelegation.addEventListener('click', function (event) {
                     Toast.fire({
                         icon: 'error',
                         title: `ERROR!`,
-                        html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                        html: `<strong>Issue : https://github.com/DavidHuxley</strong>`
                     })
                 });
         } else if (commentLikeBtn.classList.contains('fa-solid')) {
@@ -447,7 +447,7 @@ eventDelegation.addEventListener('click', function (event) {
                     commentLikeBtn.style.color = '#ececec';
                     const Toast = Swal.mixin({
                         toast: true,
-                        position: 'top-end',
+                        position: 'bottom-end',
                         showConfirmButton: false,
                         timer: 1500,
                         timerProgressBar: true,
@@ -459,7 +459,7 @@ eventDelegation.addEventListener('click', function (event) {
 
                     Toast.fire({
                         icon: 'success',
-                        title: '좋아요 취소!'
+                        title: 'unlike it!'
                     })
                     // 좋아요 수 업데이트
                     const commentLikeCount = response.data.likeCount;
@@ -469,7 +469,7 @@ eventDelegation.addEventListener('click', function (event) {
                 .catch(function (error) {
                     const Toast = Swal.mixin({
                         toast: true,
-                        position: 'top-end',
+                        position: 'bottom-end',
                         showConfirmButton: false,
                         timer: 1500,
                         timerProgressBar: true,
@@ -482,7 +482,7 @@ eventDelegation.addEventListener('click', function (event) {
                     Toast.fire({
                         icon: 'error',
                         title: `ERROR!`,
-                        html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                        html: `<strong>Issue : https://github.com/DavidHuxley</strong>`
                     })
                 });
         }
@@ -494,13 +494,13 @@ eventDelegation.addEventListener('click', function (event) {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: `정말로 삭제하시겠습니까?`,
+            title: `Are you sure you want to delete this?`,
             showCancelButton: true,
             showConfirmButton: true,
             confirmButtonColor: 'rgb(160, 0, 0)',
             cancelButtonColor: '#2a2b38',
-            confirmButtonText: '삭제',
-            cancelButtonText: '취소'
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.post('/commentDelete', {
@@ -509,7 +509,7 @@ eventDelegation.addEventListener('click', function (event) {
                     .then(function (response) {
                         const Toast = Swal.mixin({
                             toast: true,
-                            position: 'top-end',
+                            position: 'bottom-end',
                             showConfirmButton: false,
                             timer: 1500,
                             timerProgressBar: true,
@@ -520,7 +520,7 @@ eventDelegation.addEventListener('click', function (event) {
                         })
                         Toast.fire({
                             icon: 'success',
-                            title: '삭제 완료!'
+                            title: 'deleted!'
                         })
                         const postCommentCount = response.data.postCommentCount;
                         const backBtnSpanComment = document.querySelector('#backBtnSpanComment');
@@ -544,7 +544,7 @@ eventDelegation.addEventListener('click', function (event) {
                     .catch(function (error) {
                         const Toast = Swal.mixin({
                             toast: true,
-                            position: 'top-end',
+                            position: 'bottom-end',
                             showConfirmButton: false,
                             timer: 1500,
                             timerProgressBar: true,
@@ -557,7 +557,7 @@ eventDelegation.addEventListener('click', function (event) {
                         Toast.fire({
                             icon: 'error',
                             title: `ERROR!`,
-                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`
+                            html: `<strong>issue : https://github.com/DavidHuxley</strong>`
                         })
                     })
             }
@@ -569,13 +569,13 @@ eventDelegation.addEventListener('click', function (event) {
         Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: `정말로 삭제하시겠습니까?`,
+            title: `Are you sure you want to delete this?`,
             showCancelButton: true,
             showConfirmButton: true,
             confirmButtonColor: 'rgb(160, 0, 0)',
             cancelButtonColor: '#2a2b38',
-            confirmButtonText: '삭제',
-            cancelButtonText: '취소'
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
                 axios.post('/postDelete', {
@@ -586,7 +586,7 @@ eventDelegation.addEventListener('click', function (event) {
                             Swal.fire({
                                 position: 'center',
                                 icon: 'success',
-                                title: `삭제 완료!`,
+                                title: `deleted successfully!`,
                                 showConfirmButton: false,
                                 timerProgressBar: true,
                                 timer: 2000,
@@ -605,7 +605,7 @@ eventDelegation.addEventListener('click', function (event) {
                             position: 'center',
                             icon: 'error',
                             title: `ERROR!`,
-                            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+                            html: `<strong>Issue : https://github.com/DavidHuxley</strong>`,
                             timer: 2000,
                             timerProgressBar: true,
                             didOpen: (toast) => {

@@ -51,26 +51,26 @@ signUpBtn.addEventListener("click", function () {
 
   if (!emailField.val()) {
     emailField.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '이메일을 입력하세요.<br>';
+    errorMsg += 'Please enter your email.<br>';
   } else if (!emailRegExp.test(emailField.val())) {
     emailField.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '올바른 이메일 형식이 아닙니다.<br>';
+    errorMsg += 'Invalid email format.<br>';
   }
 
   if (!nameField.val()) {
     nameField.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '아이디를 입력하세요.<br>';
+    errorMsg += 'Please enter your ID.<br>';
   } else if (!nameRegExp.test(nameField.val())) {
     nameField.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '아이디는 영문, 숫자로만 구성되어야 하며, 6-10자여야 합니다.<br>';
+    errorMsg += 'The ID must consist of only alphanumeric characters and must be 6-10 characters.<br>';
   }
 
   if (!passField.val()) {
     passField.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '비밀번호를 입력하세요.<br>';
+    errorMsg += 'Please enter your PW.<br>';
   } else if (!passRegExp.test(passField.val())) {
     passField.css('box-shadow', '0 0 3px rgba(255, 0, 0, .8), inset 0 0 1px rgb(255, 0, 0, .5)');
-    errorMsg += '비밀번호는 영문, 숫자, 특수문자가 모두 포함되어야 하며, 8-12자여야 합니다. 대소문자를 구분하며 공백은 허용되지 않습니다.<br>';
+    errorMsg += 'PW must contain all alphanumeric characters, numbers, and special characters, and must be 8-12 characters. Case sensitive, no spaces allowed.<br>';
   }
 
   if (errorMsg) {
@@ -125,7 +125,7 @@ signUpBtn.addEventListener("click", function () {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `회원가입 성공!`,
+            title: `Sign up success!`,
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 2000,
@@ -142,7 +142,7 @@ signUpBtn.addEventListener("click", function () {
             Swal.fire({
               position: 'center',
               icon: 'warning',
-              title: `이미 가입된 이메일 입니다!`,
+              title: `This email has already been registered!`,
               showConfirmButton: false,
               timerProgressBar: true,
               timer: 2000,
@@ -161,7 +161,7 @@ signUpBtn.addEventListener("click", function () {
             Swal.fire({
               position: 'center',
               icon: 'warning',
-              title: `이미 사용중인 아이디 입니다!`,
+              title: `This ID has already been registered`,
               showConfirmButton: false,
               timerProgressBar: true,
               timer: 2000,
@@ -181,8 +181,8 @@ signUpBtn.addEventListener("click", function () {
           Swal.fire({
             position: 'center',
             icon: 'warning',
-            title: `알수없는 오류가 발생했습니다!`,
-            html: `<strong>이슈 : https://github.com/DavidHuxley</strong>`,
+            title: `An unknown error has occurred!`,
+            html: `<strong>issue : https://github.com/DavidHuxley</strong>`,
             showConfirmButton: false,
             timerProgressBar: true,
             timer: 2000,
