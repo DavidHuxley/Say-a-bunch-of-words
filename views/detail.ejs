@@ -82,7 +82,7 @@
                                 <%= timeAgo %>
                               </span>
                               <span id="writeTimeHover">
-                                <%= luxon.DateTime.fromISO(POST.time).toFormat('yyyy-MM-dd HH:mm') %>
+                                <%= luxon.DateTime.fromISO(POST.time).setZone('Asia/Seoul').toFormat('yyyy-MM-dd HH:mm') %>
                               </span>
                   </div>
                   <div id="frontContent">
@@ -201,7 +201,7 @@
                                       <%= timeAgo %>
                                     </span>
                                     <span class="commentTimeHover">
-                                      <%= luxon.DateTime.fromISO(sortedCOMMENT[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                                      <%= luxon.DateTime.fromISO(sortedCOMMENT[i].time).setZone('Asia/Seoul').toFormat('yyyy-MM-dd HH:mm') %>
                                     </span>
                                   </div>
                                 </div>

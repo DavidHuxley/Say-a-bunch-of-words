@@ -86,7 +86,7 @@
                                         <%= timeAgo %>
                                       </span>
                                       <span class="writeTimeHover">
-                                        <%= luxon.DateTime.fromISO(sortedPOST[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                                        <%= luxon.DateTime.fromISO(sortedPOST[i].time).setZone('Asia/Seoul').toFormat('yyyy-MM-dd HH:mm') %>
                                       </span>
                           </div>
                           <div class="frontContent">

@@ -51,7 +51,7 @@
               </div>
               <div id="profileConDiv">
                 <% if (pU.id===cU.id) { %>
-                  <span id="proConDate">join date: <%= luxon.DateTime.fromISO(pU.signUpDate).toFormat('yyyy-MM-dd HH:mm') %>
+                  <span id="proConDate">join date: <%= luxon.DateTime.fromISO(pU.signUpDate).setZone('Asia/Seoul').toFormat('yyyy-MM-dd HH:mm') %>
                       </span>
                   <% } %>
                     <div id="profileContent">
@@ -161,7 +161,7 @@
                               <span>#<%= sortedWPost[i]._id %></span>
                               <span class="wPostAtitle" data-id="<%= sortedWPost[i]._id %>"><%= sortedWPost[i].title %></span>
                               <span>
-                                <%= luxon.DateTime.fromISO(sortedWPost[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                                <%= luxon.DateTime.fromISO(sortedWPost[i].time).setZone('Asia/Seoul').toFormat('yyyy-MM-dd HH:mm') %>
                               </span></div>
                             <div class="wPostAInfo">
                               <span>like <%= sortedWPost[i].like %></span>
@@ -191,7 +191,7 @@
                                 <span class="sPostAtitle" data-id="<%= sortedSPost[i]._id %>"><%= sortedSPost[i].title %></span>
                                 <span><%= sortedSPost[i].writer %></span>
                                 <span>
-                                  <%= luxon.DateTime.fromISO(sortedSPost[i].time).toFormat('yyyy-MM-dd HH:mm') %>
+                                  <%= luxon.DateTime.fromISO(sortedSPost[i].time).setZone('Asia/Seoul').toFormat('yyyy-MM-dd HH:mm') %>
                                   </span></div>
                               <div class="sPostInfo">
                                 <span>like <%= sortedSPost[i].like %></span>

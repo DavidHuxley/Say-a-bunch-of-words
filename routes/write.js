@@ -18,7 +18,7 @@ router.get('/write', (req, res) => {
 router.post('/newpost', async (req, res) => {
     try {
         await req.app.DB.collection('COUNT').findOne({ name: 'postNum' }, (error, result) => {
-            const currentTime = DateTime.local().toISO();
+            const currentTime = DateTime.local().setZone('Asia/Seoul').toISO();
             var postNum = result.totalPost;
             var writer = {
                 _id: (postNum + 1).toString(), // 글 번호
@@ -67,7 +67,7 @@ router.post('/comment', async (req, res) => {
         const commentNum = commentNumResult.value.totalComment;
 
         // 댓글 쓰기
-        const currentTime = DateTime.local().toISO();
+        const currentTime = DateTime.local().setZone('Asia/Seoul').toISO();
         const commentWrite = {
             _id: (commentNum + 1).toString(),
             postId: req.body.id,

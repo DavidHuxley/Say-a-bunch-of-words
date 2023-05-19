@@ -92,7 +92,7 @@ router.post('/deleteAccount', async (req, res) => {
         }
 
         await req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $set: { isDeleted: true } });
-        await req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $set: { deletedAt: luxon.DateTime.local().toISO() } });
+        await req.app.DB.collection('USER').updateOne({ id: req.user.id }, { $set: { deletedAt: luxon.DateTime.local().setZone('Asia/Seoul').toISO() } });
         res.status(200).json({ result: true });
     } catch (err) {
         console.error(err);
