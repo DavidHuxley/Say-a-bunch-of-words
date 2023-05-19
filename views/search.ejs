@@ -57,27 +57,40 @@
                         </div>
                         <div class="frontText">
                           <div class="writingTime">
-                        <% const currentTime = luxon.DateTime.local().toISO(); %>
-                        <% const postTime = luxon.DateTime.fromISO(sortedPOST[i].time); %>
-                        <% const duration = luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
-                          <% let timeAgo = ''; %>
-                          <% if (duration.as('seconds') < 60) { 
-                            timeAgo = '방금 전';
-                          } else if (duration.as('minutes') < 60) {
-                            timeAgo = `${Math.floor(duration.as('minutes'))}분 전`;
-                          } else if (duration.as('hours') < 24) {
-                            timeAgo = `${Math.floor(duration.as('hours'))}시간 전`;
-                          } else if (duration.as('days') < 7) {
-                            timeAgo = `${Math.floor(duration.as('days'))}일 전`;
-                          } else if (duration.as('weeks') < 4) {
-                            timeAgo = `${Math.floor(duration.as('weeks'))}주 전`;
-                          } else if (duration.as('months') < 12) {
-                            timeAgo = `${Math.floor(duration.as('months'))}달 전`;
-                          } else {
-                            timeAgo = '오래 전';
-                          } %>
-                          <span>
-                            <%= timeAgo %>
+                            <% const currentTime=luxon.DateTime.local().setZone('Asia/Seoul').toISO(); %>
+                            <% const postTime=luxon.DateTime.fromISO(sortedPOST[i].time); %>
+                            <% const duration=luxon.DateTime.fromISO(currentTime).diff(luxon.DateTime.fromISO(postTime)); %>
+                            <% let timeAgo=''; %>
+                            <% if (duration.as('seconds') < 60) { timeAgo='just before'; } 
+                            else if (duration.as('minutes') < 60) { 
+                              const minutes = Math.floor(duration.as('minutes'));
+                              timeAgo = minutes === 1 ? `${minutes} minute ago` : `${minutes} minutes ago`; 
+                            } 
+                            else if (duration.as('hours') < 24) {
+                              const hours = Math.floor(duration.as('hours'));
+                              timeAgo = hours === 1 ? `${hours} hour ago` : `${hours} hours ago`; 
+                            } 
+                            else if (duration.as('days') < 7) { 
+                              const days = Math.floor(duration.as('days'));
+                              timeAgo = days === 1 ? `${days} day ago` : `${days} days ago`; 
+                            } 
+                            else if (duration.as('weeks') < 4) {
+                              const weeks = Math.floor(duration.as('weeks'));
+                              timeAgo = weeks === 1 ? `${weeks} week ago` : `${weeks} weeks ago`; 
+                            } 
+                            else if (duration.as('months') < 12) {
+                              const months = Math.floor(duration.as('months'));
+                              timeAgo = months === 1 ? `${months} month ago` : `${months} months ago`; 
+                            } 
+                            else {
+                              timeAgo = 'long time ago'; 
+                            } %>
+                                      <span class="writeTime">
+                                        <%= timeAgo %>
+                                      </span>
+                                      <span class="writeTimeHover">
+                                        <%= luxon.DateTime.fromISO(sortedPOST[i].time).setZone('Asia/Seoul').toFormat('yyyy-MM-dd HH:mm') %>
+                                      </span>
                           </div>
                           <div class="frontContent">
                             <h4>
@@ -85,13 +98,11 @@
                             </h4>
                           </div>
                           <div class="writer">
-                            <span>
+                            <span data-id="<%= sortedPOST[i].writer %>">
                               <%= sortedPOST[i].writer %>
                             </span>
                             <% const user=USER.find(u=> u.nickname === sortedPOST[i].writer); %>
-                              <% if (user) { %>
                                 <img src=<%=user.profileImg %>>
-                                <% } %>
                           </div>
                         </div>
                       </div>
