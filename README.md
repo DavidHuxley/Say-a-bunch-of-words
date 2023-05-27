@@ -18,6 +18,7 @@
 <a><img src="https://img.shields.io/badge/html5-2a2b38?style=for-the-badge&logo=html5&logoColor=E34F26"/></a>
 <a><img src="https://img.shields.io/badge/css3-2a2b38?style=for-the-badge&logo=css3&logoColor=1572B6"/></a>
 <a><img src="https://img.shields.io/badge/javascript-2a2b38?style=for-the-badge&logo=javascript&logoColor=F7DF1E"/></a>
+<a><img src="https://img.shields.io/badge/jquery-2a2b38.svg?style=for-the-badge&logo=jquery&logoColor=0769AD"/></a>
 
 <a><img src="https://img.shields.io/badge/node.js-2a2b38?style=for-the-badge&logo=nodedotjs&logoColor=339933"/></a>
 <a><img src="https://img.shields.io/badge/Express-2a2b38?style=for-the-badge&logo=express&logoColor=000000"/></a>
