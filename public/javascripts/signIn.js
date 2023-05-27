@@ -1,6 +1,18 @@
+
 const toBeDeveloped = $('.toBeDeveloped');
 const signInId = $('#signInId');
 const signInPw = $('#signInPw');
+
+// 특정 url로 접속시 게스트 id,pw 부여함 (임시로 만든 기능)
+$(document).ready(function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const guestLogin = urlParams.get('guestLogin');
+
+  if(guestLogin) {
+  signInId.val('guest');
+  signInPw.val('guest');
+  }
+});
 
 // signInId, signInPw 포커스 바로 영문나오게 
 signInId.on('focus', function () {
