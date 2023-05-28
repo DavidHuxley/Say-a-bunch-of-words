@@ -3,17 +3,17 @@
 <p align="center"><img src="https://github.com/DavidHuxley/Say-a-bunch-of-words/assets/127188578/14c8409b-4869-4dd5-b342-21ac6cd7f1b4" width="300px"></p>
 <br>
 
-* **엽서디자인의 게시물에 자신의 생각을 작성하고 타유저들과 의견을 나눌수있는 커뮤니티 'Say a bunch of words'를 개발하는 프로젝트**
-* **프로젝트의 모든 부분을 혼자서 개발하는 1인 웹개발 프로젝트**
-* **단순한 기능개발이 아닌 사용자 경험을 고려하여 프로젝트를 완성하는것을 목표로 개발**
-* **Google Cloud Platform을 이용해서 배포까지 하는것을 목표로 개발** 
+* 엽서디자인의 게시물에 자신의 생각을 작성하고 타유저들과 의견을 나눌수있는 커뮤니티 'Say a bunch of words'를 개발하는 프로젝트
+* 프로젝트의 모든 부분을 혼자서 개발하는 1인 웹개발 프로젝트
+* 단순한 기능개발이 아닌 사용자 경험을 고려하여 프로젝트를 완성하는것을 목표로 개발
+* Google Cloud Platform을 이용해서 배포까지 하는것을 목표로 개발 
 
 ## 📌 Usage
-* **프로젝트가 배포되었고 추가설치는 필요 없으므로 아래의 링크를 통해 접속**
-* **[Say a bunch of words](https://bit.ly/3o769j8)**
-  * **[Guest access](https://simplecheck-nodejs-mongodb.du.r.appspot.com/main?guestLogin=xUYbL%MxrIaQA7zM)**  해당 url로 접속하면 회원가입 과정을 생략하고 guest로 이용가능합니다
+* 프로젝트가 배포되었고 추가설치는 필요 없으므로 아래의 링크를 통해 접속
+* [Say a bunch of words](https://bit.ly/3o769j8)
+  * [Guest access](https://simplecheck-nodejs-mongodb.du.r.appspot.com/main?guestLogin=xUYbL%MxrIaQA7zM)  해당 url로 접속하면 회원가입 과정을 생략하고 guest로 이용가능합니다
 
-## 📌 사용 기술 및 개발 환경
+## 📌 Skills & DevEnv
 
 <a><img src="https://img.shields.io/badge/html5-2a2b38?style=for-the-badge&logo=html5&logoColor=E34F26"/></a>
 <a><img src="https://img.shields.io/badge/css3-2a2b38?style=for-the-badge&logo=css3&logoColor=1572B6"/></a>
@@ -95,7 +95,7 @@
 
 </details>  
 
-### 📌 Self-Feedback
+## 📌 Self-Feedback
 * CI/CD를 따로 공부하지 못해 프로젝트에 적용시키지 못한 부분
 * 백엔드 개발자를 지향하는 만큼 클라이언트는 프로토타입으로 만들더라도 서버쪽에 좀 더 리소스를 썼으면 효율적이었을것
 * 마찬가지로 1인 개발이라는 마인드 때문에 gif-flow 전략을 전혀 사용하지 않고 단일 branch로 버전관리 한것
