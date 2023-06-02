@@ -1,14 +1,19 @@
 const router = require('express').Router();
 
+// model import
+const Comment = require('../models/comment');
+const Post = require('../models/post');
+const User = require('../models/user');
+
 // 좋아요
 router.post('/likeUp', async (req, res) => {
     try {
         const postId = req.body.id;
         const userId = req.user._id;
-        const post = await req.app.DB.collection('POST').findOne({ _id: postId });
+        const post = await Post.findOne({ _id: postId });
         const likeCount = post.like + 1;
-        await req.app.DB.collection('POST').updateOne({ _id: postId }, { $inc: { like: +1 } });
-        await req.app.DB.collection('USER').updateOne({ _id: userId }, { $push: { likePosts: postId } });
+        await Post.updateOne({ _id: postId }, { $inc: { like: +1 } });
+        await User.updateOne({ _id: userId }, { $push: { likePosts: postId } });
 
         res.status(200).json({ likeCount });
 
@@ -21,10 +26,10 @@ router.post('/likeDown', async (req, res) => {
     try{
         const postId = req.body.id;
         const userId = req.user._id;
-        const post = await req.app.DB.collection('POST').findOne({ _id: postId });
+        const post = await Post.findOne({ _id: postId });
         const likeCount = post.like - 1;
-        await req.app.DB.collection('POST').updateOne({ _id: postId }, { $inc: { like: -1 } });
-        await req.app.DB.collection('USER').updateOne({ _id: userId }, { $pull: { likePosts: postId } });
+        await Post.updateOne({ _id: postId }, { $inc: { like: -1 } });
+        await User.updateOne({ _id: userId }, { $pull: { likePosts: postId } });
         
         res.status(200).json({ likeCount });
     }
@@ -38,8 +43,8 @@ router.post('/bookmarkUp', async (req, res) => {
         const postId = req.body.id;
         const userId = req.user._id;
         const userid = req.user.id;
-        await req.app.DB.collection('USER').updateOne({ _id: userId }, { $push: { bookmarkPosts: postId } });
-        await req.app.DB.collection('POST').updateOne({ _id: postId }, { $push: { bookmarkUsers: userid } });
+        await User.updateOne({ _id: userId }, { $push: { bookmarkPosts: postId } });
+        await Post.updateOne({ _id: postId }, { $push: { bookmarkUsers: userid } });
         res.status(200).send();
     }
     catch (error) {
@@ -52,11 +57,11 @@ router.post('/bookmarkDown', async (req, res) => {
         const postId = req.body.id;
         const userId = req.user._id;
         const userid = req.user.id;
-        await req.app.DB.collection('USER').updateOne({ _id: userId }, { $pull: { bookmarkPosts: postId } });
-        await req.app.DB.collection('POST').updateOne({ _id: postId }, { $pull: { bookmarkUsers: userid } });
+        await User.updateOne({ _id: userId }, { $pull: { bookmarkPosts: postId } });
+        await Post.updateOne({ _id: postId }, { $pull: { bookmarkUsers: userid } });
 
 
-        const userInfo = await req.app.DB.collection('USER').findOne({ id: userid });
+        const userInfo = await User.findOne({ id: userid });
         const bookmarkPostsCount = userInfo.bookmarkPosts.length;
         
         res.status(200).json({ bookmarkPostsCount: bookmarkPostsCount });
@@ -70,10 +75,10 @@ router.post('/commentLikeUp', async (req, res) => {
     try{
         const commentId = req.body.id;
         const userId = req.user._id;
-        const comment = await req.app.DB.collection('COMMENT').findOne({ _id: commentId });
+        const comment = await Comment.findOne({ _id: commentId });
         const likeCount = comment.like + 1;
-        await req.app.DB.collection('COMMENT').updateOne({ _id: commentId }, { $inc: { like: +1 } });
-        await req.app.DB.collection('USER').updateOne({ _id: userId }, { $push: { likeComments: commentId } });
+        await Comment.updateOne({ _id: commentId }, { $inc: { like: +1 } });
+        await User.updateOne({ _id: userId }, { $push: { likeComments: commentId } });
         
         res.status(200).json({ likeCount });
     }
@@ -86,10 +91,10 @@ router.post('/commentLikeDown', async (req, res) => {
     try{
         const commentId = req.body.id;
         const userId = req.user._id;
-        const comment = await req.app.DB.collection('COMMENT').findOne({ _id: commentId });
+        const comment = await Comment.findOne({ _id: commentId });
         const likeCount = comment.like - 1;
-        await req.app.DB.collection('COMMENT').updateOne({ _id: commentId }, { $inc: { like: -1 } });
-        await req.app.DB.collection('USER').updateOne({ _id: userId }, { $pull: { likeComments: commentId } });
+        await Comment.updateOne({ _id: commentId }, { $inc: { like: -1 } });
+        await User.updateOne({ _id: userId }, { $pull: { likeComments: commentId } });
         
         res.status(200).json({ likeCount });
     }

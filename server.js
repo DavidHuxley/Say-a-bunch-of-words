@@ -1,31 +1,35 @@
-const express = require('express'); 
-const app = express(); 
-app.use(express.urlencoded({ extended: true })); // form 형식의 데이터를 받기 위함
-app.use(express.json());  // json 형식의 데이터를 받기 위함
+const express = require('express');
+const mongoose = require('mongoose');
+const methodOverride = require('method-override');
+const dotenv = require('dotenv');
 
-require('dotenv').config();  // .env 파일을 읽어서 process.env 객체에 넣어줌
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.set('view engine', 'ejs');
+app.use('/public', express.static('public'));
+app.use('/assets', express.static('assets'));
+app.use(methodOverride('_method'));
+dotenv.config();
 
-app.set('view engine', 'ejs'); // ejs 사용을 위한 설정
-app.use('/public', express.static('public')); // public 폴더를 static으로 사용
-app.use('/assets', express.static('assets')); // assets 폴더를 static으로 사용
-
-const MongoClient = require('mongodb').MongoClient;
-
-let DB;
-MongoClient.connect(process.env.DB_URL, {useUnifiedTopology: true}, (error, client) => {
-    if (error) return console.log(error);
-    DB = client.db('sbow');
-    app.DB = DB;
-
-    app.listen(process.env.PORT, () => {
-        console.log('listening on 8080')
+// Mongoose connection
+mongoose.connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => {
+        console.log('Connected to MongoDB');
+        app.listen(process.env.PORT, () => {
+            console.log('Server listening on a custom port');
+        });
+    })
+    .catch((error) => {
+        console.error('MongoDB connection failed:', error);
     });
-});
-// mongoDB Atlas > Cluster0 > sbow DB 연결
 
-// put, delete method 사용을 위한 라이브러리
-const methodOverride = require('method-override'); 
-app.use(methodOverride('_method')); 
+// model import
+const User = require('./models/user');
+
 
 // 로그인 관련 라이브러리
 const passport = require('passport');
@@ -36,8 +40,8 @@ const bcrypt = require('bcrypt');
 
 // 세션 설정
 app.use(session({
-    secret: 'secretCode', 
-    resave: true, 
+    secret: 'secretCode',
+    resave: true,
     cookie: { maxAge: 60 * 60 * 1000 },
     saveUninitialized: false
 }));
@@ -54,7 +58,7 @@ passport.use(new LocalStrategy({
 }, async (inputID, inputPW, done) => {
     try {
         const idToLowerCase = inputID.toLowerCase();
-        const user = await DB.collection('USER').findOne({ id: idToLowerCase })
+        const user = await User.findOne({ id: idToLowerCase });
         if (!user) {
             return done(null, false, { message: 'Incorrect username or password.' });
         }
@@ -74,15 +78,18 @@ passport.serializeUser((user, done) => {
     done(null, user.id)
 });
 // 로그인 성공시 세션에 저장된 정보를 가져옴
-passport.deserializeUser((ID, done) => {
-    DB.collection('USER').findOne({ id : ID }, (error, result) => {
-        done(null, result)
-    })
+passport.deserializeUser(async (ID, done) => {
+    try {
+        const user = await User.findOne({ id: ID });
+        done(null, user);
+    } catch (error) {
+        done(error);
+    }
 });
 
 // 세션 체크
-function sessionCheck(req, res, next){
-    if (req.user){
+function sessionCheck(req, res, next) {
+    if (req.user) {
         next();
     } else {
         res.render('signInUp.ejs');
@@ -90,17 +97,28 @@ function sessionCheck(req, res, next){
 }
 
 
+// 로그인 및 회원가입 라우터
 const signInUpRouter = require('./routes/signInUp.js');
+// 메인페이지 라우터
 const mainRouter = require('./routes/main.js');
+// 업로드 라우터
 const uploadRouter = require('./routes/upload.js');
+// 글작성 라우터
 const writeRouter = require('./routes/write.js');
+// 로그아웃 라우터
 const logoutRouter = require('./routes/logout.js');
+// 검색창 라우터
 const searchRouter = require('./routes/search.js');
+// 글 상세페이지 라우터
 const detailRouter = require('./routes/detail.js');
+// 좋아요 및 저장 라우터
 const upDownRouter = require('./routes/upDown.js');
+// 글, 댓글 삭제 라우터
 const deleteRouter = require('./routes/delete.js');
+// 개인페이지 라우터 (회원탈퇴 포함)
 const personalRouter = require('./routes/personal.js');
 
+// 라우터 연결
 app.use('/', signInUpRouter);
 app.use('/', sessionCheck, mainRouter);
 app.use('/', sessionCheck, uploadRouter);
