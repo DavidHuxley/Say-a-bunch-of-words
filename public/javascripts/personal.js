@@ -483,7 +483,7 @@ proConSaveBtn.addEventListener('click', () => {
             if (result.isConfirmed) {
                 axios.post('/proConEdit', {
                     nickname: proConNicknameEditInput.value,
-                    emailView: proConEmailViewCheck[0].firstElementChild.classList.contains("fa-eye-slash") ? 0 : 1
+                    emailView: proConEmailViewCheck[0].firstElementChild.classList.contains("fa-eye-slash") ? false : true,
                 })
                     .then(function (response) {
                         if (response.data.result == true) {

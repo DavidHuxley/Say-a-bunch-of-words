@@ -3,17 +3,32 @@ const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+const multerGoogleStorage = require('multer-google-storage');
 
+// model import
+const User = require('../models/user');
 
+// Dir seetings
 const postImgDir = '/public/image/postImg';
 const profileImgDir = '/public/image/profileImg';
-
 // const postImgDir = path.join(__dirname, '../public/image/postImg');
 // const profileImgDir = path.join(__dirname, '../public/image/profileImg');
 
-const multerGoogleStorage = require('multer-google-storage');
+// userId 분할 함수
+function divideUserId(userId) {
+  let oddChars = '';
+  let evenChars = '';
 
+  for (let i = 0; i < userId.length; i++) {
+    if (i % 2 === 0) {
+      evenChars += userId[i];
+    } else {
+      oddChars += userId[i];
+    }
+  }
 
+  return [oddChars, evenChars];
+}
 // google storage upload
 const upload = multer({
   storage: multerGoogleStorage.storageEngine({
@@ -29,7 +44,8 @@ const upload = multer({
       } else if (file.fieldname === 'profileImgInput') {
         directory = profileImgDir;
       }
-      const filename = `${directory}/${userId}_${uuidv4()}${ext}`;
+      const [oddChars, evenChars] = divideUserId(userId); // userId 분할
+      const filename = `${directory}/${oddChars}_${uuidv4()}_${evenChars}${ext}`;
       req.filename = filename;
       cb(null, filename);
     },
@@ -104,7 +120,7 @@ router.post('/profileImgUpload', async (req, res) => {
   upload.single('profileImgInput')(req, res, (err) => {
     try {
       const imageUrl = `${gcsbUrl}${req.filename}`;
-      req.app.DB.collection('USER').updateOne({ _id: req.user._id }, { $set: { profileImg: imageUrl } });
+      User.updateOne({ _id: req.user._id }, { $set: { profileImg: imageUrl } });
       res.status(200).json({ imageUrl });
     } catch (error) {
       res.status(400).send();
@@ -117,7 +133,7 @@ router.post('/profileImgUpload', async (req, res) => {
 //   upload.single('profileImgInput')(req, res, (err) => {
 //     try {
 //       const imageUrl = `/public/image/profileImg/${req.filename}`;
-//       req.app.DB.collection('USER').updateOne({ _id: req.user._id }, { $set: { profileImg: imageUrl } });
+//       User.updateOne({ _id: req.user._id }, { $set: { profileImg: imageUrl } });
 //       res.status(200).json({ imageUrl });
 //     } catch (error) {
 //       res.status(400).send();
@@ -129,7 +145,7 @@ router.post('/profileImgUpload', async (req, res) => {
 const defaultProfileImg = '/assets/profile/defaultProfile.png';
 router.post('/profileImgDelete', async (req, res) => {
   try {
-    req.app.DB.collection('USER').updateOne({ _id: req.user._id }, { $set: { profileImg: defaultProfileImg } });
+    User.updateOne({ _id: req.user._id }, { $set: { profileImg: defaultProfileImg } });
     res.status(200).send();
   } catch (error) {
     res.status(400).send();
