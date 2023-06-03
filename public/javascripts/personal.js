@@ -343,7 +343,7 @@ proConNicknameEditInput.addEventListener('keyup', () => {
 });
 
 // 금칙어 설정
-const unavailableWords = ["admin", "관리자", "운영자"];
+const unavailableWords = ["admin", "관리자", "운영자", "어드민", "관리", "운영", "administor", "administrator", "administor", "administator", "adminstr"];
 
 proConNicknameEditCheck.addEventListener('click', () => {
     const inputValue = proConNicknameEditInput.value;
