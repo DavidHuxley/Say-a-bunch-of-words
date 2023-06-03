@@ -78,18 +78,18 @@
   
   * bcrypt를 이용한 단방향 비밀번호 암호화 (Blowfish 1024회 해싱 + 해당 모듈 자체 salt추가)
   
-  https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/7913ddd5d25a6ae0cb622874301eddb2019c8866/routes/signInUp.js#L49
+   https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/11b1450aef5a038bb16f63168f2bbf3b35c5b016/routes/signInUp.js#L78
     <a><img src="https://github.com/DavidHuxley/Say-a-bunch-of-words/assets/127188578/2a51d916-873a-45d3-9bc7-30baf22dd2da"></a>
   
   * 회원탈퇴시 해당 회원 게시글 및 댓글 숨김처리 
-    https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/7913ddd5d25a6ae0cb622874301eddb2019c8866/routes/personal.js#L77-L101
+    https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/11b1450aef5a038bb16f63168f2bbf3b35c5b016/routes/personal.js#L101-L120
 
 </details>
 <details>
   <summary><strong>로그인 및 로그아웃 관련</strong></summary>
   
   * passport를 이용한 로그인 구현 (세션방식)
-    https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/7913ddd5d25a6ae0cb622874301eddb2019c8866/server.js#L37-L81
+    https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/11b1450aef5a038bb16f63168f2bbf3b35c5b016/server.js#L41-L88
   * bcrypt 모듈을 사용해 암호화 검증 
   * 로그아웃시 세션에 저장된 로그인정보 삭제 후 리다이렉팅
   
@@ -100,7 +100,7 @@
   * 게시글 작성
     * 작성 가능 글자 수 알람 및 초과시 자동정리
     * 이미지 업로드 및 미리보기 (multer 모듈 활용)
-      * https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/34d432bace869c3f68508fa991171d239798e93a/routes/upload.js#L18-L45
+      * https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/11b1450aef5a038bb16f63168f2bbf3b35c5b016/routes/upload.js#L32-L61
   
   * 게시글 삭제시 해당 게시글 숨김처리
   * 더보기 기능을 통해서 웹페이지의 초기 로딩 속도를 빠르게 하고, 서버 자원을 효율적으로 사용
@@ -117,13 +117,13 @@
  * Apache Lucene (lucene.korean 한글 형태소 분석기) 검색 라이브러리를 기반으로 구축되어 있어, 기존의 text Index보다 더 빠르고 정확한 검색 결과를 제공
  * ![image](https://github.com/DavidHuxley/Say-a-bunch-of-words/assets/127188578/c058887b-1f69-4bba-9dc3-0564230cc229)
  * POST 컬렉션의 title, content, writer 필드에서만 조회하도록 지정
- * https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/34d432bace869c3f68508fa991171d239798e93a/routes/search.js#L5-L36
+ * https://github.com/DavidHuxley/Say-a-bunch-of-words/blob/11b1450aef5a038bb16f63168f2bbf3b35c5b016/routes/search.js#L10-L24
 </details>
 <details>
   <summary><strong>개인페이지 관련</strong></summary>
   
   * 자신이 작성 및 저장한 글의 상호작용(삭제, 저장취소 등)을 비동기 처리하여 사용자 경험 향상
-  * 접속한 유저 자신의 개인페이지와 타유저의 개인페이지 UI의 차이
+  * 자신의 개인페이지와 타유저의 개인페이지 UI의 차이
      ![Personal drawio](https://github.com/DavidHuxley/Say-a-bunch-of-words/assets/127188578/d6b821b8-fd83-40a3-8c85-f28458e3d190)
      ![Other User's Viewed_Personal drawio](https://github.com/DavidHuxley/Say-a-bunch-of-words/assets/127188578/8cee4410-6995-4aa7-86ab-a74df18556c0)
 
@@ -132,5 +132,4 @@
     * 닉네임 변경시 금칙어 설정, 이메일 공개여부 설정 등 
 
 </details>  
-
 <br>
