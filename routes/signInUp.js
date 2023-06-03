@@ -39,6 +39,29 @@ router.post('/signup', async (req, res) => {
   try {
     const idToLowerCase = req.body.id.toLowerCase();
     const defaultProfileImg = '/assets/profile/defaultProfile.png';
+
+    const emailRegExp = /^\S+@\S+\.\S+$/;
+    const nameRegExp = /^[a-zA-Z0-9]{6,10}$/;
+    const passRegExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
+
+    // 입력된 이메일이 유효한지 확인
+    if (!emailRegExp.test(req.body.email)) {
+      res.status(400).json({ error: 'Invalid Email' });
+      return;
+    }
+
+    // 입력된 아이디가 유효한지 확인
+    if (!nameRegExp.test(req.body.id)) {
+      res.status(400).json({ error: 'Invalid ID' });
+      return;
+    }
+
+    // 입력된 비밀번호가 유효한지 확인
+    if (!passRegExp.test(req.body.pw)) {
+      res.status(400).json({ error: 'Invalid Password' });
+      return;
+    }
+
     const existingUserEmail = await User.findOne({ email: req.body.email });
     if (existingUserEmail) {
       res.status(409).json({ error: 'Duplicate Email' });

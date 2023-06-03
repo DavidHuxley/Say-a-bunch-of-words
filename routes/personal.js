@@ -44,27 +44,50 @@ router.get('/@:nickname', async (req, res) => {
     }
   });
 
-router.post('/proConNicknameEditCheck', async (req, res) => {
+  const unavailableWords = ["admin", "관리자", "운영자", "어드민", "관리", "운영", "administor", "administrator", "administor", "administator", "adminstr"];
+  const nicknameRegex = /^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,8}$/;
+  
+  router.post('/proConNicknameEditCheck', async (req, res) => {
     try {
-        const nickname = req.body.nickname.toLowerCase();
-        const user = await User.findOne({ nickname: nickname });
-        if (user) {
-            return res.status(200).json({ result: true });
-        } else {
-            return res.status(200).json({ result: false });
-        }
+      const nickname = req.body.nickname.toLowerCase();
+  
+      if (!nicknameRegex.test(nickname)) {
+        return res.status(400).json({ result: true });
+      }
+  
+      if (unavailableWords.includes(nickname)) {
+        return res.status(400).json({ result: true, error: 'Nickname not available' });
+      }
+  
+      const user = await User.findOne({ nickname: nickname });
+      if (user) {
+        return res.status(200).json({ result: true });
+      } else {
+        return res.status(200).json({ result: false });
+      }
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+      console.error(err);
+      res.status(500).send('Server Error');
     }
-});
-
-router.post('/proConEdit', async (req, res) => {
+  });
+  
+  router.post('/proConEdit', async (req, res) => {
     try {
       const nickname = req.body.nickname.toLowerCase();
       const emailView = req.body.emailView;
   
-      await User.updateOne({ nickname: req.user.nickname }, { $set: { nickname: nickname, emailVisibility: emailView } });
+      if (!nicknameRegex.test(nickname)) {
+        return res.status(400).json({ result: false });
+      }
+  
+      if (unavailableWords.includes(nickname)) {
+        return res.status(400).json({ result: false, error: 'Nickname not available' });
+      }
+  
+      await User.updateOne(
+        { nickname: req.user.nickname },
+        { $set: { nickname: nickname, emailVisibility: emailView } }
+      );
       await Post.updateMany({ writer: req.user.nickname }, { $set: { writer: nickname } });
       await Comment.updateMany({ writer: req.user.nickname }, { $set: { writer: nickname } });
   
