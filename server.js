@@ -40,7 +40,7 @@ const bcrypt = require('bcrypt');
 
 // 세션 설정
 app.use(session({
-    secret: 'secretCode',
+    secret: process.env.SESSION_SECRET,
     resave: true,
     cookie: { maxAge: 60 * 60 * 1000 },
     saveUninitialized: false
