@@ -9,9 +9,11 @@
 * Google Cloud Platform을 이용해서 실제 배포까지 진행 하는것을 목표로 개발 
 
 ## 📌 Usage
-* 프로젝트가 배포되었고 추가설치는 필요 없으므로 아래의 링크를 통해 접속
-* [Say a bunch of words](https://bit.ly/3o769j8)
-  * [Guest access](https://simplecheck-nodejs-mongodb.du.r.appspot.com/main?guestLogin=xUYbL%MxrIaQA7zM)  해당 url로 접속하면 회원가입 과정을 생략하고 guest로 이용가능합니다
+* ### Say a bunch of words 서버는 비용 문제로 인하여 2023-07-02일부터 현재까지 비활성화하였습니다.
+
+* ~~프로젝트가 배포되었고 추가설치는 필요 없으므로 아래의 링크를 통해 접속~~
+* ~~[Say a bunch of words](https://bit.ly/3o769j8)~~
+  * ~~[Guest access](https://simplecheck-nodejs-mongodb.du.r.appspot.com/main?guestLogin=xUYbL%MxrIaQA7zM)  해당 url로 접속하면 회원가입 과정을 생략하고 guest로 이용가능합니다~~
 
 ## 📌 Skills & DevEnv
 
